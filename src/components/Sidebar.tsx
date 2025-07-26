@@ -24,10 +24,6 @@ export default function Sidebar({ username }: SidebarProps) {
   const [refreshing, setRefreshing] = useState(false)
   const router = useRouter()
 
-  useEffect(() => {
-    fetchFeeds()
-  }, [fetchFeeds])
-
   const fetchFeeds = useCallback(async () => {
     try {
       const response = await fetch('/api/feeds')
@@ -39,6 +35,10 @@ export default function Sidebar({ username }: SidebarProps) {
       console.error('Error fetching feeds:', error)
     }
   }, [])
+
+  useEffect(() => {
+    fetchFeeds()
+  }, [fetchFeeds])
 
   const handleAddFeed = async (e: React.FormEvent) => {
     e.preventDefault()
