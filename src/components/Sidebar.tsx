@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus, Trash2, RefreshCw, LogOut, Rss } from 'lucide-react'
 
@@ -26,15 +26,19 @@ export default function Sidebar({ username }: SidebarProps) {
 
   useEffect(() => {
     fetchFeeds()
-  }, [])
+  }, [fetchFeeds])
 
-  const fetchFeeds = async () => {
-    const response = await fetch('/api/feeds')
-    const data = await response.json()
-    if (data.feeds) {
-      setFeeds(data.feeds)
+  const fetchFeeds = useCallback(async () => {
+    try {
+      const response = await fetch('/api/feeds')
+      const data = await response.json()
+      if (data.feeds) {
+        setFeeds(data.feeds)
+      }
+    } catch (error) {
+      console.error('Error fetching feeds:', error)
     }
-  }
+  }, [])
 
   const handleAddFeed = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -72,12 +76,20 @@ export default function Sidebar({ username }: SidebarProps) {
   const handleDeleteFeed = async (id: string) => {
     if (!confirm('Are you sure you want to delete this feed?')) return
 
-    const response = await fetch(`/api/feeds/${id}`, {
-      method: 'DELETE',
-    })
+    try {
+      const response = await fetch(`/api/feeds/${id}`, {
+        method: 'DELETE',
+      })
 
-    if (response.ok) {
-      setFeeds(feeds.filter(feed => feed.id !== id))
+      if (response.ok) {
+        setFeeds(prevFeeds => prevFeeds.filter(feed => feed.id !== id))
+      } else {
+        const errorData = await response.json()
+        alert(`Failed to delete feed: ${errorData.error || 'Unknown error'}`)
+      }
+    } catch (error) {
+      console.error('Error deleting feed:', error)
+      alert('Failed to delete feed. Please try again.')
     }
   }
 
@@ -202,7 +214,15 @@ export default function Sidebar({ username }: SidebarProps) {
               >
                 <div className="flex-1 min-w-0">
                   <h4 className="text-sm font-medium text-white truncate">{feed.title}</h4>
-                  <p className="text-xs text-gray-400 truncate">{new URL(feed.url).hostname}</p>
+                  <p className="text-xs text-gray-400 truncate">
+                    {(() => {
+                      try {
+                        return new URL(feed.url).hostname
+                      } catch {
+                        return feed.url
+                      }
+                    })()}
+                  </p>
                 </div>
                 <button
                   onClick={() => handleDeleteFeed(feed.id)}
