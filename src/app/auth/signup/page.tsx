@@ -36,15 +36,8 @@ export default function SignUp() {
       return
     }
 
-    // If email confirmation is required, show message
-    if (data.user && !data.session) {
-      setError('Please check your email to confirm your account.')
-      setLoading(false)
-      return
-    }
-
-    // Create profile with username if user is confirmed
-    if (data.user && data.session) {
+    // Create profile immediately after signup
+    if (data.user) {
       const { error: profileError } = await supabase
         .from('profiles')
         .insert([
@@ -55,18 +48,16 @@ export default function SignUp() {
         ])
 
       if (profileError) {
-        // Profile might be created by trigger, so check if it exists
-        const { data: existingProfile } = await supabase
-          .from('profiles')
-          .select()
-          .eq('id', data.user.id)
-          .single()
+        setError(profileError.message)
+        setLoading(false)
+        return
+      }
 
-        if (!existingProfile) {
-          setError(profileError.message)
-          setLoading(false)
-          return
-        }
+      // If email confirmation is required, show message
+      if (!data.session) {
+        setError('Account created! Please check your email to confirm your account.')
+        setLoading(false)
+        return
       }
     }
 
