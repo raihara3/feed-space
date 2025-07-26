@@ -28,10 +28,6 @@ export default function ItemList({ selectedFeedId }: ItemListProps) {
 
   useEffect(() => {
     fetchItems()
-    
-    // Refresh items every 2 hours
-    const interval = setInterval(fetchItems, 2 * 60 * 60 * 1000)
-    return () => clearInterval(interval)
   }, [])
 
   // Reset scroll position when selectedFeedId changes
@@ -43,6 +39,10 @@ export default function ItemList({ selectedFeedId }: ItemListProps) {
 
   const fetchItems = async () => {
     setLoading(true)
+    
+    // Check and refresh feeds if needed, then get items
+    await fetch('/api/feeds/check-and-refresh', { method: 'POST' })
+    
     const response = await fetch('/api/feed-items')
     const data = await response.json()
     

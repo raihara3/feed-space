@@ -98,7 +98,7 @@ export default function Sidebar({ username, selectedFeedId, onFeedSelect }: Side
   const handleRefreshFeeds = async () => {
     setRefreshing(true)
     
-    const response = await fetch('/api/feeds/refresh', {
+    const response = await fetch('/api/feeds/check-and-refresh', {
       method: 'POST',
     })
 
