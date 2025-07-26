@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Image as ImageIcon } from 'lucide-react'
 
 interface ArticleThumbnailProps {
@@ -10,27 +10,28 @@ interface ArticleThumbnailProps {
 }
 
 export default function ArticleThumbnail({ description, link, title }: ArticleThumbnailProps) {
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [ogpImageUrl, setOgpImageUrl] = useState<string | null>(null)
+  const [ogpLoading, setOgpLoading] = useState(false)
+  const [ogpError, setOgpError] = useState(false)
 
-  const isValidImageUrl = useCallback((url: string): boolean => {
-    if (!url) return false
-    
-    try {
-      new URL(url.startsWith('//') ? `https:${url}` : url)
-    } catch {
-      return false
-    }
-    
-    const imageExtensions = /\.(jpg|jpeg|png|gif|webp|avif|svg)(\?|$)/i
-    const isDataUrl = url.startsWith('data:image/')
-    
-    return imageExtensions.test(url) || isDataUrl
-  }, [])
-
-  const extractImageFromDescription = useCallback((description: string | null): string | null => {
+  // Extract RSS image using useMemo (synchronous, stable)
+  const rssImageUrl = useMemo(() => {
     if (!description) return null
+    
+    const isValidImageUrl = (url: string): boolean => {
+      if (!url) return false
+      
+      try {
+        new URL(url.startsWith('//') ? `https:${url}` : url)
+      } catch {
+        return false
+      }
+      
+      const imageExtensions = /\.(jpg|jpeg|png|gif|webp|avif|svg)(\?|$)/i
+      const isDataUrl = url.startsWith('data:image/')
+      
+      return imageExtensions.test(url) || isDataUrl
+    }
     
     // Try to find img tags
     const imgMatch = description.match(/<img[^>]+src="([^"]+)"/i)
@@ -46,54 +47,76 @@ export default function ArticleThumbnail({ description, link, title }: ArticleTh
     }
     
     return null
-  }, [isValidImageUrl])
+  }, [description])
 
-  const extractImage = useCallback(async () => {
-    setLoading(true)
-    setError(false)
-
-    // First try to extract from RSS description
-    const rssImage = extractImageFromDescription(description)
-    if (rssImage) {
-      setImageUrl(rssImage)
-      setLoading(false)
-      return
-    }
-
-    // Then try to fetch OGP image
-    try {
-      const response = await fetch(`/api/ogp-image?url=${encodeURIComponent(link)}`)
-      const data = await response.json()
-      
-      if (data.imageUrl) {
-        setImageUrl(data.imageUrl)
-      } else {
-        setError(true)
-      }
-    } catch (err) {
-      console.log('Failed to fetch OGP image for:', link)
-      setError(true)
-    }
-    
-    setLoading(false)
-  }, [description, link, extractImageFromDescription])
-
+  // Only fetch OGP if no RSS image found
   useEffect(() => {
-    extractImage()
-  }, [extractImage])
+    if (rssImageUrl) return // Don't fetch OGP if we have RSS image
+    
+    let cancelled = false
+    
+    const fetchOgpImage = async () => {
+      setOgpLoading(true)
+      setOgpError(false)
+      
+      try {
+        const response = await fetch(`/api/ogp-image?url=${encodeURIComponent(link)}`)
+        const data = await response.json()
+        
+        if (cancelled) return
+        
+        if (data.imageUrl) {
+          setOgpImageUrl(data.imageUrl)
+        } else {
+          setOgpError(true)
+        }
+      } catch (err) {
+        if (cancelled) return
+        console.log('Failed to fetch OGP image for:', link)
+        setOgpError(true)
+      } finally {
+        if (!cancelled) {
+          setOgpLoading(false)
+        }
+      }
+    }
+
+    fetchOgpImage()
+    
+    return () => {
+      cancelled = true
+    }
+  }, [link, rssImageUrl])
+
+  // Determine which image to show
+  const finalImageUrl = useMemo(() => {
+    return rssImageUrl || ogpImageUrl
+  }, [rssImageUrl, ogpImageUrl])
+
+  const isLoading = useMemo(() => {
+    return !rssImageUrl && ogpLoading
+  }, [rssImageUrl, ogpLoading])
+
+  const hasError = useMemo(() => {
+    return !rssImageUrl && ogpError
+  }, [rssImageUrl, ogpError])
 
   const handleImageError = () => {
-    setError(true)
-    setImageUrl(null)
+    if (rssImageUrl) {
+      // If RSS image failed, try OGP
+      setOgpError(true)
+    } else {
+      setOgpImageUrl(null)
+    }
   }
 
   return (
     <div className="w-24 h-16 bg-gray-700 rounded-lg flex-shrink-0 overflow-hidden">
-      {loading ? (
+      {isLoading ? (
         <div className="w-full h-full bg-gray-700 animate-pulse"></div>
-      ) : imageUrl && !error ? (
+      ) : finalImageUrl && !hasError ? (
         <img
-          src={imageUrl}
+          src={finalImageUrl}
           alt={title}
           className="w-full h-full object-cover"
           onError={handleImageError}
