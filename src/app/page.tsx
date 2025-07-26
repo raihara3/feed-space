@@ -1,8 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import FeedList from '@/components/FeedList'
+import Sidebar from '@/components/Sidebar'
 import ItemList from '@/components/ItemList'
-import Header from '@/components/Header'
 
 export default async function Home() {
   const supabase = await createClient()
@@ -13,18 +12,27 @@ export default async function Home() {
     redirect('/auth/login')
   }
 
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('username')
+    .eq('id', user.id)
+    .single()
+
   return (
-    <div className="min-h-screen bg-black">
-      <Header />
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <div className="lg:col-span-1">
-            <FeedList />
-          </div>
-          <div className="lg:col-span-3">
-            <ItemList />
-          </div>
-        </div>
+    <div className="min-h-screen bg-gray-900 flex">
+      {/* Sidebar */}
+      <div className="w-80 bg-gray-800 border-r border-gray-700 flex-shrink-0 hidden lg:block">
+        <Sidebar username={profile?.username || user.email?.split('@')[0] || 'User'} />
+      </div>
+      
+      {/* Mobile Sidebar Overlay */}
+      <div className="lg:hidden">
+        {/* Mobile layout will be added later */}
+      </div>
+      
+      {/* Main Content */}
+      <div className="flex-1 overflow-hidden">
+        <ItemList />
       </div>
     </div>
   )
