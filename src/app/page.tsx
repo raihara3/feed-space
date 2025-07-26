@@ -19,7 +19,7 @@ export default async function Home() {
     .single()
 
   return (
-    <div className="min-h-screen bg-gray-900 flex">
+    <div className="h-screen bg-gray-900 flex overflow-hidden">
       {/* Sidebar */}
       <div className="w-80 bg-gray-800 border-r border-gray-700 flex-shrink-0 hidden lg:block">
         <Sidebar username={profile?.username || user.email?.split('@')[0] || 'User'} />
@@ -31,7 +31,7 @@ export default async function Home() {
       </div>
       
       {/* Main Content */}
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 h-full overflow-hidden">
         <ItemList />
       </div>
     </div>
