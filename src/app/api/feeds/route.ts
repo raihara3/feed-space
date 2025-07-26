@@ -76,6 +76,7 @@ export async function POST(request: Request) {
           url,
           title: feed.title || 'Untitled Feed',
           description: feed.description || null,
+          last_fetched_at: new Date().toISOString(),
         },
       ])
       .select()
@@ -91,7 +92,32 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    return NextResponse.json({ feed: data })
+    // Immediately fetch and store feed items
+    const newItems = []
+    for (const item of feed.items || []) {
+      const guid = item.guid || item.link
+      
+      newItems.push({
+        feed_id: data.id,
+        title: item.title || 'Untitled',
+        link: item.link || '',
+        description: item.contentSnippet || item.content || null,
+        published_at: item.pubDate ? new Date(item.pubDate).toISOString() : null,
+        guid,
+      })
+    }
+
+    // Insert feed items if any
+    if (newItems.length > 0) {
+      await supabase
+        .from('feed_items')
+        .insert(newItems)
+    }
+
+    return NextResponse.json({ 
+      feed: data,
+      itemsAdded: newItems.length
+    })
   } catch (parseError) {
     return NextResponse.json({ error: 'Failed to parse RSS feed' }, { status: 400 })
   }

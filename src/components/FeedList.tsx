@@ -46,6 +46,9 @@ export default function FeedList() {
       setFeeds([data.feed, ...feeds])
       setNewFeedUrl('')
       setIsAddingFeed(false)
+      
+      // Refresh the page to show new items
+      window.location.reload()
     } else {
       alert(data.error)
     }
