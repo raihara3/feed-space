@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { ExternalLink, Clock, Image as ImageIcon } from 'lucide-react'
 
@@ -24,6 +24,7 @@ interface ItemListProps {
 export default function ItemList({ selectedFeedId }: ItemListProps) {
   const [allItems, setAllItems] = useState<FeedItem[]>([])
   const [loading, setLoading] = useState(true)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     fetchItems()
@@ -32,6 +33,13 @@ export default function ItemList({ selectedFeedId }: ItemListProps) {
     const interval = setInterval(fetchItems, 30 * 60 * 1000)
     return () => clearInterval(interval)
   }, [])
+
+  // Reset scroll position when selectedFeedId changes
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0
+    }
+  }, [selectedFeedId])
 
   const fetchItems = async () => {
     setLoading(true)
@@ -105,7 +113,7 @@ export default function ItemList({ selectedFeedId }: ItemListProps) {
       </div>
       
       {/* Articles List */}
-      <div className="flex-1 overflow-y-auto">
+      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto">
         {filteredItems.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
