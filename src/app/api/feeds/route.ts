@@ -35,6 +35,28 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  // Check if profile exists, create if not
+  const { data: existingProfile } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('id', user.id)
+    .single()
+
+  if (!existingProfile) {
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .insert([
+        {
+          id: user.id,
+          username: user.email?.split('@')[0] || 'user',
+        },
+      ])
+
+    if (profileError) {
+      return NextResponse.json({ error: `Profile creation failed: ${profileError.message}` }, { status: 500 })
+    }
+  }
+
   const { url } = await request.json()
 
   if (!url) {
