@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { ExternalLink, Clock, Image as ImageIcon } from 'lucide-react'
-import ArticleThumbnail from './ArticleThumbnail'
 
 interface FeedItem {
   id: string
@@ -111,12 +110,12 @@ export default function ItemList() {
                   onClick={() => window.open(item.link, '_blank')}
                 >
                   <div className="flex gap-4">
-                    {/* Thumbnail */}
-                    <ArticleThumbnail 
-                      description={item.description}
-                      link={item.link}
-                      title={item.title}
-                    />
+                    {/* Thumbnail Placeholder */}
+                    <div className="w-24 h-16 bg-gray-700 rounded-lg flex-shrink-0 overflow-hidden">
+                      <div className="w-full h-full flex items-center justify-center">
+                        <ImageIcon className="w-6 h-6 text-gray-500" />
+                      </div>
+                    </div>
                     
                     {/* Content */}
                     <div className="flex-1 min-w-0">
