@@ -47,8 +47,17 @@ export default function FeedList() {
       setNewFeedUrl('')
       setIsAddingFeed(false)
       
+      // Show debug info
+      console.log('Feed addition response:', data)
+      
+      if (data.error) {
+        alert(data.error)
+      }
+      
       // Refresh the page to show new items
-      window.location.reload()
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
     } else {
       alert(data.error)
     }

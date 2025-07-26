@@ -108,15 +108,32 @@ export async function POST(request: Request) {
     }
 
     // Insert feed items if any
+    let itemsInserted = 0
     if (newItems.length > 0) {
-      await supabase
+      const { error: itemsError } = await supabase
         .from('feed_items')
         .insert(newItems)
+      
+      if (itemsError) {
+        console.error('Error inserting feed items:', itemsError)
+        return NextResponse.json({ 
+          feed: data,
+          itemsAdded: 0,
+          error: `Feed added but failed to fetch items: ${itemsError.message}`
+        })
+      }
+      itemsInserted = newItems.length
     }
 
     return NextResponse.json({ 
       feed: data,
-      itemsAdded: newItems.length
+      itemsAdded: itemsInserted,
+      feedItemsCount: feed.items?.length || 0,
+      debug: {
+        feedTitle: feed.title,
+        feedItemsLength: feed.items?.length,
+        newItemsLength: newItems.length
+      }
     })
   } catch (parseError) {
     return NextResponse.json({ error: 'Failed to parse RSS feed' }, { status: 400 })
