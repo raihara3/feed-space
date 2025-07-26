@@ -29,8 +29,8 @@ export default function ItemList({ selectedFeedId }: ItemListProps) {
   useEffect(() => {
     fetchItems()
     
-    // Refresh items every 30 minutes
-    const interval = setInterval(fetchItems, 30 * 60 * 1000)
+    // Refresh items every 2 hours
+    const interval = setInterval(fetchItems, 2 * 60 * 60 * 1000)
     return () => clearInterval(interval)
   }, [])
 
