@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import Sidebar from '@/components/Sidebar'
-import ItemList from '@/components/ItemList'
+import FeedReader from '@/components/FeedReader'
 
 export default async function Home() {
   const supabase = await createClient()
@@ -19,21 +18,6 @@ export default async function Home() {
     .single()
 
   return (
-    <div className="h-screen bg-gray-900 flex overflow-hidden">
-      {/* Sidebar */}
-      <div className="w-80 bg-gray-800 border-r border-gray-700 flex-shrink-0 hidden lg:block">
-        <Sidebar username={profile?.username || user.email?.split('@')[0] || 'User'} />
-      </div>
-      
-      {/* Mobile Sidebar Overlay */}
-      <div className="lg:hidden">
-        {/* Mobile layout will be added later */}
-      </div>
-      
-      {/* Main Content */}
-      <div className="flex-1 h-full overflow-hidden">
-        <ItemList />
-      </div>
-    </div>
+    <FeedReader username={profile?.username || user.email?.split('@')[0] || 'User'} />
   )
 }

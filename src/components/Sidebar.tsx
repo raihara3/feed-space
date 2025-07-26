@@ -14,9 +14,11 @@ interface Feed {
 
 interface SidebarProps {
   username: string
+  selectedFeedId: string | null
+  onFeedSelect: (feedId: string | null) => void
 }
 
-export default function Sidebar({ username }: SidebarProps) {
+export default function Sidebar({ username, selectedFeedId, onFeedSelect }: SidebarProps) {
   const [feeds, setFeeds] = useState<Feed[]>([])
   const [isAddingFeed, setIsAddingFeed] = useState(false)
   const [newFeedUrl, setNewFeedUrl] = useState('')
@@ -199,9 +201,19 @@ export default function Sidebar({ username }: SidebarProps) {
 
       {/* Feeds List */}
       <div className="flex-1 overflow-y-auto p-4">
-        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
-          Your Feeds ({feeds.length}/10)
-        </h3>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide">
+            Your Feeds ({feeds.length}/10)
+          </h3>
+          {selectedFeedId && (
+            <button
+              onClick={() => onFeedSelect(null)}
+              className="text-xs text-blue-400 hover:text-blue-300 transition"
+            >
+              Show All
+            </button>
+          )}
+        </div>
         
         {feeds.length === 0 ? (
           <p className="text-gray-500 text-sm">No feeds added yet</p>
@@ -210,7 +222,12 @@ export default function Sidebar({ username }: SidebarProps) {
             {feeds.map((feed) => (
               <div
                 key={feed.id}
-                className="group flex items-center justify-between p-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition"
+                className={`group flex items-center justify-between p-3 rounded-lg transition cursor-pointer ${
+                  selectedFeedId === feed.id 
+                    ? 'bg-blue-600 hover:bg-blue-700' 
+                    : 'bg-gray-700 hover:bg-gray-600'
+                }`}
+                onClick={() => onFeedSelect(feed.id)}
               >
                 <div className="flex-1 min-w-0">
                   <h4 className="text-sm font-medium text-white truncate">{feed.title}</h4>
@@ -225,7 +242,10 @@ export default function Sidebar({ username }: SidebarProps) {
                   </p>
                 </div>
                 <button
-                  onClick={() => handleDeleteFeed(feed.id)}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleDeleteFeed(feed.id)
+                  }}
                   className="p-1 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
                 >
                   <Trash2 className="w-4 h-4" />

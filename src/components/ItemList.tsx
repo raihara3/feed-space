@@ -17,8 +17,12 @@ interface FeedItem {
   }
 }
 
-export default function ItemList() {
-  const [items, setItems] = useState<FeedItem[]>([])
+interface ItemListProps {
+  selectedFeedId: string | null
+}
+
+export default function ItemList({ selectedFeedId }: ItemListProps) {
+  const [allItems, setAllItems] = useState<FeedItem[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -35,10 +39,15 @@ export default function ItemList() {
     const data = await response.json()
     
     if (data.items) {
-      setItems(data.items)
+      setAllItems(data.items)
     }
     setLoading(false)
   }
+
+  // Filter items based on selected feed
+  const filteredItems = selectedFeedId 
+    ? allItems.filter(item => item.feeds.id === selectedFeedId)
+    : allItems
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return 'Unknown'
@@ -78,29 +87,42 @@ export default function ItemList() {
     )
   }
 
+  // Get the selected feed name for the header
+  const selectedFeed = selectedFeedId 
+    ? allItems.find(item => item.feeds.id === selectedFeedId)?.feeds
+    : null
+
   return (
     <div className="h-full flex flex-col bg-gray-900">
       {/* Header */}
       <div className="p-6 border-b border-gray-700">
-        <h2 className="text-2xl font-bold text-white">Latest Articles</h2>
-        <p className="text-gray-400 text-sm mt-1">{items.length} articles available</p>
+        <h2 className="text-2xl font-bold text-white">
+          {selectedFeed ? selectedFeed.title : 'Latest Articles'}
+        </h2>
+        <p className="text-gray-400 text-sm mt-1">
+          {filteredItems.length} articles {selectedFeed ? `from ${selectedFeed.title}` : 'available'}
+        </p>
       </div>
       
       {/* Articles List */}
       <div className="flex-1 overflow-y-auto">
-        {items.length === 0 ? (
+        {filteredItems.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
               <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
                 <ImageIcon className="w-8 h-8 text-gray-500" />
               </div>
-              <p className="text-gray-400 text-lg mb-2">No articles yet</p>
-              <p className="text-gray-500 text-sm">Add some feeds to get started!</p>
+              <p className="text-gray-400 text-lg mb-2">
+                {selectedFeed ? 'No articles from this feed' : 'No articles yet'}
+              </p>
+              <p className="text-gray-500 text-sm">
+                {selectedFeed ? 'This feed might not have recent articles.' : 'Add some feeds to get started!'}
+              </p>
             </div>
           </div>
         ) : (
           <div className="divide-y divide-gray-800">
-            {items.map((item) => {
+            {filteredItems.map((item) => {
               const cleanDescription = item.description ? stripHtml(item.description) : null
               
               return (
