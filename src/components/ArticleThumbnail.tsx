@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Image as ImageIcon } from 'lucide-react'
 
 interface ArticleThumbnailProps {
@@ -14,11 +14,41 @@ export default function ArticleThumbnail({ description, link, title }: ArticleTh
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
-  useEffect(() => {
-    extractImage()
-  }, [description, link])
+  const isValidImageUrl = useCallback((url: string): boolean => {
+    if (!url) return false
+    
+    try {
+      new URL(url.startsWith('//') ? `https:${url}` : url)
+    } catch {
+      return false
+    }
+    
+    const imageExtensions = /\.(jpg|jpeg|png|gif|webp|avif|svg)(\?|$)/i
+    const isDataUrl = url.startsWith('data:image/')
+    
+    return imageExtensions.test(url) || isDataUrl
+  }, [])
 
-  const extractImage = async () => {
+  const extractImageFromDescription = useCallback((description: string | null): string | null => {
+    if (!description) return null
+    
+    // Try to find img tags
+    const imgMatch = description.match(/<img[^>]+src="([^"]+)"/i)
+    if (imgMatch) {
+      const src = imgMatch[1]
+      if (isValidImageUrl(src)) return src
+    }
+    
+    // Try to find image URLs in text
+    const urlMatch = description.match(/(https?:\/\/[^\s]+\.(jpg|jpeg|png|gif|webp|avif))/i)
+    if (urlMatch) {
+      return urlMatch[1]
+    }
+    
+    return null
+  }, [isValidImageUrl])
+
+  const extractImage = useCallback(async () => {
     setLoading(true)
     setError(false)
 
@@ -46,41 +76,11 @@ export default function ArticleThumbnail({ description, link, title }: ArticleTh
     }
     
     setLoading(false)
-  }
+  }, [description, link, extractImageFromDescription])
 
-  const extractImageFromDescription = (description: string | null): string | null => {
-    if (!description) return null
-    
-    // Try to find img tags
-    const imgMatch = description.match(/<img[^>]+src="([^"]+)"/i)
-    if (imgMatch) {
-      const src = imgMatch[1]
-      if (isValidImageUrl(src)) return src
-    }
-    
-    // Try to find image URLs in text
-    const urlMatch = description.match(/(https?:\/\/[^\s]+\.(jpg|jpeg|png|gif|webp|avif))/i)
-    if (urlMatch) {
-      return urlMatch[1]
-    }
-    
-    return null
-  }
-
-  const isValidImageUrl = (url: string): boolean => {
-    if (!url) return false
-    
-    try {
-      new URL(url.startsWith('//') ? `https:${url}` : url)
-    } catch {
-      return false
-    }
-    
-    const imageExtensions = /\.(jpg|jpeg|png|gif|webp|avif|svg)(\?|$)/i
-    const isDataUrl = url.startsWith('data:image/')
-    
-    return imageExtensions.test(url) || isDataUrl
-  }
+  useEffect(() => {
+    extractImage()
+  }, [extractImage])
 
   const handleImageError = () => {
     setError(true)
