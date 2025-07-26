@@ -62,16 +62,35 @@ export async function POST() {
         }
       }
 
-      // Insert new items
+      // Insert new items with duplicate handling
       if (newItems.length > 0) {
-        const { error: insertError } = await supabase
-          .from('feed_items')
-          .insert(newItems)
+        try {
+          const { data: insertedItems, error: insertError } = await supabase
+            .from('feed_items')
+            .upsert(newItems, { 
+              onConflict: 'feed_id,guid',
+              ignoreDuplicates: true 
+            })
+            .select()
 
-        if (insertError) {
-          results.push({ feed: feed.title, error: insertError.message })
-        } else {
-          results.push({ feed: feed.title, newItems: newItems.length })
+          if (insertError) {
+            results.push({ feed: feed.title, error: insertError.message })
+          } else {
+            results.push({ feed: feed.title, newItems: insertedItems?.length || 0 })
+          }
+        } catch (error) {
+          // Fallback to individual inserts
+          let itemsInserted = 0
+          for (const item of newItems) {
+            const { error: itemError } = await supabase
+              .from('feed_items')
+              .insert([item])
+            
+            if (!itemError) {
+              itemsInserted++
+            }
+          }
+          results.push({ feed: feed.title, newItems: itemsInserted })
         }
       } else {
         results.push({ feed: feed.title, newItems: 0 })

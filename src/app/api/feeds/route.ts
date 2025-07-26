@@ -107,22 +107,50 @@ export async function POST(request: Request) {
       })
     }
 
-    // Insert feed items if any
+    // Insert feed items with conflict handling using upsert
     let itemsInserted = 0
     if (newItems.length > 0) {
-      const { error: itemsError } = await supabase
-        .from('feed_items')
-        .insert(newItems)
-      
-      if (itemsError) {
-        console.error('Error inserting feed items:', itemsError)
-        return NextResponse.json({ 
-          feed: data,
-          itemsAdded: 0,
-          error: `Feed added but failed to fetch items: ${itemsError.message}`
-        })
+      try {
+        const { data: insertedItems, error: itemsError } = await supabase
+          .from('feed_items')
+          .upsert(newItems, { 
+            onConflict: 'feed_id,guid',
+            ignoreDuplicates: true 
+          })
+          .select()
+        
+        if (itemsError) {
+          console.error('Error upserting feed items:', itemsError)
+          // Fallback to individual inserts
+          for (const item of newItems) {
+            const { error: itemError } = await supabase
+              .from('feed_items')
+              .insert([item])
+            
+            if (!itemError) {
+              itemsInserted++
+            } else if (!itemError.message.includes('duplicate key')) {
+              console.error('Error inserting feed item:', itemError)
+            }
+          }
+        } else {
+          itemsInserted = insertedItems?.length || 0
+        }
+      } catch (error) {
+        console.error('Upsert failed, falling back to individual inserts:', error)
+        // Fallback to individual inserts
+        for (const item of newItems) {
+          const { error: itemError } = await supabase
+            .from('feed_items')
+            .insert([item])
+          
+          if (!itemError) {
+            itemsInserted++
+          } else if (!itemError.message.includes('duplicate key')) {
+            console.error('Error inserting feed item:', itemError)
+          }
+        }
       }
-      itemsInserted = newItems.length
     }
 
     return NextResponse.json({ 
