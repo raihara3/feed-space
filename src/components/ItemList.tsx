@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { ExternalLink, Clock, Image as ImageIcon } from 'lucide-react'
+import ArticleThumbnail from './ArticleThumbnail'
 
 interface FeedItem {
   id: string
@@ -49,19 +50,6 @@ export default function ItemList() {
     }
   }
 
-  const extractImageFromDescription = (description: string | null): string | null => {
-    if (!description) return null
-    
-    // Try to find img tags
-    const imgMatch = description.match(/<img[^>]+src="([^"]+)"/i)
-    if (imgMatch) return imgMatch[1]
-    
-    // Try to find image URLs in text
-    const urlMatch = description.match(/(https?:\/\/[^\s]+\.(jpg|jpeg|png|gif|webp))/i)
-    if (urlMatch) return urlMatch[1]
-    
-    return null
-  }
 
   const stripHtml = (html: string) => {
     return html.replace(/<[^>]*>/g, '').trim()
@@ -114,7 +102,6 @@ export default function ItemList() {
         ) : (
           <div className="divide-y divide-gray-800">
             {items.map((item) => {
-              const imageUrl = extractImageFromDescription(item.description)
               const cleanDescription = item.description ? stripHtml(item.description) : null
               
               return (
@@ -125,23 +112,11 @@ export default function ItemList() {
                 >
                   <div className="flex gap-4">
                     {/* Thumbnail */}
-                    <div className="w-24 h-16 bg-gray-700 rounded-lg flex-shrink-0 overflow-hidden">
-                      {imageUrl ? (
-                        <img
-                          src={imageUrl}
-                          alt=""
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement
-                            target.style.display = 'none'
-                            target.nextElementSibling?.classList.remove('hidden')
-                          }}
-                        />
-                      ) : null}
-                      <div className={`w-full h-full flex items-center justify-center ${imageUrl ? 'hidden' : ''}`}>
-                        <ImageIcon className="w-6 h-6 text-gray-500" />
-                      </div>
-                    </div>
+                    <ArticleThumbnail 
+                      description={item.description}
+                      link={item.link}
+                      title={item.title}
+                    />
                     
                     {/* Content */}
                     <div className="flex-1 min-w-0">
