@@ -10,6 +10,11 @@ interface FeedReaderProps {
 
 export default function FeedReader({ username }: FeedReaderProps) {
   const [selectedFeedId, setSelectedFeedId] = useState<string | null>(null)
+  const [refreshKey, setRefreshKey] = useState(0)
+
+  const handleFeedDeleted = () => {
+    setRefreshKey(prev => prev + 1)
+  }
 
   return (
     <div className="h-screen bg-gray-900 flex overflow-hidden">
@@ -19,6 +24,7 @@ export default function FeedReader({ username }: FeedReaderProps) {
           username={username} 
           selectedFeedId={selectedFeedId}
           onFeedSelect={setSelectedFeedId}
+          onFeedDeleted={handleFeedDeleted}
         />
       </div>
       
@@ -29,7 +35,7 @@ export default function FeedReader({ username }: FeedReaderProps) {
       
       {/* Main Content */}
       <div className="flex-1 h-full overflow-hidden">
-        <ItemList selectedFeedId={selectedFeedId} />
+        <ItemList key={refreshKey} selectedFeedId={selectedFeedId} />
       </div>
     </div>
   )

@@ -16,9 +16,10 @@ interface SidebarProps {
   username: string
   selectedFeedId: string | null
   onFeedSelect: (feedId: string | null) => void
+  onFeedDeleted?: () => void
 }
 
-export default function Sidebar({ username, selectedFeedId, onFeedSelect }: SidebarProps) {
+export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeedDeleted }: SidebarProps) {
   const [feeds, setFeeds] = useState<Feed[]>([])
   const [isAddingFeed, setIsAddingFeed] = useState(false)
   const [newFeedUrl, setNewFeedUrl] = useState('')
@@ -85,6 +86,14 @@ export default function Sidebar({ username, selectedFeedId, onFeedSelect }: Side
 
       if (response.ok) {
         setFeeds(prevFeeds => prevFeeds.filter(feed => feed.id !== id))
+        // If the deleted feed was selected, clear the selection
+        if (selectedFeedId === id) {
+          onFeedSelect(null)
+        }
+        // Notify parent component to refresh the item list
+        if (onFeedDeleted) {
+          onFeedDeleted()
+        }
       } else {
         const errorData = await response.json()
         alert(`Failed to delete feed: ${errorData.error || 'Unknown error'}`)
