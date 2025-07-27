@@ -36,12 +36,12 @@ export default function TermsOfService() {
           <div className="space-y-8 text-gray-300">
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">1. Acceptance of Terms</h2>
-              <p>By accessing and using Feed Space, you accept and agree to be bound by the terms and provision of this agreement.</p>
+              <p>By accessing and using Feed Space ("the Service"), a personal project by raihara3, you accept and agree to be bound by the terms and provision of this agreement. This is a free service provided by an individual developer.</p>
             </section>
 
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">2. Use License</h2>
-              <p>Feed Space grants you a personal, non-transferable, non-exclusive license to use our service. You may:</p>
+              <p>raihara3 grants you a personal, non-transferable, non-exclusive license to use Feed Space. You may:</p>
               <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
                 <li>Access and use the service for your personal needs</li>
                 <li>Add and manage RSS feeds from public sources</li>
@@ -83,7 +83,7 @@ export default function TermsOfService() {
 
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">6. Privacy</h2>
-              <p>Your use of Feed Space is also governed by our Privacy Policy. Please review our Privacy Policy, which also governs the Site and informs users of our data collection practices.</p>
+              <p>Your use of Feed Space is also governed by our Privacy Policy. Please review our Privacy Policy, which also governs the Service and informs users of our data collection practices.</p>
             </section>
 
             <section>
@@ -93,21 +93,23 @@ export default function TermsOfService() {
 
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">8. Disclaimer</h2>
-              <p>The information on Feed Space is provided on an "as is" basis. To the fullest extent permitted by law, this service:</p>
+              <p>Feed Space is a personal project provided on an "as is" basis without any warranties. As an individual developer, raihara3:</p>
               <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-                <li>Excludes all representations and warranties relating to this website and its contents</li>
-                <li>Excludes all liability for damages arising out of or in connection with your use of this service</li>
+                <li>Cannot guarantee continuous service availability</li>
+                <li>Cannot guarantee the service will meet all your requirements</li>
+                <li>Excludes all representations and warranties relating to this service</li>
+                <li>Excludes all liability for damages arising from your use of this service</li>
               </ul>
             </section>
 
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">9. Limitation of Liability</h2>
-              <p>In no event shall Feed Space, nor any of its officers, directors, and employees, be liable to you for anything arising out of or in any way connected with your use of this service, whether such liability is under contract, tort, or otherwise.</p>
+              <p>This is a free service provided by an individual. In no event shall raihara3 be liable to you for anything arising out of or in any way connected with your use of Feed Space, whether such liability is under contract, tort, or otherwise. The service is provided without any warranties or guarantees.</p>
             </section>
 
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">10. Changes to Terms</h2>
-              <p>Feed Space reserves the right to revise these terms at any time as it sees fit. By using this service, you are expected to review these Terms on a regular basis to ensure you understand all terms and conditions governing use of this service.</p>
+              <p>raihara3 reserves the right to revise these terms at any time. By using Feed Space, you are expected to review these Terms on a regular basis to ensure you understand all terms and conditions governing use of this service.</p>
             </section>
 
             <section>

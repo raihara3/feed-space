@@ -18,6 +18,8 @@ export default async function Home() {
     .single()
 
   return (
-    <FeedReader username={profile?.username || user.email?.split('@')[0] || 'User'} />
+    <div className="dashboard-layout">
+      <FeedReader username={profile?.username || user.email?.split('@')[0] || 'User'} />
+    </div>
   )
 }

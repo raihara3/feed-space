@@ -36,7 +36,7 @@ export default function PrivacyPolicy() {
           <div className="space-y-8 text-gray-300">
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">1. Information We Collect</h2>
-              <p>Feed Space collects information you provide directly to us, such as when you create an account or add RSS feeds.</p>
+              <p>Feed Space is a personal project by raihara3. We collect minimal information necessary to provide the service, such as when you create an account or add RSS feeds.</p>
               <h3 className="text-xl font-medium mt-4 mb-2 text-white">Account Information</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Email address</li>
@@ -65,23 +65,22 @@ export default function PrivacyPolicy() {
 
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">3. Information Sharing</h2>
-              <p>We do not sell, trade, or rent your personal information to third parties. We may share your information only in the following circumstances:</p>
+              <p>As an individual developer, I do not and will not sell, trade, or rent your personal information. Your data may only be shared:</p>
               <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-                <li>With your consent</li>
-                <li>To comply with legal obligations</li>
-                <li>To protect and defend our rights and property</li>
-                <li>With service providers who assist in our operations</li>
+                <li>With your explicit consent</li>
+                <li>If required by law</li>
+                <li>With Supabase (our authentication and database provider)</li>
               </ul>
             </section>
 
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">4. Data Security</h2>
-              <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized or unlawful processing, accidental loss, destruction, or damage. However, no method of transmission over the Internet is 100% secure.</p>
+              <p>As a personal project, I implement reasonable security measures to protect your information. Your data is stored securely using Supabase's infrastructure. However, please understand that no method of transmission over the Internet is 100% secure, and as an individual developer, I cannot guarantee absolute security.</p>
             </section>
 
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">5. Data Retention</h2>
-              <p>We retain your personal information for as long as necessary to provide you with our services and as described in this Privacy Policy. You may delete your account at any time, which will remove your personal information from our active databases.</p>
+              <p>Your data is retained as long as you use the service. You can delete your account at any time, which will remove your personal information. As this is a personal project, I may need to shut down the service with reasonable notice.</p>
             </section>
 
             <section>
@@ -109,7 +108,7 @@ export default function PrivacyPolicy() {
 
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">8. Third-Party Services</h2>
-              <p>Feed Space integrates with Supabase for authentication and data storage. Please refer to Supabase's privacy policy for information about how they handle your data.</p>
+              <p>Feed Space integrates with Supabase for authentication and data storage. Supabase is a trusted service provider, and we recommend reviewing their privacy policy for information about how they handle data.</p>
               <p className="mt-2">RSS feeds you add may contain tracking pixels or other technologies controlled by the feed publishers. We have no control over these third-party technologies.</p>
             </section>
 
