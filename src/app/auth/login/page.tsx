@@ -28,7 +28,7 @@ export default function Login() {
       setLoading(false)
     } else {
       router.refresh()
-      router.push('/')
+      router.push('/dashboard')
     }
   }
 
