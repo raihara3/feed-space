@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, Trash2, RefreshCw, LogOut, Rss } from 'lucide-react'
+import { Plus, Trash2, RefreshCw, LogOut, Rss, UserX } from 'lucide-react'
 
 interface Feed {
   id: string
@@ -25,6 +25,10 @@ export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeed
   const [newFeedUrl, setNewFeedUrl] = useState('')
   const [loading, setLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [deletePassword, setDeletePassword] = useState('')
+  const [deleteStep, setDeleteStep] = useState(1) // 1: warning, 2: password, 3: final confirmation
+  const [deleting, setDeleting] = useState(false)
   const router = useRouter()
 
   const fetchFeeds = useCallback(async () => {
@@ -121,6 +125,56 @@ export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeed
   const handleSignOut = async () => {
     await fetch('/api/auth/signout', { method: 'POST' })
     router.refresh()
+  }
+
+  const handleDeleteAccount = async () => {
+    if (deleteStep === 1) {
+      setDeleteStep(2)
+      return
+    }
+    
+    if (deleteStep === 2) {
+      if (!deletePassword.trim()) {
+        alert('Please enter your password')
+        return
+      }
+      setDeleteStep(3)
+      return
+    }
+    
+    if (deleteStep === 3) {
+      setDeleting(true)
+      
+      try {
+        // First delete profile data via API
+        const response = await fetch('/api/auth/delete-account', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: deletePassword })
+        })
+        
+        const data = await response.json()
+        
+        if (response.ok) {
+          // Redirect to top page after successful deletion
+          window.location.href = '/'
+        } else {
+          alert(data.error || 'Failed to delete account')
+          setDeleting(false)
+        }
+      } catch (error) {
+        console.error('Error deleting account:', error)
+        alert('An error occurred while deleting your account')
+        setDeleting(false)
+      }
+    }
+  }
+
+  const resetDeleteModal = () => {
+    setShowDeleteModal(false)
+    setDeletePassword('')
+    setDeleteStep(1)
+    setDeleting(false)
   }
 
   return (
@@ -264,6 +318,117 @@ export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeed
           </div>
         )}
       </div>
+
+      {/* Delete Account Button */}
+      <div className="p-4 border-t border-gray-700">
+        <button
+          onClick={() => setShowDeleteModal(true)}
+          className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs text-gray-500 hover:text-red-400 hover:bg-gray-800 rounded-md transition"
+        >
+          <UserX className="w-3 h-3" />
+          Delete Account
+        </button>
+      </div>
+
+      {/* Delete Account Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4">
+            {deleteStep === 1 && (
+              <>
+                <h3 className="text-lg font-bold text-white mb-4">Delete Account</h3>
+                <div className="text-sm text-gray-300 mb-6 space-y-2">
+                  <p>⚠️ <strong>Warning: This action cannot be undone.</strong></p>
+                  <p>By deleting your account, you will permanently lose:</p>
+                  <ul className="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                    <li>All your RSS feeds</li>
+                    <li>All saved articles</li>
+                    <li>Your account data</li>
+                  </ul>
+                  <p>Are you sure you want to proceed?</p>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={resetDeleteModal}
+                    className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleDeleteAccount}
+                    className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition"
+                  >
+                    Continue
+                  </button>
+                </div>
+              </>
+            )}
+
+            {deleteStep === 2 && (
+              <>
+                <h3 className="text-lg font-bold text-white mb-4">Confirm Password</h3>
+                <p className="text-sm text-gray-300 mb-4">
+                  Please enter your password to confirm account deletion:
+                </p>
+                <input
+                  type="password"
+                  value={deletePassword}
+                  onChange={(e) => setDeletePassword(e.target.value)}
+                  placeholder="Enter your password"
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent mb-6"
+                  autoFocus
+                />
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setDeleteStep(1)}
+                    className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={handleDeleteAccount}
+                    className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition"
+                  >
+                    Verify Password
+                  </button>
+                </div>
+              </>
+            )}
+
+            {deleteStep === 3 && (
+              <>
+                <h3 className="text-lg font-bold text-red-400 mb-4">Final Confirmation</h3>
+                <div className="text-sm text-gray-300 mb-6">
+                  <p className="font-semibold text-red-400 mb-2">This is your last chance!</p>
+                  <p>
+                    Your account and all associated data will be permanently deleted.
+                    This action cannot be undone.
+                  </p>
+                  <p className="mt-2 font-semibold">
+                    Are you absolutely sure you want to delete your account?
+                  </p>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setDeleteStep(2)}
+                    disabled={deleting}
+                    className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition disabled:opacity-50"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={handleDeleteAccount}
+                    disabled={deleting}
+                    className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition disabled:opacity-50"
+                  >
+                    {deleting ? 'Deleting...' : 'Delete Account'}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
