@@ -61,20 +61,41 @@ export default async function Home() {
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-purple-900/10 to-transparent pointer-events-none" />
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-purple-300 bg-clip-text text-transparent">
-            All your feeds in one place.
-          </h1>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Feed Space pulls together your scattered RSS feeds, making your information gathering smarter and more efficient.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/auth/signup" className="bg-purple-600 hover:bg-purple-700 px-8 py-4 rounded-lg text-lg font-medium transition-all transform hover:scale-105">
-              Start Free
-            </Link>
-            <Link href="/auth/login" className="border border-purple-600 hover:bg-purple-900/30 px-8 py-4 rounded-lg text-lg font-medium transition-all">
-              Log in
-            </Link>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-purple-300 bg-clip-text text-transparent">
+                All your feeds in one place.
+              </h1>
+              <p className="text-xl text-gray-300 mb-8">
+                Feed Space pulls together your scattered RSS feeds, making your information gathering smarter and more efficient.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <Link href="/auth/signup" className="bg-purple-600 hover:bg-purple-700 px-8 py-4 rounded-lg text-lg font-medium transition-all transform hover:scale-105">
+                  Start Free
+                </Link>
+                <Link href="/auth/login" className="border border-purple-600 hover:bg-purple-900/30 px-8 py-4 rounded-lg text-lg font-medium transition-all">
+                  Log in
+                </Link>
+              </div>
+            </div>
+            <div className="relative">
+              {/* Screenshot placeholder */}
+              <div className="bg-gray-800 rounded-lg shadow-2xl border border-gray-700 aspect-[4/3] flex items-center justify-center">
+                <div className="text-center p-8">
+                  <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-4 text-gray-600">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" />
+                  </svg>
+                  <p className="text-gray-500 text-sm">Dashboard Screenshot</p>
+                  <p className="text-gray-600 text-xs mt-1">Replace with actual screenshot</p>
+                </div>
+              </div>
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-purple-600/20 rounded-full blur-2xl" />
+              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-blue-600/20 rounded-full blur-2xl" />
+            </div>
           </div>
         </div>
       </section>
@@ -85,31 +106,70 @@ export default async function Home() {
           <h2 className="text-3xl font-bold text-center mb-12">Why Feed Space?</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-600 transition-colors">
-              <div className="text-purple-400 mb-4">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 11a9 9 0 0 1 9 9" />
-                  <path d="M4 4a16 16 0 0 1 16 16" />
-                  <circle cx="5" cy="19" r="1" />
-                </svg>
+              <div className="mb-4">
+                {/* Feature image placeholder */}
+                <div className="bg-gray-700 rounded-lg aspect-[16/9] mb-4 flex items-center justify-center">
+                  <div className="text-center">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-2 text-gray-600">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                    <p className="text-gray-500 text-xs">Feed List Screenshot</p>
+                  </div>
+                </div>
+                <div className="text-purple-400">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 11a9 9 0 0 1 9 9" />
+                    <path d="M4 4a16 16 0 0 1 16 16" />
+                    <circle cx="5" cy="19" r="1" />
+                  </svg>
+                </div>
               </div>
               <h3 className="text-xl font-semibold mb-2">RSS Feed Management</h3>
               <p className="text-gray-400">Manage all your favorite sites in one place. No more jumping between tabs.</p>
             </div>
             <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-600 transition-colors">
-              <div className="text-purple-400 mb-4">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-                </svg>
+              <div className="mb-4">
+                {/* Feature image placeholder */}
+                <div className="bg-gray-700 rounded-lg aspect-[16/9] mb-4 flex items-center justify-center">
+                  <div className="text-center">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-2 text-gray-600">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                    <p className="text-gray-500 text-xs">Filter UI Screenshot</p>
+                  </div>
+                </div>
+                <div className="text-purple-400">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                  </svg>
+                </div>
               </div>
               <h3 className="text-xl font-semibold mb-2">Smart Filtering</h3>
               <p className="text-gray-400">Find what matters. Filter by feed, date, or search for specific topics.</p>
             </div>
             <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-600 transition-colors">
-              <div className="text-purple-400 mb-4">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-                  <line x1="12" y1="18" x2="12" y2="18" />
-                </svg>
+              <div className="mb-4">
+                {/* Feature image placeholder */}
+                <div className="bg-gray-700 rounded-lg aspect-[16/9] mb-4 flex items-center justify-center">
+                  <div className="text-center">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-2 text-gray-600">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                    <p className="text-gray-500 text-xs">Mobile View Screenshot</p>
+                  </div>
+                </div>
+                <div className="text-purple-400">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                    <line x1="12" y1="18" x2="12" y2="18" />
+                  </svg>
+                </div>
               </div>
               <h3 className="text-xl font-semibold mb-2">Works Everywhere</h3>
               <p className="text-gray-400">Read on any device. Your feeds sync automatically across all platforms.</p>
@@ -127,27 +187,60 @@ export default async function Home() {
               <div className="bg-purple-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
                 <span className="font-bold">1</span>
               </div>
-              <div>
+              <div className="flex-1">
                 <h3 className="text-xl font-semibold mb-2">Create your account</h3>
-                <p className="text-gray-400">Sign up in seconds. No credit card needed.</p>
+                <p className="text-gray-400 mb-4">Sign up in seconds. No credit card needed.</p>
+                {/* Step 1 image placeholder */}
+                <div className="bg-gray-800 rounded-lg border border-gray-700 aspect-[16/9] flex items-center justify-center">
+                  <div className="text-center">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-2 text-gray-600">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                    <p className="text-gray-500 text-xs">Sign Up Screenshot</p>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="flex items-start space-x-4">
               <div className="bg-purple-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
                 <span className="font-bold">2</span>
               </div>
-              <div>
+              <div className="flex-1">
                 <h3 className="text-xl font-semibold mb-2">Add RSS feeds</h3>
-                <p className="text-gray-400">Paste the RSS URL of your favorite blogs and news sites.</p>
+                <p className="text-gray-400 mb-4">Paste the RSS URL of your favorite blogs and news sites.</p>
+                {/* Step 2 image placeholder */}
+                <div className="bg-gray-800 rounded-lg border border-gray-700 aspect-[16/9] flex items-center justify-center">
+                  <div className="text-center">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-2 text-gray-600">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                    <p className="text-gray-500 text-xs">Add Feed Screenshot</p>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="flex items-start space-x-4">
               <div className="bg-purple-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
                 <span className="font-bold">3</span>
               </div>
-              <div>
+              <div className="flex-1">
                 <h3 className="text-xl font-semibold mb-2">Start reading</h3>
-                <p className="text-gray-400">All your feeds, organized and ready. Focus on what matters.</p>
+                <p className="text-gray-400 mb-4">All your feeds, organized and ready. Focus on what matters.</p>
+                {/* Step 3 image placeholder */}
+                <div className="bg-gray-800 rounded-lg border border-gray-700 aspect-[16/9] flex items-center justify-center">
+                  <div className="text-center">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-2 text-gray-600">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                    <p className="text-gray-500 text-xs">Reading View Screenshot</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
