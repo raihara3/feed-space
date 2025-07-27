@@ -1,33 +1,92 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 
 export default function ConfirmEmail() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const supabase = createClient()
 
   useEffect(() => {
-    // Check if user was redirected here after email confirmation
-    const checkAuth = async () => {
-      const hashParams = new URLSearchParams(window.location.hash.substring(1))
-      const error = hashParams.get('error')
-      const errorDescription = hashParams.get('error_description')
+    const handleEmailConfirmation = async () => {
+      try {
+        const token_hash = searchParams.get('token_hash')
+        const type = searchParams.get('type')
 
-      if (error) {
-        setError(errorDescription || 'An error occurred during email confirmation')
+        if (token_hash && type) {
+          const { data, error } = await supabase.auth.verifyOtp({
+            token_hash,
+            type: type as any
+          })
+
+          if (error) {
+            setError(error.message)
+            setLoading(false)
+            return
+          }
+
+          if (data.user) {
+            // Check if profile exists
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('id')
+              .eq('id', data.user.id)
+              .single()
+
+            // Create profile if it doesn't exist
+            if (!profile) {
+              const username = data.user.user_metadata?.username || 
+                              data.user.email?.split('@')[0] || 
+                              'user'
+
+              const { error: profileError } = await supabase
+                .from('profiles')
+                .insert([
+                  {
+                    id: data.user.id,
+                    username: username,
+                  },
+                ])
+
+              if (profileError) {
+                console.error('Error creating profile:', profileError)
+                // Continue anyway, profile will be created later if needed
+              }
+            }
+
+            // Redirect to dashboard
+            router.push('/dashboard')
+            return
+          }
+        }
+
+        // Fallback: Check for hash-based confirmation (old method)
+        const hashParams = new URLSearchParams(window.location.hash.substring(1))
+        const hashError = hashParams.get('error')
+        const errorDescription = hashParams.get('error_description')
+
+        if (hashError) {
+          setError(errorDescription || 'An error occurred during email confirmation')
+          setLoading(false)
+          return
+        }
+
+        // If no specific confirmation flow, just redirect to login
         setLoading(false)
-        return
+      } catch (err) {
+        console.error('Confirmation error:', err)
+        setError('An error occurred during confirmation')
+        setLoading(false)
       }
-
-      // If no error, redirect to home
-      router.push('/')
     }
 
-    checkAuth()
-  }, [router])
+    handleEmailConfirmation()
+  }, [router, searchParams, supabase])
 
   if (loading) {
     return (
