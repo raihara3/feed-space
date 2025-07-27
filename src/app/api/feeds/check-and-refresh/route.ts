@@ -44,16 +44,6 @@ export async function POST() {
       })
     }
 
-    // Clean up old items first (older than 24 hours)
-    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
-    const { error: cleanupError } = await supabase
-      .from('feed_items')
-      .delete()
-      .lt('created_at', twentyFourHoursAgo)
-
-    if (cleanupError) {
-      console.error('Error cleaning up old items:', cleanupError)
-    }
 
     // Refresh feeds that need updating
     const results = []
@@ -102,6 +92,12 @@ export async function POST() {
           }
         }
 
+        // Get current item count before inserting new items
+        const { count: currentCount } = await supabase
+          .from('feed_items')
+          .select('*', { count: 'exact', head: true })
+          .eq('feed_id', feed.id)
+
         // Insert new items with conflict handling
         if (newItems.length > 0) {
           try {
@@ -125,6 +121,29 @@ export async function POST() {
           }
         } else {
           results.push({ feed: feed.title, newItems: 0 })
+        }
+
+        // Clean up old items - keep only the latest 50 items per feed
+        const { data: allFeedItems } = await supabase
+          .from('feed_items')
+          .select('id, created_at')
+          .eq('feed_id', feed.id)
+          .order('created_at', { ascending: false })
+
+        if (allFeedItems && allFeedItems.length > 50) {
+          // Keep exactly 50 items
+          const itemsToDelete = allFeedItems.slice(50).map(item => item.id)
+          
+          const { error: deleteError } = await supabase
+            .from('feed_items')
+            .delete()
+            .in('id', itemsToDelete)
+
+          if (deleteError) {
+            console.error(`Error cleaning up old items for feed ${feed.title}:`, deleteError)
+          } else {
+            console.log(`Deleted ${itemsToDelete.length} old items from feed ${feed.title} (keeping exactly 50)`)
+          }
         }
 
       } catch (error) {

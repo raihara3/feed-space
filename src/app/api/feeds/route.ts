@@ -92,9 +92,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    // Immediately fetch and store feed items
+    // Immediately fetch and store feed items (limit to latest 50 items)
     const newItems = []
-    for (const item of feed.items || []) {
+    // Sort by date and take only the latest 50 items
+    const sortedItems = (feed.items || []).sort((a, b) => {
+      const dateA = a.pubDate ? new Date(a.pubDate).getTime() : 0
+      const dateB = b.pubDate ? new Date(b.pubDate).getTime() : 0
+      return dateB - dateA // Descending order (newest first)
+    }).slice(0, 50)
+    
+    for (const item of sortedItems) {
       const guid = item.guid || item.link
       
       newItems.push({
@@ -153,10 +160,33 @@ export async function POST(request: Request) {
       }
     }
 
+    // Ensure we have exactly 50 items or less (in case of duplicates)
+    const { data: finalItems } = await supabase
+      .from('feed_items')
+      .select('id, created_at')
+      .eq('feed_id', data.id)
+      .order('created_at', { ascending: false })
+
+    if (finalItems && finalItems.length > 50) {
+      const itemsToDelete = finalItems.slice(50).map(item => item.id)
+      
+      const { error: deleteError } = await supabase
+        .from('feed_items')
+        .delete()
+        .in('id', itemsToDelete)
+
+      if (deleteError) {
+        console.error(`Error cleaning up excess items:`, deleteError)
+      } else {
+        console.log(`Deleted ${itemsToDelete.length} excess items to maintain 50 item limit`)
+      }
+    }
+
     return NextResponse.json({ 
       feed: data,
       itemsAdded: itemsInserted,
       feedItemsCount: feed.items?.length || 0,
+      finalItemCount: finalItems?.length || 0,
       debug: {
         feedTitle: feed.title,
         feedItemsLength: feed.items?.length,
