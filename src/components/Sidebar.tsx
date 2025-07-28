@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Plus, Trash2, RefreshCw, LogOut, Rss, UserX, Tag } from 'lucide-react'
+import { Plus, Trash2, RefreshCw, LogOut, Rss, UserX, Tag, X } from 'lucide-react'
 import KeywordsModal from './KeywordsModal'
 
 interface Feed {
@@ -22,9 +22,11 @@ interface SidebarProps {
   onKeywordSelect: (keyword: string | null) => void
   onFeedDeleted?: () => void
   onKeywordUpdated?: () => void
+  isMobile?: boolean
+  onCloseMobile?: () => void
 }
 
-export default function Sidebar({ username, selectedFeedId, selectedKeyword, onFeedSelect, onKeywordSelect, onFeedDeleted, onKeywordUpdated }: SidebarProps) {
+export default function Sidebar({ username, selectedFeedId, selectedKeyword, onFeedSelect, onKeywordSelect, onFeedDeleted, onKeywordUpdated, isMobile, onCloseMobile }: SidebarProps) {
   const [feeds, setFeeds] = useState<Feed[]>([])
   const [isAddingFeed, setIsAddingFeed] = useState(false)
   const [newFeedUrl, setNewFeedUrl] = useState('')
@@ -227,7 +229,16 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
             <Rss className="w-6 h-6 text-white" />
           </div>
-          <h1 className="text-xl font-bold text-white">FEED SPACE</h1>
+          <h1 className="text-xl font-bold text-white flex-1">FEED SPACE</h1>
+          {isMobile && (
+            <button
+              onClick={onCloseMobile}
+              className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-md transition"
+              aria-label="Close menu"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          )}
         </div>
         
         <div className="flex items-center justify-between">

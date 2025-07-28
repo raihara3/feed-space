@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { formatDistanceToNow } from 'date-fns'
-import { ExternalLink, Clock, Image as ImageIcon } from 'lucide-react'
+import { ExternalLink, Clock, Image as ImageIcon, Menu } from 'lucide-react'
 import ArticleThumbnail from './ArticleThumbnail'
 
 interface FeedItem {
@@ -24,9 +24,10 @@ interface FeedItem {
 interface ItemListProps {
   selectedFeedId: string | null
   selectedKeyword: string | null
+  onOpenMobileSidebar?: () => void
 }
 
-export default function ItemList({ selectedFeedId, selectedKeyword }: ItemListProps) {
+export default function ItemList({ selectedFeedId, selectedKeyword, onOpenMobileSidebar }: ItemListProps) {
   const [allItems, setAllItems] = useState<FeedItem[]>([])
   const [loading, setLoading] = useState(true)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -139,25 +140,38 @@ export default function ItemList({ selectedFeedId, selectedKeyword }: ItemListPr
     <div className="h-full flex flex-col bg-gray-900">
       {/* Header */}
       <div className="p-6 border-b border-gray-700">
-        <h2 className="text-2xl font-bold text-white">
-          {selectedFeed && selectedKeyword 
-            ? `${selectedFeed.title} • #${selectedKeyword}`
-            : selectedFeed 
-            ? selectedFeed.title 
-            : selectedKeyword
-            ? `#${selectedKeyword}`
-            : 'Latest Articles'}
-        </h2>
-        <p className="text-gray-400 text-sm mt-1">
-          {filteredItems.length} articles
-          {selectedFeed && selectedKeyword 
-            ? ` from ${selectedFeed.title} with #${selectedKeyword}`
-            : selectedFeed 
-            ? ` from ${selectedFeed.title}`
-            : selectedKeyword
-            ? ` with #${selectedKeyword}`
-            : ' available'}
-        </p>
+        <div className="flex items-center gap-4">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={onOpenMobileSidebar}
+            className="lg:hidden p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-md transition"
+            aria-label="Open menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          
+          <div className="flex-1">
+            <h2 className="text-2xl font-bold text-white">
+              {selectedFeed && selectedKeyword 
+                ? `${selectedFeed.title} • #${selectedKeyword}`
+                : selectedFeed 
+                ? selectedFeed.title 
+                : selectedKeyword
+                ? `#${selectedKeyword}`
+                : 'Latest Articles'}
+            </h2>
+            <p className="text-gray-400 text-sm mt-1">
+              {filteredItems.length} articles
+              {selectedFeed && selectedKeyword 
+                ? ` from ${selectedFeed.title} with #${selectedKeyword}`
+                : selectedFeed 
+                ? ` from ${selectedFeed.title}`
+                : selectedKeyword
+                ? ` with #${selectedKeyword}`
+                : ' available'}
+            </p>
+          </div>
+        </div>
       </div>
       
       {/* Articles List */}
