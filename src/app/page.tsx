@@ -103,21 +103,10 @@ export default async function Home() {
       {/* Features Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">なぜFeed Spaceなのか？</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">特徴</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-600 transition-colors">
               <div className="mb-4">
-                {/* Feature image placeholder */}
-                <div className="bg-gray-700 rounded-lg aspect-[16/9] mb-4 flex items-center justify-center">
-                  <div className="text-center">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-2 text-gray-600">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                      <circle cx="8.5" cy="8.5" r="1.5" />
-                      <polyline points="21 15 16 10 5 21" />
-                    </svg>
-                    <p className="text-gray-500 text-xs">フィード一覧のスクリーンショット</p>
-                  </div>
-                </div>
                 <div className="text-purple-400">
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M4 11a9 9 0 0 1 9 9" />
@@ -126,44 +115,22 @@ export default async function Home() {
                   </svg>
                 </div>
               </div>
-              <h3 className="text-xl font-semibold mb-2">RSSフィード管理</h3>
-              <p className="text-gray-400">お気に入りのサイトをすべて一箇所で管理。タブ間を行き来する必要がありません。</p>
+              <h3 className="text-xl font-semibold mb-2">無料で利用可能</h3>
+              <p className="text-gray-400">基本機能はすべて無料。フィード追加数には制限がありますが、個人利用には十分な容量です。</p>
             </div>
             <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-600 transition-colors">
               <div className="mb-4">
-                {/* Feature image placeholder */}
-                <div className="bg-gray-700 rounded-lg aspect-[16/9] mb-4 flex items-center justify-center">
-                  <div className="text-center">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-2 text-gray-600">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                      <circle cx="8.5" cy="8.5" r="1.5" />
-                      <polyline points="21 15 16 10 5 21" />
-                    </svg>
-                    <p className="text-gray-500 text-xs">フィルターUIのスクリーンショット</p>
-                  </div>
-                </div>
                 <div className="text-purple-400">
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
                   </svg>
                 </div>
               </div>
-              <h3 className="text-xl font-semibold mb-2">スマートフィルタリング</h3>
-              <p className="text-gray-400">重要なものを見つけましょう。フィード、日付で絞り込み、特定のトピックを検索できます。</p>
+              <h3 className="text-xl font-semibold mb-2">フィルタリング機能</h3>
+              <p className="text-gray-400">フィードやキーワードで記事を絞り込み。必要な情報だけを効率的に見つけることができます。</p>
             </div>
             <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-600 transition-colors">
               <div className="mb-4">
-                {/* Feature image placeholder */}
-                <div className="bg-gray-700 rounded-lg aspect-[16/9] mb-4 flex items-center justify-center">
-                  <div className="text-center">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-2 text-gray-600">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                      <circle cx="8.5" cy="8.5" r="1.5" />
-                      <polyline points="21 15 16 10 5 21" />
-                    </svg>
-                    <p className="text-gray-500 text-xs">モバイル表示のスクリーンショット</p>
-                  </div>
-                </div>
                 <div className="text-purple-400">
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
@@ -189,18 +156,7 @@ export default async function Home() {
               </div>
               <div className="flex-1">
                 <h3 className="text-xl font-semibold mb-2">アカウントを作成</h3>
-                <p className="text-gray-400 mb-4">数秒でサインアップできます。クレジットカードは不要です。</p>
-                {/* Step 1 image placeholder */}
-                <div className="bg-gray-800 rounded-lg border border-gray-700 aspect-[16/9] flex items-center justify-center">
-                  <div className="text-center">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-2 text-gray-600">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                      <circle cx="8.5" cy="8.5" r="1.5" />
-                      <polyline points="21 15 16 10 5 21" />
-                    </svg>
-                    <p className="text-gray-500 text-xs">サインアップのスクリーンショット</p>
-                  </div>
-                </div>
+                <p className="text-gray-400">数秒でサインアップできます。クレジットカードは不要です。</p>
               </div>
             </div>
             <div className="flex items-start space-x-4">
@@ -209,18 +165,7 @@ export default async function Home() {
               </div>
               <div className="flex-1">
                 <h3 className="text-xl font-semibold mb-2">RSSフィードを追加</h3>
-                <p className="text-gray-400 mb-4">お気に入りのブログやニュースサイトのRSS URLを貼り付けるだけ。</p>
-                {/* Step 2 image placeholder */}
-                <div className="bg-gray-800 rounded-lg border border-gray-700 aspect-[16/9] flex items-center justify-center">
-                  <div className="text-center">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-2 text-gray-600">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                      <circle cx="8.5" cy="8.5" r="1.5" />
-                      <polyline points="21 15 16 10 5 21" />
-                    </svg>
-                    <p className="text-gray-500 text-xs">フィード追加のスクリーンショット</p>
-                  </div>
-                </div>
+                <p className="text-gray-400">お気に入りのブログやニュースサイトのRSS URLを貼り付けるだけ。</p>
               </div>
             </div>
             <div className="flex items-start space-x-4">
@@ -229,64 +174,13 @@ export default async function Home() {
               </div>
               <div className="flex-1">
                 <h3 className="text-xl font-semibold mb-2">読み始める</h3>
-                <p className="text-gray-400 mb-4">すべてのフィードが整理され、すぐに利用できます。重要なことに集中しましょう。</p>
-                {/* Step 3 image placeholder */}
-                <div className="bg-gray-800 rounded-lg border border-gray-700 aspect-[16/9] flex items-center justify-center">
-                  <div className="text-center">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-2 text-gray-600">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                      <circle cx="8.5" cy="8.5" r="1.5" />
-                      <polyline points="21 15 16 10 5 21" />
-                    </svg>
-                    <p className="text-gray-500 text-xs">読書ビューのスクリーンショット</p>
-                  </div>
-                </div>
+                <p className="text-gray-400">すべてのフィードが整理され、すぐに利用できます。重要なことに集中しましょう。</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Benefits */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-12">シンプル。高速。無料。</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div>
-              <div className="text-green-400 mb-4">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mx-auto">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-              <h3 className="font-semibold mb-2">クリーンなインターフェース</h3>
-              <p className="text-gray-400">余計なものはありません。フィードだけ。</p>
-            </div>
-            <div>
-              <div className="text-green-400 mb-4">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mx-auto">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-              <h3 className="font-semibold mb-2">超高速</h3>
-              <p className="text-gray-400">リアルタイムで更新されます。</p>
-            </div>
-            <div>
-              <div className="text-green-400 mb-4">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mx-auto">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-              <h3 className="font-semibold mb-2">永久無料</h3>
-              <p className="text-gray-400">隠れた料金はありません。</p>
-            </div>
-          </div>
-          <div className="mt-12">
-            <Link href="/auth/signup" className="bg-purple-600 hover:bg-purple-700 px-8 py-4 rounded-lg text-lg font-medium transition-all transform hover:scale-105 inline-block">
-              今すぐ始める
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="bg-gray-800 border-t border-gray-700 py-12 px-4">
