@@ -75,39 +75,41 @@ export default function FeedReader({ username }: FeedReaderProps) {
       </div>
       
       {/* Mobile Sidebar Overlay */}
-      {isMobileSidebarOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 flex">
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-50" 
-            onClick={() => setIsMobileSidebarOpen(false)}
+      <div className={`lg:hidden fixed inset-0 z-50 flex transition-opacity duration-300 ${
+        isMobileSidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+      }`}>
+        {/* Backdrop */}
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50" 
+          onClick={() => setIsMobileSidebarOpen(false)}
+        />
+        
+        {/* Sidebar */}
+        <div className={`relative w-80 bg-gray-800 h-full overflow-hidden transform transition-transform duration-300 ${
+          isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}>
+          <Sidebar 
+            username={username} 
+            selectedFeedId={selectedFeedId}
+            selectedKeywords={selectedKeywords}
+            onFeedSelect={(feedId) => {
+              setSelectedFeedId(feedId)
+              setIsMobileSidebarOpen(false)
+            }}
+            onKeywordSelect={(keywords) => {
+              setSelectedKeywords(keywords)
+              setIsMobileSidebarOpen(false)
+            }}
+            onFeedDeleted={() => {
+              handleFeedDeleted()
+              setIsMobileSidebarOpen(false)
+            }}
+            onKeywordUpdated={handleKeywordUpdated}
+            isMobile={true}
+            onCloseMobile={() => setIsMobileSidebarOpen(false)}
           />
-          
-          {/* Sidebar */}
-          <div className="relative w-80 bg-gray-800 h-full overflow-hidden">
-            <Sidebar 
-              username={username} 
-              selectedFeedId={selectedFeedId}
-              selectedKeywords={selectedKeywords}
-              onFeedSelect={(feedId) => {
-                setSelectedFeedId(feedId)
-                setIsMobileSidebarOpen(false)
-              }}
-              onKeywordSelect={(keywords) => {
-                setSelectedKeywords(keywords)
-                setIsMobileSidebarOpen(false)
-              }}
-              onFeedDeleted={() => {
-                handleFeedDeleted()
-                setIsMobileSidebarOpen(false)
-              }}
-              onKeywordUpdated={handleKeywordUpdated}
-              isMobile={true}
-              onCloseMobile={() => setIsMobileSidebarOpen(false)}
-            />
-          </div>
         </div>
-      )}
+      </div>
       
       {/* Main Content */}
       <div className="flex-1 h-full overflow-hidden">
