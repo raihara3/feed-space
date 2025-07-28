@@ -10,7 +10,7 @@ interface FeedReaderProps {
 
 export default function FeedReader({ username }: FeedReaderProps) {
   const [selectedFeedId, setSelectedFeedId] = useState<string | null>(null)
-  const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null)
+  const [selectedKeywords, setSelectedKeywords] = useState<string[]>([])
   const [refreshKey, setRefreshKey] = useState(0)
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
 
@@ -29,9 +29,9 @@ export default function FeedReader({ username }: FeedReaderProps) {
         <Sidebar 
           username={username} 
           selectedFeedId={selectedFeedId}
-          selectedKeyword={selectedKeyword}
+          selectedKeywords={selectedKeywords}
           onFeedSelect={setSelectedFeedId}
-          onKeywordSelect={setSelectedKeyword}
+          onKeywordSelect={setSelectedKeywords}
           onFeedDeleted={handleFeedDeleted}
           onKeywordUpdated={handleKeywordUpdated}
         />
@@ -51,13 +51,13 @@ export default function FeedReader({ username }: FeedReaderProps) {
             <Sidebar 
               username={username} 
               selectedFeedId={selectedFeedId}
-              selectedKeyword={selectedKeyword}
+              selectedKeywords={selectedKeywords}
               onFeedSelect={(feedId) => {
                 setSelectedFeedId(feedId)
                 setIsMobileSidebarOpen(false)
               }}
-              onKeywordSelect={(keyword) => {
-                setSelectedKeyword(keyword)
+              onKeywordSelect={(keywords) => {
+                setSelectedKeywords(keywords)
                 setIsMobileSidebarOpen(false)
               }}
               onFeedDeleted={() => {
@@ -77,7 +77,7 @@ export default function FeedReader({ username }: FeedReaderProps) {
         <ItemList 
           key={refreshKey} 
           selectedFeedId={selectedFeedId} 
-          selectedKeyword={selectedKeyword}
+          selectedKeywords={selectedKeywords}
           onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
         />
       </div>

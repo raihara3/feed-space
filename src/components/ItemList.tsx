@@ -24,11 +24,11 @@ interface FeedItem {
 
 interface ItemListProps {
   selectedFeedId: string | null
-  selectedKeyword: string | null
+  selectedKeywords: string[]
   onOpenMobileSidebar?: () => void
 }
 
-export default function ItemList({ selectedFeedId, selectedKeyword, onOpenMobileSidebar }: ItemListProps) {
+export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobileSidebar }: ItemListProps) {
   const [allItems, setAllItems] = useState<FeedItem[]>([])
   const [loading, setLoading] = useState(true)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -86,8 +86,8 @@ export default function ItemList({ selectedFeedId, selectedKeyword, onOpenMobile
       return false
     }
     
-    // Filter by keyword if selected
-    if (selectedKeyword && !item.matched_keywords.includes(selectedKeyword)) {
+    // Filter by keywords if selected (OR condition)
+    if (selectedKeywords.length > 0 && !item.matched_keywords.some(keyword => selectedKeywords.includes(keyword))) {
       return false
     }
     
@@ -153,22 +153,22 @@ export default function ItemList({ selectedFeedId, selectedKeyword, onOpenMobile
           
           <div className="flex-1">
             <h2 className="text-2xl font-bold text-white">
-              {selectedFeed && selectedKeyword 
-                ? `${selectedFeed.title} • #${selectedKeyword}`
+              {selectedFeed && selectedKeywords.length > 0 
+                ? `${selectedFeed.title} • #${selectedKeywords.join(', #')}`
                 : selectedFeed 
                 ? selectedFeed.title 
-                : selectedKeyword
-                ? `#${selectedKeyword}`
+                : selectedKeywords.length > 0
+                ? `#${selectedKeywords.join(', #')}`
                 : '最新記事'}
             </h2>
             <p className="text-gray-400 text-sm mt-1">
               {filteredItems.length}件の記事
-              {selectedFeed && selectedKeyword 
-                ? ` - ${selectedFeed.title}の#${selectedKeyword}を含む記事`
+              {selectedFeed && selectedKeywords.length > 0 
+                ? ` - ${selectedFeed.title}の#${selectedKeywords.join(', #')}を含む記事`
                 : selectedFeed 
                 ? ` - ${selectedFeed.title}`
-                : selectedKeyword
-                ? ` - #${selectedKeyword}を含む記事`
+                : selectedKeywords.length > 0
+                ? ` - #${selectedKeywords.join(', #')}を含む記事`
                 : ''}
             </p>
           </div>
