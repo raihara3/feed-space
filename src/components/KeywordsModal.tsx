@@ -198,24 +198,20 @@ export default function KeywordsModal({
           ) : (
             <div className="flex flex-wrap gap-2">
               {keywords.map((keyword) => (
-                <div
+                <span
                   key={keyword.id}
-                  className="flex items-center gap-1 group"
+                  className="px-2 py-1 rounded-full text-black text-sm font-medium flex items-center gap-1 group"
+                  style={{ backgroundColor: "#f66f3b" }}
                 >
-                  <span
-                    className="px-2 py-1 rounded-full text-black text-sm font-medium"
-                    style={{ backgroundColor: "#f66f3b" }}
-                  >
-                    #{keyword.keyword}
-                  </span>
+                  #{keyword.keyword}
                   <button
                     onClick={() => handleDeleteKeyword(keyword.id)}
-                    className="text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                    className="text-black hover:text-red-600 opacity-0 group-hover:opacity-100 transition"
                     title="キーワードを削除"
                   >
                     <X className="w-3 h-3" />
                   </button>
-                </div>
+                </span>
               ))}
             </div>
           )}
