@@ -19,77 +19,13 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <svg
+              <img
+                src="/logo.png"
+                alt="Feed Space Logo"
                 width="32"
                 height="32"
-                viewBox="0 0 100 100"
-                className="text-purple-400"
-              >
-                <defs>
-                  <radialGradient id="blackhole-gradient">
-                    <stop offset="0%" stopColor="#1a1a2e" />
-                    <stop offset="30%" stopColor="#16213e" />
-                    <stop offset="60%" stopColor="#0f3460" />
-                    <stop offset="100%" stopColor="#e94560" />
-                  </radialGradient>
-                  <filter id="glow">
-                    <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                    <feMerge>
-                      <feMergeNode in="coloredBlur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="20"
-                  fill="url(#blackhole-gradient)"
-                />
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="25"
-                  fill="none"
-                  stroke="#e94560"
-                  strokeWidth="0.5"
-                  opacity="0.8"
-                  filter="url(#glow)"
-                />
-                <path
-                  d="M 30 50 Q 50 30, 70 50 Q 50 70, 30 50"
-                  fill="none"
-                  stroke="#e94560"
-                  strokeWidth="1"
-                  opacity="0.6"
-                  filter="url(#glow)"
-                >
-                  <animateTransform
-                    attributeName="transform"
-                    type="rotate"
-                    from="0 50 50"
-                    to="360 50 50"
-                    dur="20s"
-                    repeatCount="indefinite"
-                  />
-                </path>
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="30"
-                  fill="none"
-                  stroke="#0f3460"
-                  strokeWidth="0.3"
-                  opacity="0.5"
-                >
-                  <animate
-                    attributeName="r"
-                    values="30;35;30"
-                    dur="3s"
-                    repeatCount="indefinite"
-                  />
-                </circle>
-              </svg>
+                className="w-8 h-8"
+              />
               <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Feed Space
               </span>
@@ -141,29 +77,13 @@ export default async function Home() {
               </div>
             </div>
             <div className="relative">
-              {/* Screenshot placeholder */}
-              <div className="bg-gray-800 rounded-lg shadow-2xl border border-gray-700 aspect-[4/3] flex items-center justify-center">
-                <div className="text-center p-8">
-                  <svg
-                    width="80"
-                    height="80"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                    className="mx-auto mb-4 text-gray-600"
-                  >
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                    <circle cx="8.5" cy="8.5" r="1.5" />
-                    <polyline points="21 15 16 10 5 21" />
-                  </svg>
-                  <p className="text-gray-500 text-sm">
-                    ダッシュボードのスクリーンショット
-                  </p>
-                  <p className="text-gray-600 text-xs mt-1">
-                    実際のスクリーンショットで置き換え
-                  </p>
-                </div>
+              {/* Hero Image */}
+              <div className="bg-gray-800 rounded-lg shadow-2xl border border-gray-700 aspect-[4/3] overflow-hidden">
+                <img
+                  src="/hero-image.png"
+                  alt="Feed Space Dashboard"
+                  className="w-full h-full object-cover"
+                />
               </div>
               {/* Decorative elements */}
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-purple-600/20 rounded-full blur-2xl" />
@@ -306,19 +226,13 @@ export default async function Home() {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <svg
+                <img
+                  src="/logo.png"
+                  alt="Feed Space Logo"
                   width="24"
                   height="24"
-                  viewBox="0 0 100 100"
-                  className="text-purple-400"
-                >
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="20"
-                    fill="url(#blackhole-gradient)"
-                  />
-                </svg>
+                  className="w-6 h-6"
+                />
                 <span className="font-bold">Feed Space</span>
               </div>
               <p className="text-gray-400 text-sm">

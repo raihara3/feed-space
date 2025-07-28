@@ -8,17 +8,13 @@ export default function TermsOfService() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center space-x-3">
-              <svg width="32" height="32" viewBox="0 0 100 100" className="text-purple-400">
-                <defs>
-                  <radialGradient id="blackhole-gradient">
-                    <stop offset="0%" stopColor="#1a1a2e" />
-                    <stop offset="30%" stopColor="#16213e" />
-                    <stop offset="60%" stopColor="#0f3460" />
-                    <stop offset="100%" stopColor="#e94560" />
-                  </radialGradient>
-                </defs>
-                <circle cx="50" cy="50" r="20" fill="url(#blackhole-gradient)" />
-              </svg>
+              <img
+                src="/logo.png"
+                alt="Feed Space Logo"
+                width="32"
+                height="32"
+                className="w-8 h-8"
+              />
               <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Feed Space
               </span>

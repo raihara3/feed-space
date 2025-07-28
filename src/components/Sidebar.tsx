@@ -247,9 +247,13 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
       {/* Header */}
       <div className="p-6 border-b border-gray-700">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <Rss className="w-6 h-6 text-white" />
-          </div>
+          <img
+            src="/logo.png"
+            alt="Feed Space Logo"
+            width="40"
+            height="40"
+            className="w-10 h-10 rounded-lg"
+          />
           <h1 className="text-xl font-bold text-white flex-1">Feed Space</h1>
           {isMobile && (
             <button

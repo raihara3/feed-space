@@ -13,8 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FEED SPACE",
-  description: "Your personal RSS feed reader",
+  title: "Feed Space",
+  description: "すべてのフィードを一箇所に。",
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
