@@ -42,6 +42,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
   const [keywords, setKeywords] = useState<{id: string, keyword: string}[]>([])
   const [readLaterItems, setReadLaterItems] = useState<any[]>([])
   const [maxFeeds, setMaxFeeds] = useState(5)
+  const [showAccountMenu, setShowAccountMenu] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
@@ -286,7 +287,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
     <div className="h-full flex flex-col">
       {/* Header */}
       <div className="p-6 border-b border-gray-700">
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex items-center gap-3">
           <img
             src="/logo.png"
             alt="Feed Space Logo"
@@ -304,24 +305,6 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
               <X className="w-5 h-5" />
             </button>
           )}
-        </div>
-        
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
-              <span className="text-white text-sm font-semibold">
-                {username.charAt(0).toUpperCase()}
-              </span>
-            </div>
-            <span className="text-gray-300 text-sm">{username}</span>
-          </div>
-          <button
-            onClick={handleSignOut}
-            className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-md transition"
-            title="Sign out"
-          >
-            <LogOut className="w-4 h-4" />
-          </button>
         </div>
       </div>
 
@@ -536,15 +519,57 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
         )}
       </div>
 
-      {/* Delete Account Button */}
-      <div className="p-4 border-t border-gray-700">
+      {/* Spacer to push Delete Account Button to bottom */}
+      <div className="flex-1"></div>
+
+      {/* Account Section */}
+      <div className="border-t border-gray-700 relative">
         <button
-          onClick={() => setShowDeleteModal(true)}
-          className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs text-gray-500 hover:text-red-400 hover:bg-gray-800 rounded-md transition"
+          onClick={() => setShowAccountMenu(!showAccountMenu)}
+          className="flex items-center gap-2 w-full hover:bg-gray-700 rounded-md transition p-4"
         >
-          <UserX className="w-3 h-3" />
-アカウント削除
+          <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
+            <span className="text-white text-sm font-semibold">
+              {username.charAt(0).toUpperCase()}
+            </span>
+          </div>
+          <span className="text-gray-300 text-sm">{username}</span>
         </button>
+        
+        {/* Account Menu */}
+        {showAccountMenu && (
+          <>
+            {/* Backdrop */}
+            <div 
+              className="fixed inset-0 z-40"
+              onClick={() => setShowAccountMenu(false)}
+            />
+            
+            {/* Menu */}
+            <div className="absolute bottom-full left-4 right-4 mb-2 bg-gray-800 border border-gray-600 rounded-md shadow-lg z-50">
+              <button
+                onClick={() => {
+                  setShowAccountMenu(false)
+                  handleSignOut()
+                }}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded-t-md transition"
+              >
+                <LogOut className="w-4 h-4" />
+                ログアウト
+              </button>
+              <button
+                onClick={() => {
+                  setShowAccountMenu(false)
+                  setShowDeleteModal(true)
+                }}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-red-400 hover:bg-gray-700 rounded-b-md transition"
+              >
+                <UserX className="w-4 h-4" />
+                退会
+              </button>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Delete Account Modal */}
