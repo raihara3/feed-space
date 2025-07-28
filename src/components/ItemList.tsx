@@ -140,7 +140,7 @@ export default function ItemList({ selectedFeedId, selectedKeyword, onOpenMobile
   return (
     <div className="h-full flex flex-col bg-gray-900">
       {/* Header */}
-      <div className="p-6 border-b border-gray-700">
+      <div className="p-6 border-b border-gray-700 lg:bg-transparent lg:backdrop-blur-none bg-gray-900/80 backdrop-blur-md">
         <div className="flex items-center gap-4">
           {/* Mobile Menu Button */}
           <button
@@ -215,7 +215,7 @@ export default function ItemList({ selectedFeedId, selectedKeyword, onOpenMobile
                       <h3 className={`mb-2 line-clamp-2 transition-colors ${
                         isRead 
                           ? 'text-[#b0b0b0] font-normal' 
-                          : 'text-white font-semibold group-hover:text-blue-400'
+                          : 'text-white font-semibold group-hover:text-purple-400'
                       }`}>
                         {item.title}
                       </h3>

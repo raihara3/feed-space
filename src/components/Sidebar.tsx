@@ -265,7 +265,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
         {!isAddingFeed ? (
           <button
             onClick={() => setIsAddingFeed(true)}
-            className="w-full flex items-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition font-medium"
+            className="w-full flex items-center gap-2 px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition font-medium"
           >
             <Plus className="w-4 h-4" />
 フィードを追加
@@ -322,7 +322,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
               {selectedKeyword && (
                 <button
                   onClick={() => onKeywordSelect(null)}
-                  className="text-xs text-blue-400 hover:text-blue-300 transition"
+                  className="text-xs text-purple-400 hover:text-purple-300 transition"
                 >
                   すべて表示
                 </button>
@@ -359,7 +359,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
           {selectedFeedId && (
             <button
               onClick={() => onFeedSelect(null)}
-              className="text-xs text-blue-400 hover:text-blue-300 transition"
+              className="text-xs text-purple-400 hover:text-purple-300 transition"
             >
               すべて表示
             </button>
@@ -375,7 +375,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
                 key={feed.id}
                 className={`group flex items-center justify-between p-3 rounded-lg transition cursor-pointer ${
                   selectedFeedId === feed.id 
-                    ? 'bg-blue-600 hover:bg-blue-700' 
+                    ? 'bg-purple-600 hover:bg-purple-700' 
                     : 'bg-gray-700 hover:bg-gray-600'
                 }`}
                 onClick={() => onFeedSelect(feed.id)}
