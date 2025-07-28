@@ -38,6 +38,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
   const [deleting, setDeleting] = useState(false)
   const [showKeywordsModal, setShowKeywordsModal] = useState(false)
   const [keywords, setKeywords] = useState<{id: string, keyword: string}[]>([])
+  const [maxFeeds, setMaxFeeds] = useState(5)
   const router = useRouter()
   const supabase = createClient()
 
@@ -56,7 +57,27 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
   useEffect(() => {
     fetchFeeds()
     fetchKeywords()
+    fetchMaxFeeds()
   }, [fetchFeeds])
+
+  const fetchMaxFeeds = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('max_feeds')
+          .eq('id', user.id)
+          .single()
+        
+        if (profile) {
+          setMaxFeeds(profile.max_feeds)
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching max feeds:', error)
+    }
+  }
 
   const fetchKeywords = async () => {
     try {
@@ -97,7 +118,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
         window.location.reload()
       }, 1000)
     } else {
-      alert(data.error)
+      alert(data.error || 'フィードの追加に失敗しました')
     }
     
     setLoading(false)
@@ -354,7 +375,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
       <div className="flex-1 overflow-y-auto p-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide">
-登録フィード ({feeds.length}/10)
+登録フィード ({feeds.length}/{maxFeeds})
           </h3>
           {selectedFeedId && (
             <button

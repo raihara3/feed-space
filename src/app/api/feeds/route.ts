@@ -35,13 +35,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  // Check if profile exists, create if not
+  // Check if profile exists, create if not, and get max_feeds limit
   const { data: existingProfile } = await supabase
     .from('profiles')
-    .select('id')
+    .select('id, max_feeds')
     .eq('id', user.id)
     .single()
 
+  let maxFeeds = 5 // default value
   if (!existingProfile) {
     const { error: profileError } = await supabase
       .from('profiles')
@@ -49,12 +50,31 @@ export async function POST(request: Request) {
         {
           id: user.id,
           username: user.email?.split('@')[0] || 'user',
+          max_feeds: 5
         },
       ])
 
     if (profileError) {
       return NextResponse.json({ error: `Profile creation failed: ${profileError.message}` }, { status: 500 })
     }
+  } else {
+    maxFeeds = existingProfile.max_feeds
+  }
+
+  // Check current feed count against limit
+  const { count: currentFeedCount, error: countError } = await supabase
+    .from('feeds')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', user.id)
+
+  if (countError) {
+    return NextResponse.json({ error: 'Failed to check feed count' }, { status: 500 })
+  }
+
+  if (currentFeedCount && currentFeedCount >= maxFeeds) {
+    return NextResponse.json({ 
+      error: `フィードの追加上限に達しています。最大${maxFeeds}件まで追加できます。` 
+    }, { status: 400 })
   }
 
   const { url } = await request.json()
@@ -87,7 +107,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Feed already exists' }, { status: 409 })
       }
       if (error.message.includes('Feed limit reached')) {
-        return NextResponse.json({ error: 'Feed limit reached. Maximum 10 feeds per user.' }, { status: 400 })
+        return NextResponse.json({ error: `フィードの追加上限に達しています。最大${maxFeeds}件まで追加できます。` }, { status: 400 })
       }
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
