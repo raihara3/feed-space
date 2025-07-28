@@ -14,6 +14,7 @@ export default function FeedReader({ username }: FeedReaderProps) {
   const [refreshKey, setRefreshKey] = useState(0)
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
+  const [readLaterRefresh, setReadLaterRefresh] = useState(0)
 
   // Load filter state from localStorage on component mount
   useEffect(() => {
@@ -59,6 +60,10 @@ export default function FeedReader({ username }: FeedReaderProps) {
     setRefreshKey(prev => prev + 1)
   }
 
+  const handleReadLaterUpdated = () => {
+    setReadLaterRefresh(prev => prev + 1)
+  }
+
   return (
     <div className="h-screen bg-gray-900 flex overflow-hidden">
       {/* Desktop Sidebar */}
@@ -71,6 +76,8 @@ export default function FeedReader({ username }: FeedReaderProps) {
           onKeywordSelect={setSelectedKeywords}
           onFeedDeleted={handleFeedDeleted}
           onKeywordUpdated={handleKeywordUpdated}
+          onReadLaterUpdated={handleReadLaterUpdated}
+          readLaterRefreshKey={readLaterRefresh}
         />
       </div>
       
@@ -105,6 +112,8 @@ export default function FeedReader({ username }: FeedReaderProps) {
               setIsMobileSidebarOpen(false)
             }}
             onKeywordUpdated={handleKeywordUpdated}
+            onReadLaterUpdated={handleReadLaterUpdated}
+            readLaterRefreshKey={readLaterRefresh}
             isMobile={true}
             onCloseMobile={() => setIsMobileSidebarOpen(false)}
           />
@@ -114,10 +123,11 @@ export default function FeedReader({ username }: FeedReaderProps) {
       {/* Main Content */}
       <div className="flex-1 h-full overflow-hidden">
         <ItemList 
-          key={refreshKey} 
+          key={`${refreshKey}-${readLaterRefresh}`} 
           selectedFeedId={selectedFeedId} 
           selectedKeywords={selectedKeywords}
           onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
+          onReadLaterUpdated={handleReadLaterUpdated}
         />
       </div>
     </div>

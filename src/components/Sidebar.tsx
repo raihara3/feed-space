@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Plus, Trash2, RefreshCw, LogOut, Rss, UserX, Tag, X } from 'lucide-react'
+import { Plus, Trash2, RefreshCw, LogOut, Rss, UserX, Tag, X, Bookmark } from 'lucide-react'
 import KeywordsModal from './KeywordsModal'
 
 interface Feed {
@@ -22,11 +22,13 @@ interface SidebarProps {
   onKeywordSelect: (keywords: string[]) => void
   onFeedDeleted?: () => void
   onKeywordUpdated?: () => void
+  onReadLaterUpdated?: () => void
+  readLaterRefreshKey?: number
   isMobile?: boolean
   onCloseMobile?: () => void
 }
 
-export default function Sidebar({ username, selectedFeedId, selectedKeywords, onFeedSelect, onKeywordSelect, onFeedDeleted, onKeywordUpdated, isMobile, onCloseMobile }: SidebarProps) {
+export default function Sidebar({ username, selectedFeedId, selectedKeywords, onFeedSelect, onKeywordSelect, onFeedDeleted, onKeywordUpdated, onReadLaterUpdated, readLaterRefreshKey = 0, isMobile, onCloseMobile }: SidebarProps) {
   const [feeds, setFeeds] = useState<Feed[]>([])
   const [isAddingFeed, setIsAddingFeed] = useState(false)
   const [newFeedUrl, setNewFeedUrl] = useState('')
@@ -38,6 +40,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
   const [deleting, setDeleting] = useState(false)
   const [showKeywordsModal, setShowKeywordsModal] = useState(false)
   const [keywords, setKeywords] = useState<{id: string, keyword: string}[]>([])
+  const [readLaterItems, setReadLaterItems] = useState<any[]>([])
   const [maxFeeds, setMaxFeeds] = useState(5)
   const router = useRouter()
   const supabase = createClient()
@@ -58,7 +61,12 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
     fetchFeeds()
     fetchKeywords()
     fetchMaxFeeds()
+    fetchReadLaterItems()
   }, [fetchFeeds])
+
+  useEffect(() => {
+    fetchReadLaterItems()
+  }, [readLaterRefreshKey])
 
   const fetchMaxFeeds = async () => {
     try {
@@ -88,6 +96,38 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
       }
     } catch (error) {
       console.error('Error fetching keywords:', error)
+    }
+  }
+
+  const fetchReadLaterItems = async () => {
+    try {
+      const response = await fetch('/api/read-later')
+      const data = await response.json()
+      if (data.readLaterItems) {
+        setReadLaterItems(data.readLaterItems)
+      }
+    } catch (error) {
+      console.error('Error fetching read later items:', error)
+    }
+  }
+
+  const removeFromReadLater = async (readLaterId: string) => {
+    if (!confirm('あとで読むから削除しますか？')) return
+    
+    try {
+      const response = await fetch(`/api/read-later/${readLaterId}`, {
+        method: 'DELETE'
+      })
+      
+      if (response.ok) {
+        setReadLaterItems(prev => prev.filter(item => item.id !== readLaterId))
+        if (onReadLaterUpdated) onReadLaterUpdated()
+      } else {
+        alert('削除に失敗しました')
+      }
+    } catch (error) {
+      console.error('Error removing from read later:', error)
+      alert('削除に失敗しました')
     }
   }
 
@@ -443,6 +483,52 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
                   className="p-1 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
                 >
                   <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Read Later Section */}
+      <div className="p-4 border-b border-gray-700">
+        <div className="flex items-center justify-between mb-3">
+          <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide flex items-center gap-2">
+            <Bookmark className="w-3 h-3" />
+            あとで読む ({readLaterItems.length}/5)
+          </h4>
+        </div>
+        
+        {readLaterItems.length === 0 ? (
+          <p className="text-gray-500 text-xs">あとで読む記事はありません</p>
+        ) : (
+          <div className="space-y-2">
+            {readLaterItems.map((item) => (
+              <div
+                key={item.id}
+                className="group flex items-start gap-2 p-2 bg-gray-700 hover:bg-gray-600 rounded-md transition"
+              >
+                <div className="flex-1 min-w-0">
+                  <button
+                    onClick={() => {
+                      window.open(item.feed_items.link, '_blank')
+                      if (onCloseMobile) onCloseMobile()
+                    }}
+                    className="text-left w-full"
+                  >
+                    <h5 className="text-xs font-medium text-white line-clamp-2 hover:text-purple-400 transition">
+                      {item.feed_items.title}
+                    </h5>
+                    <p className="text-xs text-gray-400 mt-1">
+                      {item.feed_items.feeds.title}
+                    </p>
+                  </button>
+                </div>
+                <button
+                  onClick={() => removeFromReadLater(item.id)}
+                  className="p-1 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                >
+                  <Trash2 className="w-3 h-3" />
                 </button>
               </div>
             ))}

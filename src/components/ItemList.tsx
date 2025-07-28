@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { ja } from 'date-fns/locale'
-import { ExternalLink, Clock, Image as ImageIcon, Menu } from 'lucide-react'
+import { ExternalLink, Clock, Image as ImageIcon, Menu, Bookmark } from 'lucide-react'
 import ArticleThumbnail from './ArticleThumbnail'
 
 interface FeedItem {
@@ -26,15 +26,18 @@ interface ItemListProps {
   selectedFeedId: string | null
   selectedKeywords: string[]
   onOpenMobileSidebar?: () => void
+  onReadLaterUpdated?: () => void
 }
 
-export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobileSidebar }: ItemListProps) {
+export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobileSidebar, onReadLaterUpdated }: ItemListProps) {
   const [allItems, setAllItems] = useState<FeedItem[]>([])
   const [loading, setLoading] = useState(true)
+  const [readLaterItems, setReadLaterItems] = useState<string[]>([])
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     fetchItems()
+    fetchReadLaterItems()
   }, [])
 
   // Reset scroll position when selectedFeedId changes
@@ -59,6 +62,40 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
     setLoading(false)
   }
 
+
+  const fetchReadLaterItems = async () => {
+    try {
+      const response = await fetch('/api/read-later')
+      const data = await response.json()
+      if (data.readLaterItems) {
+        setReadLaterItems(data.readLaterItems.map((item: any) => item.feed_items.id))
+      }
+    } catch (error) {
+      console.error('Error fetching read later items:', error)
+    }
+  }
+
+  const addToReadLater = async (itemId: string) => {
+    try {
+      const response = await fetch('/api/read-later', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ feedItemId: itemId })
+      })
+      
+      const data = await response.json()
+      
+      if (response.ok) {
+        setReadLaterItems(prev => [...prev, itemId])
+        if (onReadLaterUpdated) onReadLaterUpdated()
+      } else {
+        alert(data.error)
+      }
+    } catch (error) {
+      console.error('Error adding to read later:', error)
+      alert('あとで読むに追加できませんでした')
+    }
+  }
 
   const markAsRead = async (itemId: string) => {
     try {
@@ -245,6 +282,18 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
                           <Clock className="w-3 h-3" />
                           {formatDate(item.published_at)}
                         </span>
+                        {!readLaterItems.includes(item.id) && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              addToReadLater(item.id)
+                            }}
+                            className="text-xs flex items-center gap-1 text-gray-500 hover:text-gray-400 underline transition"
+                          >
+                            <Bookmark className="w-3 h-3" />
+                            あとで読む
+                          </button>
+                        )}
                       </div>
                     </div>
                     
