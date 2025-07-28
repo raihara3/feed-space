@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 import ItemList from './ItemList'
 
@@ -13,6 +13,43 @@ export default function FeedReader({ username }: FeedReaderProps) {
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([])
   const [refreshKey, setRefreshKey] = useState(0)
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
+  const [isInitialized, setIsInitialized] = useState(false)
+
+  // Load filter state from localStorage on component mount
+  useEffect(() => {
+    const savedFeedId = localStorage.getItem('selectedFeedId')
+    const savedKeywords = localStorage.getItem('selectedKeywords')
+    
+    if (savedFeedId && savedFeedId !== 'null' && savedFeedId !== '') {
+      setSelectedFeedId(savedFeedId)
+    }
+    
+    if (savedKeywords) {
+      try {
+        const keywords = JSON.parse(savedKeywords)
+        if (Array.isArray(keywords)) {
+          setSelectedKeywords(keywords)
+        }
+      } catch (error) {
+        console.error('Error parsing saved keywords:', error)
+      }
+    }
+    
+    setIsInitialized(true)
+  }, [])
+
+  // Save filter state to localStorage when it changes
+  useEffect(() => {
+    if (!isInitialized) return
+    
+    localStorage.setItem('selectedFeedId', selectedFeedId || '')
+  }, [selectedFeedId, isInitialized])
+
+  useEffect(() => {
+    if (!isInitialized) return
+    
+    localStorage.setItem('selectedKeywords', JSON.stringify(selectedKeywords))
+  }, [selectedKeywords, isInitialized])
 
   const handleFeedDeleted = () => {
     setRefreshKey(prev => prev + 1)
