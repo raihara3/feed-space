@@ -212,7 +212,7 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
                     
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <h3 className={`mb-2 line-clamp-2 transition-colors ${
+                      <h3 className={`mb-2 transition-colors ${
                         isRead 
                           ? 'text-[#b0b0b0] font-normal' 
                           : 'text-white font-semibold md:group-hover:text-purple-400'
@@ -249,7 +249,7 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
                     </div>
                     
                     {/* Action */}
-                    <div className="flex-shrink-0">
+                    <div className="flex-shrink-0 hidden md:block">
                       <div className="p-2 text-gray-400 md:group-hover:text-white transition-colors">
                         <ExternalLink className="w-4 h-4" />
                       </div>
