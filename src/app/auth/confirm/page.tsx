@@ -91,7 +91,7 @@ export default function ConfirmEmail() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-black">
-        <div className="text-white">Confirming your email...</div>
+        <div className="text-white">メールを確認中...</div>
       </div>
     )
   }
@@ -104,26 +104,26 @@ export default function ConfirmEmail() {
           
           {error ? (
             <>
-              <h2 className="text-xl text-center mb-6 text-red-400">Confirmation Error</h2>
+              <h2 className="text-xl text-center mb-6 text-red-400">確認エラー</h2>
               <p className="text-gray-300 text-center mb-6">{error}</p>
               <Link 
                 href="/auth/login"
                 className="block w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md transition duration-200 text-center"
               >
-                Back to Login
+                ログインに戻る
               </Link>
             </>
           ) : (
             <>
-              <h2 className="text-xl text-center mb-6 text-green-400">Email Confirmed!</h2>
+              <h2 className="text-xl text-center mb-6 text-green-400">メール確認完了！</h2>
               <p className="text-gray-300 text-center mb-6">
-                Your email has been confirmed. You can now sign in to your account.
+                メールが確認されました。アカウントにログインできます。
               </p>
               <Link 
                 href="/auth/login"
                 className="block w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md transition duration-200 text-center"
               >
-                Sign In
+                ログイン
               </Link>
             </>
           )}

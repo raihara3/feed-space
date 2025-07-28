@@ -38,7 +38,7 @@ export default function SignUp() {
 
     // If email confirmation is required, show message
     if (!data.session) {
-      setError('Account created! Please check your email to confirm your account.')
+      setError('アカウントが作成されました！メールを確認してアカウントを有効化してください。')
       setLoading(false)
       return
     }
@@ -70,12 +70,12 @@ export default function SignUp() {
       <div className="w-full max-w-md">
         <div className="bg-gray-900 rounded-lg shadow-xl p-8">
           <h1 className="text-3xl font-bold text-center mb-8 text-white">FEED SPACE</h1>
-          <h2 className="text-xl text-center mb-6 text-gray-300">Create your account</h2>
+          <h2 className="text-xl text-center mb-6 text-gray-300">アカウントを作成</h2>
           
           <form onSubmit={handleSignUp} className="space-y-4">
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-300 mb-1">
-                Username
+                ユーザー名
               </label>
               <input
                 id="username"
@@ -84,13 +84,13 @@ export default function SignUp() {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                placeholder="johndoe"
+                placeholder="ユーザー名"
               />
             </div>
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
-                Email
+                メールアドレス
               </label>
               <input
                 id="email"
@@ -105,7 +105,7 @@ export default function SignUp() {
             
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
-                Password
+                パスワード
               </label>
               <input
                 id="password"
@@ -127,14 +127,14 @@ export default function SignUp() {
               disabled={loading}
               className="w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Creating account...' : 'Sign up'}
+              {loading ? 'アカウント作成中...' : 'アカウント作成'}
             </button>
           </form>
 
           <p className="mt-6 text-center text-gray-400">
-            Already have an account?{' '}
+すでにアカウントをお持ちですか？{' '}
             <Link href="/auth/login" className="text-purple-500 hover:text-purple-400 transition">
-              Sign in
+              ログイン
             </Link>
           </p>
         </div>
