@@ -154,11 +154,11 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
           <div className="flex-1">
             <h2 className="text-2xl font-bold text-white">
               {selectedFeed && selectedKeywords.length > 0 
-                ? `${selectedFeed.title} • #${selectedKeywords.join(', #')}`
+                ? `${selectedFeed.title}（フィルタリング中）`
                 : selectedFeed 
                 ? selectedFeed.title 
                 : selectedKeywords.length > 0
-                ? `#${selectedKeywords.join(', #')}`
+                ? '（フィルタリング中）'
                 : '最新記事'}
             </h2>
             <p className="text-gray-400 text-sm mt-1">
