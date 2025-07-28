@@ -409,7 +409,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
         {feeds.length === 0 ? (
           <p className="text-gray-500 text-[10px]">まだフィードが追加されていません</p>
         ) : (
-          <div className="overflow-y-auto space-y-0.5" style={{ minHeight: '3rem', maxHeight: '8rem' }}>
+          <div className="overflow-y-auto space-y-0.5" style={{ minHeight: '3rem', maxHeight: '12rem' }}>
             {feeds.map((feed) => (
               <div
                 key={feed.id}
