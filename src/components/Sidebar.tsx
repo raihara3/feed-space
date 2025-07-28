@@ -309,15 +309,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
 
       {/* Keywords Section */}
       <div className="p-4 border-b border-gray-700">
-        <button
-          onClick={() => setShowKeywordsModal(true)}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg transition mb-3"
-        >
-          <Tag className="w-4 h-4" />
-キーワード管理
-        </button>
-        
-        {keywords.length > 0 && (
+        {keywords.length > 0 ? (
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
@@ -367,7 +359,27 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
                   #{keyword.keyword}
                 </button>
               ))}
+              <button
+                onClick={() => setShowKeywordsModal(true)}
+                className="px-2 py-1 rounded-full text-xs font-medium transition border border-[#f66f3b] text-[#f66f3b] hover:bg-[#f66f3b] hover:text-black flex items-center gap-1"
+              >
+                <Plus className="w-3 h-3" />
+                追加
+              </button>
             </div>
+          </div>
+        ) : (
+          <div>
+            <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+              キーワード
+            </h4>
+            <button
+              onClick={() => setShowKeywordsModal(true)}
+              className="px-2 py-1 rounded-full text-xs font-medium transition border border-[#f66f3b] text-[#f66f3b] hover:bg-[#f66f3b] hover:text-black flex items-center gap-1"
+            >
+              <Plus className="w-3 h-3" />
+              追加
+            </button>
           </div>
         )}
       </div>
