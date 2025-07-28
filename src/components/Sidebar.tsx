@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
 import { Plus, Trash2, RefreshCw, LogOut, Rss, UserX } from 'lucide-react'
 
 interface Feed {
@@ -30,6 +31,7 @@ export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeed
   const [deleteStep, setDeleteStep] = useState(1) // 1: warning, 2: password, 3: final confirmation
   const [deleting, setDeleting] = useState(false)
   const router = useRouter()
+  const supabase = createClient()
 
   const fetchFeeds = useCallback(async () => {
     try {
@@ -123,8 +125,29 @@ export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeed
   }
 
   const handleSignOut = async () => {
-    await fetch('/api/auth/signout', { method: 'POST' })
-    router.refresh()
+    try {
+      // Sign out from Supabase client-side
+      const { error: clientError } = await supabase.auth.signOut()
+      if (clientError) {
+        console.error('Client signout error:', clientError)
+      }
+
+      // Also call server-side signout
+      const response = await fetch('/api/auth/signout', { method: 'POST' })
+      const data = await response.json()
+      
+      if (response.ok || clientError === null) {
+        // Redirect to home page after successful signout
+        window.location.href = '/'
+      } else {
+        console.error('Server signout error:', data.error)
+        alert('Failed to sign out. Please try again.')
+      }
+    } catch (error) {
+      console.error('Signout error:', error)
+      // Still try to redirect even if there's an error
+      window.location.href = '/'
+    }
   }
 
   const handleDeleteAccount = async () => {
