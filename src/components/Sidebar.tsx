@@ -360,7 +360,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
                   }}
                   className="text-xs text-purple-400 hover:text-purple-300 transition"
                 >
-                  キーワードに紐づく記事のみ表示
+                  全て選択
                 </button>
               )}
             </div>
