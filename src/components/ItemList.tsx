@@ -145,7 +145,7 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
           {/* Mobile Menu Button */}
           <button
             onClick={onOpenMobileSidebar}
-            className="lg:hidden p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-md transition"
+            className="lg:hidden p-2 text-gray-400 md:hover:text-white md:hover:bg-gray-700 rounded-md transition"
             aria-label="Open menu"
           >
             <Menu className="w-5 h-5" />
@@ -200,7 +200,7 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
               return (
                 <article
                   key={item.id}
-                  className="p-6 hover:bg-gray-800 transition-colors group cursor-pointer"
+                  className="p-6 md:hover:bg-gray-800 transition-colors group cursor-pointer"
                   onClick={() => {
                     markAsRead(item.id)
                     window.open(item.link, '_blank')
@@ -215,7 +215,7 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
                       <h3 className={`mb-2 line-clamp-2 transition-colors ${
                         isRead 
                           ? 'text-[#b0b0b0] font-normal' 
-                          : 'text-white font-semibold group-hover:text-purple-400'
+                          : 'text-white font-semibold md:group-hover:text-purple-400'
                       }`}>
                         {item.title}
                       </h3>
@@ -250,7 +250,7 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
                     
                     {/* Action */}
                     <div className="flex-shrink-0">
-                      <div className="p-2 text-gray-400 group-hover:text-white transition-colors">
+                      <div className="p-2 text-gray-400 md:group-hover:text-white transition-colors">
                         <ExternalLink className="w-4 h-4" />
                       </div>
                     </div>
