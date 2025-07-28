@@ -200,7 +200,7 @@ export default function KeywordsModal({
               {keywords.map((keyword) => (
                 <div
                   key={keyword.id}
-                  className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg group"
+                  className="flex items-center gap-1 group"
                 >
                   <span
                     className="px-2 py-1 rounded-full text-black text-sm font-medium"
@@ -210,10 +210,10 @@ export default function KeywordsModal({
                   </span>
                   <button
                     onClick={() => handleDeleteKeyword(keyword.id)}
-                    className="p-1 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                    className="text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
                     title="キーワードを削除"
                   >
-                    <Trash2 className="w-3 h-3" />
+                    <X className="w-3 h-3" />
                   </button>
                 </div>
               ))}
