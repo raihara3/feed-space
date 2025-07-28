@@ -434,15 +434,15 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
       </div>
 
       {/* Feeds List */}
-      <div className="flex-1 overflow-y-auto p-4">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide">
+      <div className="overflow-hidden p-3" style={{ minHeight: '80px' }}>
+        <div className="flex items-center justify-between mb-1">
+          <h3 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">
 登録フィード ({feeds.length}/{maxFeeds})
           </h3>
           {selectedFeedId && (
             <button
               onClick={() => onFeedSelect(null)}
-              className="text-xs text-purple-400 hover:text-purple-300 transition"
+              className="text-[10px] text-purple-400 hover:text-purple-300 transition"
             >
               フィルタリングを外す
             </button>
@@ -450,13 +450,13 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
         </div>
         
         {feeds.length === 0 ? (
-          <p className="text-gray-500 text-sm">まだフィードが追加されていません</p>
+          <p className="text-gray-500 text-[10px]">まだフィードが追加されていません</p>
         ) : (
-          <div className="space-y-2">
+          <div className="overflow-y-auto space-y-0.5" style={{ minHeight: '3rem', maxHeight: '8rem' }}>
             {feeds.map((feed) => (
               <div
                 key={feed.id}
-                className={`group flex items-center justify-between p-3 rounded-lg transition cursor-pointer ${
+                className={`group flex items-center justify-between p-1.5 rounded-md transition cursor-pointer ${
                   selectedFeedId === feed.id 
                     ? 'bg-purple-600 hover:bg-purple-700' 
                     : 'bg-gray-700 hover:bg-gray-600'
@@ -464,8 +464,8 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
                 onClick={() => onFeedSelect(feed.id)}
               >
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-medium text-white truncate">{feed.title}</h4>
-                  <p className="text-xs text-gray-400 truncate">
+                  <h4 className="text-[11px] font-medium text-white truncate leading-tight">{feed.title}</h4>
+                  <p className="text-[9px] text-gray-400 truncate leading-tight">
                     {(() => {
                       try {
                         return new URL(feed.url).hostname
@@ -480,9 +480,9 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
                     e.stopPropagation()
                     handleDeleteFeed(feed.id)
                   }}
-                  className="p-1 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                  className="p-0.5 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 className="w-3 h-3" />
                 </button>
               </div>
             ))}
@@ -491,22 +491,22 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
       </div>
 
       {/* Read Later Section */}
-      <div className="p-4 border-b border-gray-700">
-        <div className="flex items-center justify-between mb-3">
-          <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide flex items-center gap-2">
+      <div className="p-3 flex flex-col" style={{ minHeight: '80px' }}>
+        <div className="flex items-center justify-between mb-1">
+          <h4 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide flex items-center gap-1">
             <Bookmark className="w-3 h-3" />
             あとで読む ({readLaterItems.length}/5)
           </h4>
         </div>
         
         {readLaterItems.length === 0 ? (
-          <p className="text-gray-500 text-xs">あとで読む記事はありません</p>
+          <p className="text-gray-500 text-[10px]">あとで読む記事はありません</p>
         ) : (
-          <div className="space-y-2">
+          <div className="overflow-y-auto flex-1 space-y-0.5" style={{ minHeight: '3rem' }}>
             {readLaterItems.map((item) => (
               <div
                 key={item.id}
-                className="group flex items-start gap-2 p-2 bg-gray-700 hover:bg-gray-600 rounded-md transition"
+                className="group flex items-start gap-1 p-1 bg-gray-700 hover:bg-gray-600 rounded transition"
               >
                 <div className="flex-1 min-w-0">
                   <button
@@ -516,17 +516,17 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
                     }}
                     className="text-left w-full"
                   >
-                    <h5 className="text-xs font-medium text-white line-clamp-2 hover:text-purple-400 transition">
+                    <h5 className="text-[10px] font-medium text-white line-clamp-1 hover:text-purple-400 transition leading-tight">
                       {item.title}
                     </h5>
-                    <p className="text-xs text-gray-400 mt-1">
+                    <p className="text-[9px] text-gray-400 leading-tight">
                       {item.feed_title}
                     </p>
                   </button>
                 </div>
                 <button
                   onClick={() => removeFromReadLater(item.id)}
-                  className="p-1 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                  className="p-0.5 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
                 >
                   <Trash2 className="w-3 h-3" />
                 </button>
