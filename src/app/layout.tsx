@@ -18,6 +18,28 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
   },
+  openGraph: {
+    title: "Feed Space",
+    description: "すべてのフィードを一箇所に。",
+    url: 'https://feed-space.vercel.app',
+    siteName: 'Feed Space',
+    images: [
+      {
+        url: '/ogp.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Feed Space - すべてのフィードを一箇所に。',
+      }
+    ],
+    locale: 'ja_JP',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Feed Space',
+    description: 'すべてのフィードを一箇所に。',
+    images: ['/ogp.jpg'],
+  },
 };
 
 export default function RootLayout({
