@@ -284,7 +284,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 py-2 px-3 bg-green-600 hover:bg-green-700 text-white text-sm rounded-md transition disabled:opacity-50"
+                className="flex-1 py-2 px-3 bg-purple-600 hover:bg-purple-700 text-white text-sm rounded-md transition disabled:opacity-50"
               >
                 {loading ? '追加中...' : '追加'}
               </button>
