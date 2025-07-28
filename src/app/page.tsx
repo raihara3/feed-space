@@ -97,12 +97,32 @@ export default async function Home() {
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">特徴</h2>
-          <div className="text-center text-gray-400 mb-8">
-            1フィードにつき最新の50記事を保存。
-            <br />
-            2時間おきに最新記事を取得します。
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="space-y-8">
+            <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-600 transition-colors">
+              <div className="mb-4">
+                <div className="text-purple-400">
+                  <svg
+                    width="40"
+                    height="40"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <ellipse cx="12" cy="5" rx="9" ry="3" />
+                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">自動データ更新</h3>
+              <p className="text-gray-400">
+                1フィードにつき最新の50記事を保存。2時間おきに最新記事を取得します。
+              </p>
+            </div>
             <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-600 transition-colors">
               <div className="mb-4">
                 <div className="text-purple-400">
@@ -149,28 +169,53 @@ export default async function Home() {
                 フィードやキーワードで記事を絞り込み。必要な情報だけを効率的に見つけることができます。
               </p>
             </div>
-            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-600 transition-colors">
-              <div className="mb-4">
-                <div className="text-purple-400">
-                  <svg
-                    width="40"
-                    height="40"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-                    <line x1="12" y1="18" x2="12" y2="18" />
-                  </svg>
+            </div>
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-600 transition-colors">
+                <div className="mb-4">
+                  <div className="text-purple-400">
+                    <svg
+                      width="40"
+                      height="40"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7z" />
+                    </svg>
+                  </div>
                 </div>
+                <h3 className="text-xl font-semibold mb-2">あとで読む機能</h3>
+                <p className="text-gray-400">
+                  気になる記事を5件まで保存可能。あまり溜めずに読みましょう。
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-2">どこでも利用可能</h3>
-              <p className="text-gray-400">
-                あらゆるデバイスで読めます。フィードはすべてのプラットフォームで自動同期されます。
-              </p>
+              <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-600 transition-colors">
+                <div className="mb-4">
+                  <div className="text-purple-400">
+                    <svg
+                      width="40"
+                      height="40"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                      <line x1="12" y1="18" x2="12" y2="18" />
+                    </svg>
+                  </div>
+                </div>
+                <h3 className="text-xl font-semibold mb-2">どこでも利用可能</h3>
+                <p className="text-gray-400">
+                  あらゆるデバイスで読めます。フィードはすべてのプラットフォームで自動同期されます。
+                </p>
+              </div>
             </div>
           </div>
         </div>

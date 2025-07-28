@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Plus, Trash2, RefreshCw, LogOut, Rss, UserX, Tag, X } from 'lucide-react'
+import { Plus, Trash2, RefreshCw, LogOut, Rss, UserX, Tag, X, Bookmark } from 'lucide-react'
 import KeywordsModal from './KeywordsModal'
 
 interface Feed {
@@ -22,11 +22,13 @@ interface SidebarProps {
   onKeywordSelect: (keywords: string[]) => void
   onFeedDeleted?: () => void
   onKeywordUpdated?: () => void
+  onReadLaterUpdated?: () => void
+  readLaterRefreshKey?: number
   isMobile?: boolean
   onCloseMobile?: () => void
 }
 
-export default function Sidebar({ username, selectedFeedId, selectedKeywords, onFeedSelect, onKeywordSelect, onFeedDeleted, onKeywordUpdated, isMobile, onCloseMobile }: SidebarProps) {
+export default function Sidebar({ username, selectedFeedId, selectedKeywords, onFeedSelect, onKeywordSelect, onFeedDeleted, onKeywordUpdated, onReadLaterUpdated, readLaterRefreshKey = 0, isMobile, onCloseMobile }: SidebarProps) {
   const [feeds, setFeeds] = useState<Feed[]>([])
   const [isAddingFeed, setIsAddingFeed] = useState(false)
   const [newFeedUrl, setNewFeedUrl] = useState('')
@@ -38,7 +40,9 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
   const [deleting, setDeleting] = useState(false)
   const [showKeywordsModal, setShowKeywordsModal] = useState(false)
   const [keywords, setKeywords] = useState<{id: string, keyword: string}[]>([])
+  const [readLaterItems, setReadLaterItems] = useState<any[]>([])
   const [maxFeeds, setMaxFeeds] = useState(5)
+  const [showAccountMenu, setShowAccountMenu] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
@@ -58,7 +62,12 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
     fetchFeeds()
     fetchKeywords()
     fetchMaxFeeds()
+    fetchReadLaterItems()
   }, [fetchFeeds])
+
+  useEffect(() => {
+    fetchReadLaterItems()
+  }, [readLaterRefreshKey])
 
   const fetchMaxFeeds = async () => {
     try {
@@ -88,6 +97,41 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
       }
     } catch (error) {
       console.error('Error fetching keywords:', error)
+    }
+  }
+
+  const fetchReadLaterItems = async () => {
+    try {
+      const response = await fetch('/api/read-later')
+      const data = await response.json()
+      if (data.readLaterItems) {
+        setReadLaterItems(data.readLaterItems)
+      }
+    } catch (error) {
+      console.error('Error fetching read later items:', error)
+    }
+  }
+
+  const removeFromReadLater = async (readLaterId: string) => {
+    const itemToDelete = readLaterItems.find(item => item.id === readLaterId)
+    const itemTitle = itemToDelete ? itemToDelete.title : 'この記事'
+    
+    if (!confirm(`「${itemTitle}」を削除しますか？`)) return
+    
+    try {
+      const response = await fetch(`/api/read-later/${readLaterId}`, {
+        method: 'DELETE'
+      })
+      
+      if (response.ok) {
+        setReadLaterItems(prev => prev.filter(item => item.id !== readLaterId))
+        if (onReadLaterUpdated) onReadLaterUpdated()
+      } else {
+        alert('削除に失敗しました')
+      }
+    } catch (error) {
+      console.error('Error removing from read later:', error)
+      alert('削除に失敗しました')
     }
   }
 
@@ -125,7 +169,10 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
   }
 
   const handleDeleteFeed = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this feed?')) return
+    const feedToDelete = feeds.find(feed => feed.id === id)
+    const feedTitle = feedToDelete ? feedToDelete.title : 'このフィード'
+    
+    if (!confirm(`「${feedTitle}」を削除しますか？`)) return
 
     try {
       const response = await fetch(`/api/feeds/${id}`, {
@@ -246,7 +293,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
     <div className="h-full flex flex-col">
       {/* Header */}
       <div className="p-6 border-b border-gray-700">
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex items-center gap-3">
           <img
             src="/logo.png"
             alt="Feed Space Logo"
@@ -255,90 +302,20 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
             className="w-10 h-10 rounded-lg"
           />
           <h1 className="text-xl font-bold text-white flex-1">Feed Space</h1>
-          {isMobile && (
-            <button
-              onClick={onCloseMobile}
-              className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-md transition"
-              aria-label="Close menu"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          )}
-        </div>
-        
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
-              <span className="text-white text-sm font-semibold">
-                {username.charAt(0).toUpperCase()}
-              </span>
-            </div>
-            <span className="text-gray-300 text-sm">{username}</span>
-          </div>
           <button
-            onClick={handleSignOut}
-            className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-md transition"
-            title="Sign out"
+            onClick={() => setIsAddingFeed(true)}
+            className="w-10 h-10 bg-purple-600 hover:bg-purple-700 text-white rounded-full flex items-center justify-center transition"
+            aria-label="フィード追加"
           >
-            <LogOut className="w-4 h-4" />
+            <Plus className="w-5 h-5" />
           </button>
         </div>
       </div>
 
-      {/* Add Feed Section */}
-      <div className="p-4 border-b border-gray-700">
-        {!isAddingFeed ? (
-          <button
-            onClick={() => setIsAddingFeed(true)}
-            className="w-full flex items-center gap-2 px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition font-medium"
-          >
-            <Plus className="w-4 h-4" />
-フィードを追加
-          </button>
-        ) : (
-          <form onSubmit={handleAddFeed} className="space-y-3">
-            <input
-              type="url"
-              value={newFeedUrl}
-              onChange={(e) => setNewFeedUrl(e.target.value)}
-              placeholder="RSSフィードのURLを入力..."
-              required
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <div className="flex gap-2">
-              <button
-                type="submit"
-                disabled={loading}
-                className="flex-1 py-2 px-3 bg-purple-600 hover:bg-purple-700 text-white text-sm rounded-md transition disabled:opacity-50"
-              >
-                {loading ? '追加中...' : '追加'}
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setIsAddingFeed(false)
-                  setNewFeedUrl('')
-                }}
-                className="px-3 py-2 text-gray-400 hover:text-white text-sm transition"
-              >
-                キャンセル
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
 
       {/* Keywords Section */}
       <div className="p-4 border-b border-gray-700">
-        <button
-          onClick={() => setShowKeywordsModal(true)}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg transition mb-3"
-        >
-          <Tag className="w-4 h-4" />
-キーワード管理
-        </button>
-        
-        {keywords.length > 0 && (
+        {keywords.length > 0 ? (
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
@@ -388,21 +365,41 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
                   #{keyword.keyword}
                 </button>
               ))}
+              <button
+                onClick={() => setShowKeywordsModal(true)}
+                className="px-2 py-1 rounded-full text-xs font-medium transition border border-[#f66f3b] text-[#f66f3b] hover:bg-[#f66f3b] hover:text-black flex items-center gap-1"
+              >
+                <Plus className="w-3 h-3" />
+                追加
+              </button>
             </div>
+          </div>
+        ) : (
+          <div>
+            <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+              キーワード
+            </h4>
+            <button
+              onClick={() => setShowKeywordsModal(true)}
+              className="px-2 py-1 rounded-full text-xs font-medium transition border border-[#f66f3b] text-[#f66f3b] hover:bg-[#f66f3b] hover:text-black flex items-center gap-1"
+            >
+              <Plus className="w-3 h-3" />
+              追加
+            </button>
           </div>
         )}
       </div>
 
       {/* Feeds List */}
-      <div className="flex-1 overflow-y-auto p-4">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide">
+      <div className="overflow-hidden p-3" style={{ minHeight: '80px' }}>
+        <div className="flex items-center justify-between mb-1">
+          <h3 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">
 登録フィード ({feeds.length}/{maxFeeds})
           </h3>
           {selectedFeedId && (
             <button
               onClick={() => onFeedSelect(null)}
-              className="text-xs text-purple-400 hover:text-purple-300 transition"
+              className="text-[10px] text-purple-400 hover:text-purple-300 transition"
             >
               フィルタリングを外す
             </button>
@@ -410,13 +407,13 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
         </div>
         
         {feeds.length === 0 ? (
-          <p className="text-gray-500 text-sm">まだフィードが追加されていません</p>
+          <p className="text-gray-500 text-[10px]">まだフィードが追加されていません</p>
         ) : (
-          <div className="space-y-2">
+          <div className="overflow-y-auto space-y-0.5" style={{ minHeight: '3rem', maxHeight: '12rem' }}>
             {feeds.map((feed) => (
               <div
                 key={feed.id}
-                className={`group flex items-center justify-between p-3 rounded-lg transition cursor-pointer ${
+                className={`group flex items-center justify-between p-1.5 rounded-md transition cursor-pointer ${
                   selectedFeedId === feed.id 
                     ? 'bg-purple-600 hover:bg-purple-700' 
                     : 'bg-gray-700 hover:bg-gray-600'
@@ -424,8 +421,8 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
                 onClick={() => onFeedSelect(feed.id)}
               >
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-medium text-white truncate">{feed.title}</h4>
-                  <p className="text-xs text-gray-400 truncate">
+                  <h4 className="text-[11px] font-medium text-white truncate leading-tight">{feed.title}</h4>
+                  <p className="text-[9px] text-gray-400 truncate leading-tight">
                     {(() => {
                       try {
                         return new URL(feed.url).hostname
@@ -440,9 +437,9 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
                     e.stopPropagation()
                     handleDeleteFeed(feed.id)
                   }}
-                  className="p-1 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                  className="p-0.5 text-gray-500 hover:text-red-400 transition"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <X className="w-3 h-3" />
                 </button>
               </div>
             ))}
@@ -450,16 +447,147 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
         )}
       </div>
 
-      {/* Delete Account Button */}
-      <div className="p-4 border-t border-gray-700">
-        <button
-          onClick={() => setShowDeleteModal(true)}
-          className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs text-gray-500 hover:text-red-400 hover:bg-gray-800 rounded-md transition"
-        >
-          <UserX className="w-3 h-3" />
-アカウント削除
-        </button>
+      {/* Read Later Section */}
+      <div className="p-3 flex flex-col" style={{ minHeight: '80px' }}>
+        <div className="flex items-center justify-between mb-1">
+          <h4 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide flex items-center gap-1">
+            <Bookmark className="w-3 h-3" />
+            あとで読む ({readLaterItems.length}/5)
+          </h4>
+        </div>
+        
+        {readLaterItems.length === 0 ? (
+          <p className="text-gray-500 text-[10px]">あとで読む記事はありません</p>
+        ) : (
+          <div className="overflow-y-auto flex-1 space-y-0.5" style={{ minHeight: '3rem' }}>
+            {readLaterItems.map((item) => (
+              <div
+                key={item.id}
+                className="group flex items-center gap-1 p-1 bg-gray-700 hover:bg-gray-600 rounded transition"
+              >
+                <div className="flex-1 min-w-0">
+                  <button
+                    onClick={() => {
+                      window.open(item.link, '_blank')
+                      if (onCloseMobile) onCloseMobile()
+                    }}
+                    className="text-left w-full"
+                  >
+                    <h5 className="text-[10px] font-medium text-white line-clamp-1 hover:text-purple-400 transition leading-tight">
+                      {item.title}
+                    </h5>
+                    <p className="text-[9px] text-gray-400 leading-tight">
+                      {item.feed_title}
+                    </p>
+                  </button>
+                </div>
+                <button
+                  onClick={() => removeFromReadLater(item.id)}
+                  className="p-0.5 text-gray-500 hover:text-red-400 transition"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
+
+      {/* Spacer to push Delete Account Button to bottom */}
+      <div className="flex-1"></div>
+
+      {/* Account Section */}
+      <div className="border-t border-gray-700 relative">
+        <button
+          onClick={() => setShowAccountMenu(!showAccountMenu)}
+          className="flex items-center gap-2 w-full hover:bg-gray-700 rounded-md transition p-4"
+        >
+          <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
+            <span className="text-white text-sm font-semibold">
+              {username.charAt(0).toUpperCase()}
+            </span>
+          </div>
+          <span className="text-gray-300 text-sm">{username}</span>
+        </button>
+        
+        {/* Account Menu */}
+        {showAccountMenu && (
+          <>
+            {/* Backdrop */}
+            <div 
+              className="fixed inset-0 z-40"
+              onClick={() => setShowAccountMenu(false)}
+            />
+            
+            {/* Menu */}
+            <div className="absolute bottom-full left-4 right-4 mb-2 bg-gray-800 border border-gray-600 rounded-md shadow-lg z-50">
+              <button
+                onClick={() => {
+                  setShowAccountMenu(false)
+                  handleSignOut()
+                }}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded-t-md transition"
+              >
+                <LogOut className="w-4 h-4" />
+                ログアウト
+              </button>
+              <button
+                onClick={() => {
+                  setShowAccountMenu(false)
+                  setShowDeleteModal(true)
+                }}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-red-400 hover:bg-gray-700 rounded-b-md transition"
+              >
+                <UserX className="w-4 h-4" />
+                退会
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Add Feed Modal */}
+      {isAddingFeed && (
+        <div className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center ${isMobile ? 'z-60' : 'z-50'}`}>
+          <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4">
+            <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+              <Plus className="w-5 h-5 text-purple-400" />
+              フィード追加
+            </h3>
+            <p className="text-gray-400 text-sm mb-4">有効なRSSフィードのURLを入力してください。</p>
+            <form onSubmit={handleAddFeed} className="space-y-4">
+              <input
+                type="url"
+                value={newFeedUrl}
+                onChange={(e) => setNewFeedUrl(e.target.value)}
+                placeholder="RSSフィードのURLを入力..."
+                required
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                autoFocus
+              />
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsAddingFeed(false)
+                    setNewFeedUrl('')
+                  }}
+                  className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition"
+                >
+                  キャンセル
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded transition disabled:opacity-50"
+                >
+                  {loading ? '追加中...' : '追加'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Delete Account Modal */}
       {showDeleteModal && (

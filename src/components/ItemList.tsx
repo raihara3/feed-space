@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { ja } from 'date-fns/locale'
-import { ExternalLink, Clock, Image as ImageIcon, Menu } from 'lucide-react'
+import { ExternalLink, Clock, Image as ImageIcon, Menu, Bookmark } from 'lucide-react'
 import ArticleThumbnail from './ArticleThumbnail'
 
 interface FeedItem {
@@ -26,15 +26,18 @@ interface ItemListProps {
   selectedFeedId: string | null
   selectedKeywords: string[]
   onOpenMobileSidebar?: () => void
+  onReadLaterUpdated?: () => void
 }
 
-export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobileSidebar }: ItemListProps) {
+export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobileSidebar, onReadLaterUpdated }: ItemListProps) {
   const [allItems, setAllItems] = useState<FeedItem[]>([])
   const [loading, setLoading] = useState(true)
+  const [readLaterItems, setReadLaterItems] = useState<string[]>([])
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     fetchItems()
+    fetchReadLaterItems()
   }, [])
 
   // Reset scroll position when selectedFeedId changes
@@ -59,6 +62,47 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
     setLoading(false)
   }
 
+
+  const fetchReadLaterItems = async () => {
+    try {
+      const response = await fetch('/api/read-later')
+      const data = await response.json()
+      if (data.readLaterItems) {
+        setReadLaterItems(data.readLaterItems.map((item: any) => item.feed_item_id).filter(Boolean))
+      }
+    } catch (error) {
+      console.error('Error fetching read later items:', error)
+    }
+  }
+
+  const addToReadLater = async (itemId: string) => {
+    // 楽観的UI更新 - 即座にボタンを非表示
+    setReadLaterItems(prev => [...prev, itemId])
+    
+    try {
+      const response = await fetch('/api/read-later', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ feedItemId: itemId })
+      })
+      
+      const data = await response.json()
+      
+      if (!response.ok) {
+        // エラー時はロールバック
+        setReadLaterItems(prev => prev.filter(id => id !== itemId))
+        alert(data.error)
+      } else {
+        // 成功時のみサイドバーを更新
+        if (onReadLaterUpdated) onReadLaterUpdated()
+      }
+    } catch (error) {
+      console.error('Error adding to read later:', error)
+      // エラー時はロールバック
+      setReadLaterItems(prev => prev.filter(id => id !== itemId))
+      alert('あとで読むに追加できませんでした')
+    }
+  }
 
   const markAsRead = async (itemId: string) => {
     try {
@@ -154,11 +198,11 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
           <div className="flex-1">
             <h2 className="text-2xl font-bold text-white">
               {selectedFeed && selectedKeywords.length > 0 
-                ? `${selectedFeed.title}（フィルタリング中）`
+                ? `${selectedFeed.title} フィルタリング中`
                 : selectedFeed 
                 ? selectedFeed.title 
                 : selectedKeywords.length > 0
-                ? '（フィルタリング中）'
+                ? 'フィルタリング中'
                 : '最新記事'}
             </h2>
             <p className="text-gray-400 text-sm mt-1">
@@ -245,6 +289,18 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
                           <Clock className="w-3 h-3" />
                           {formatDate(item.published_at)}
                         </span>
+                        {!readLaterItems.includes(item.id) && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              addToReadLater(item.id)
+                            }}
+                            className="text-xs flex items-center gap-1 text-gray-500 hover:text-gray-400 underline transition"
+                          >
+                            <Bookmark className="w-3 h-3" />
+                            あとで読む
+                          </button>
+                        )}
                       </div>
                     </div>
                     
