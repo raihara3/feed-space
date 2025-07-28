@@ -206,7 +206,7 @@ export default function KeywordsModal({
                   #{keyword.keyword}
                   <button
                     onClick={() => handleDeleteKeyword(keyword.id)}
-                    className="text-black hover:text-red-600 opacity-0 group-hover:opacity-100 transition"
+                    className="text-black hover:text-red-600 transition"
                     title="キーワードを削除"
                   >
                     <X className="w-3 h-3" />
