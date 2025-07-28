@@ -3,7 +3,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Plus, Trash2, RefreshCw, LogOut, Rss, UserX } from 'lucide-react'
+import { Plus, Trash2, RefreshCw, LogOut, Rss, UserX, Tag } from 'lucide-react'
+import KeywordsModal from './KeywordsModal'
 
 interface Feed {
   id: string
@@ -18,9 +19,10 @@ interface SidebarProps {
   selectedFeedId: string | null
   onFeedSelect: (feedId: string | null) => void
   onFeedDeleted?: () => void
+  onKeywordUpdated?: () => void
 }
 
-export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeedDeleted }: SidebarProps) {
+export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeedDeleted, onKeywordUpdated }: SidebarProps) {
   const [feeds, setFeeds] = useState<Feed[]>([])
   const [isAddingFeed, setIsAddingFeed] = useState(false)
   const [newFeedUrl, setNewFeedUrl] = useState('')
@@ -30,6 +32,7 @@ export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeed
   const [deletePassword, setDeletePassword] = useState('')
   const [deleteStep, setDeleteStep] = useState(1) // 1: warning, 2: password, 3: final confirmation
   const [deleting, setDeleting] = useState(false)
+  const [showKeywordsModal, setShowKeywordsModal] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
@@ -273,15 +276,14 @@ export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeed
         )}
       </div>
 
-      {/* Refresh Button */}
+      {/* Keywords Button */}
       <div className="p-4 border-b border-gray-700">
         <button
-          onClick={handleRefreshFeeds}
-          disabled={refreshing}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg transition disabled:opacity-50"
+          onClick={() => setShowKeywordsModal(true)}
+          className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg transition"
         >
-          <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-          {refreshing ? 'Refreshing...' : 'Refresh All Feeds'}
+          <Tag className="w-4 h-4" />
+          Manage Keywords
         </button>
       </div>
 
@@ -452,6 +454,13 @@ export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeed
           </div>
         </div>
       )}
+
+      {/* Keywords Modal */}
+      <KeywordsModal 
+        isOpen={showKeywordsModal}
+        onClose={() => setShowKeywordsModal(false)}
+        onKeywordUpdated={onKeywordUpdated}
+      />
     </div>
   )
 }

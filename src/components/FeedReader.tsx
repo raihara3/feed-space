@@ -16,6 +16,10 @@ export default function FeedReader({ username }: FeedReaderProps) {
     setRefreshKey(prev => prev + 1)
   }
 
+  const handleKeywordUpdated = () => {
+    setRefreshKey(prev => prev + 1)
+  }
+
   return (
     <div className="h-screen bg-gray-900 flex overflow-hidden">
       {/* Sidebar */}
@@ -25,6 +29,7 @@ export default function FeedReader({ username }: FeedReaderProps) {
           selectedFeedId={selectedFeedId}
           onFeedSelect={setSelectedFeedId}
           onFeedDeleted={handleFeedDeleted}
+          onKeywordUpdated={handleKeywordUpdated}
         />
       </div>
       

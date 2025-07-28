@@ -10,6 +10,13 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  // Get user's keywords for matching
+  const { data: userKeywords } = await supabase
+    .from('user_keywords')
+    .select('keyword')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: true })
+
   // Get all feed items for user's feeds
   const { data: items, error } = await supabase
     .from('feed_items')
@@ -29,5 +36,27 @@ export async function GET() {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  return NextResponse.json({ items })
+  // Add matched keywords to each item
+  const itemsWithKeywords = items?.map(item => {
+    const matchedKeywords: string[] = []
+    
+    if (userKeywords) {
+      const title = (item.title || '').toLowerCase()
+      const description = (item.description || '').toLowerCase()
+      
+      userKeywords.forEach(keywordObj => {
+        const keyword = keywordObj.keyword.toLowerCase()
+        if (title.includes(keyword) || description.includes(keyword)) {
+          matchedKeywords.push(keywordObj.keyword)
+        }
+      })
+    }
+    
+    return {
+      ...item,
+      matched_keywords: matchedKeywords
+    }
+  }) || []
+
+  return NextResponse.json({ items: itemsWithKeywords })
 }
