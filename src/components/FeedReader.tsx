@@ -118,6 +118,19 @@ export default function FeedReader({ username }: FeedReaderProps) {
             onCloseMobile={() => setIsMobileSidebarOpen(false)}
           />
         </div>
+        
+        {/* Close Button */}
+        <button
+          onClick={() => setIsMobileSidebarOpen(false)}
+          className={`absolute top-2 left-80 ml-0 p-4 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition transform shadow-lg ${
+            isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+          aria-label="Close menu"
+        >
+          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
       
       {/* Main Content */}
