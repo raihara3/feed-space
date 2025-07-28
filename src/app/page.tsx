@@ -48,10 +48,10 @@ export default async function Home() {
             </div>
             <div className="flex items-center space-x-4">
               <Link href="/auth/login" className="text-gray-300 hover:text-white transition-colors">
-                Log in
+                ログイン
               </Link>
               <Link href="/auth/signup" className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
-                Get Started
+                はじめる
               </Link>
             </div>
           </div>
@@ -65,17 +65,17 @@ export default async function Home() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
               <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-purple-300 bg-clip-text text-transparent">
-                All your feeds in one place.
+                すべてのフィードを一箇所に。
               </h1>
               <p className="text-xl text-gray-300 mb-8">
-                Feed Space pulls together your scattered RSS feeds, making your information gathering smarter and more efficient.
+                Feed Spaceは散らばったRSSフィードをまとめ、情報収集をよりスマートで効率的にします。
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link href="/auth/signup" className="bg-purple-600 hover:bg-purple-700 px-8 py-4 rounded-lg text-lg font-medium transition-all transform hover:scale-105">
-                  Start Free
+                  無料で始める
                 </Link>
                 <Link href="/auth/login" className="border border-purple-600 hover:bg-purple-900/30 px-8 py-4 rounded-lg text-lg font-medium transition-all">
-                  Log in
+                  ログイン
                 </Link>
               </div>
             </div>
@@ -88,8 +88,8 @@ export default async function Home() {
                     <circle cx="8.5" cy="8.5" r="1.5" />
                     <polyline points="21 15 16 10 5 21" />
                   </svg>
-                  <p className="text-gray-500 text-sm">Dashboard Screenshot</p>
-                  <p className="text-gray-600 text-xs mt-1">Replace with actual screenshot</p>
+                  <p className="text-gray-500 text-sm">ダッシュボードのスクリーンショット</p>
+                  <p className="text-gray-600 text-xs mt-1">実際のスクリーンショットで置き換え</p>
                 </div>
               </div>
               {/* Decorative elements */}
@@ -103,7 +103,7 @@ export default async function Home() {
       {/* Features Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Why Feed Space?</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">なぜFeed Spaceなのか？</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-600 transition-colors">
               <div className="mb-4">
@@ -115,7 +115,7 @@ export default async function Home() {
                       <circle cx="8.5" cy="8.5" r="1.5" />
                       <polyline points="21 15 16 10 5 21" />
                     </svg>
-                    <p className="text-gray-500 text-xs">Feed List Screenshot</p>
+                    <p className="text-gray-500 text-xs">フィード一覧のスクリーンショット</p>
                   </div>
                 </div>
                 <div className="text-purple-400">
@@ -126,8 +126,8 @@ export default async function Home() {
                   </svg>
                 </div>
               </div>
-              <h3 className="text-xl font-semibold mb-2">RSS Feed Management</h3>
-              <p className="text-gray-400">Manage all your favorite sites in one place. No more jumping between tabs.</p>
+              <h3 className="text-xl font-semibold mb-2">RSSフィード管理</h3>
+              <p className="text-gray-400">お気に入りのサイトをすべて一箇所で管理。タブ間を行き来する必要がありません。</p>
             </div>
             <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-600 transition-colors">
               <div className="mb-4">
@@ -139,7 +139,7 @@ export default async function Home() {
                       <circle cx="8.5" cy="8.5" r="1.5" />
                       <polyline points="21 15 16 10 5 21" />
                     </svg>
-                    <p className="text-gray-500 text-xs">Filter UI Screenshot</p>
+                    <p className="text-gray-500 text-xs">フィルターUIのスクリーンショット</p>
                   </div>
                 </div>
                 <div className="text-purple-400">
@@ -148,8 +148,8 @@ export default async function Home() {
                   </svg>
                 </div>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Smart Filtering</h3>
-              <p className="text-gray-400">Find what matters. Filter by feed, date, or search for specific topics.</p>
+              <h3 className="text-xl font-semibold mb-2">スマートフィルタリング</h3>
+              <p className="text-gray-400">重要なものを見つけましょう。フィード、日付で絞り込み、特定のトピックを検索できます。</p>
             </div>
             <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-600 transition-colors">
               <div className="mb-4">
@@ -161,7 +161,7 @@ export default async function Home() {
                       <circle cx="8.5" cy="8.5" r="1.5" />
                       <polyline points="21 15 16 10 5 21" />
                     </svg>
-                    <p className="text-gray-500 text-xs">Mobile View Screenshot</p>
+                    <p className="text-gray-500 text-xs">モバイル表示のスクリーンショット</p>
                   </div>
                 </div>
                 <div className="text-purple-400">
@@ -171,8 +171,8 @@ export default async function Home() {
                   </svg>
                 </div>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Works Everywhere</h3>
-              <p className="text-gray-400">Read on any device. Your feeds sync automatically across all platforms.</p>
+              <h3 className="text-xl font-semibold mb-2">どこでも利用可能</h3>
+              <p className="text-gray-400">あらゆるデバイスで読めます。フィードはすべてのプラットフォームで自動同期されます。</p>
             </div>
           </div>
         </div>
@@ -181,15 +181,15 @@ export default async function Home() {
       {/* How it Works */}
       <section className="py-20 px-4 bg-gray-800/30">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">How it works</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">使い方</h2>
           <div className="space-y-8">
             <div className="flex items-start space-x-4">
               <div className="bg-purple-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
                 <span className="font-bold">1</span>
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-semibold mb-2">Create your account</h3>
-                <p className="text-gray-400 mb-4">Sign up in seconds. No credit card needed.</p>
+                <h3 className="text-xl font-semibold mb-2">アカウントを作成</h3>
+                <p className="text-gray-400 mb-4">数秒でサインアップできます。クレジットカードは不要です。</p>
                 {/* Step 1 image placeholder */}
                 <div className="bg-gray-800 rounded-lg border border-gray-700 aspect-[16/9] flex items-center justify-center">
                   <div className="text-center">
@@ -198,7 +198,7 @@ export default async function Home() {
                       <circle cx="8.5" cy="8.5" r="1.5" />
                       <polyline points="21 15 16 10 5 21" />
                     </svg>
-                    <p className="text-gray-500 text-xs">Sign Up Screenshot</p>
+                    <p className="text-gray-500 text-xs">サインアップのスクリーンショット</p>
                   </div>
                 </div>
               </div>
@@ -208,8 +208,8 @@ export default async function Home() {
                 <span className="font-bold">2</span>
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-semibold mb-2">Add RSS feeds</h3>
-                <p className="text-gray-400 mb-4">Paste the RSS URL of your favorite blogs and news sites.</p>
+                <h3 className="text-xl font-semibold mb-2">RSSフィードを追加</h3>
+                <p className="text-gray-400 mb-4">お気に入りのブログやニュースサイトのRSS URLを貼り付けるだけ。</p>
                 {/* Step 2 image placeholder */}
                 <div className="bg-gray-800 rounded-lg border border-gray-700 aspect-[16/9] flex items-center justify-center">
                   <div className="text-center">
@@ -218,7 +218,7 @@ export default async function Home() {
                       <circle cx="8.5" cy="8.5" r="1.5" />
                       <polyline points="21 15 16 10 5 21" />
                     </svg>
-                    <p className="text-gray-500 text-xs">Add Feed Screenshot</p>
+                    <p className="text-gray-500 text-xs">フィード追加のスクリーンショット</p>
                   </div>
                 </div>
               </div>
@@ -228,8 +228,8 @@ export default async function Home() {
                 <span className="font-bold">3</span>
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-semibold mb-2">Start reading</h3>
-                <p className="text-gray-400 mb-4">All your feeds, organized and ready. Focus on what matters.</p>
+                <h3 className="text-xl font-semibold mb-2">読み始める</h3>
+                <p className="text-gray-400 mb-4">すべてのフィードが整理され、すぐに利用できます。重要なことに集中しましょう。</p>
                 {/* Step 3 image placeholder */}
                 <div className="bg-gray-800 rounded-lg border border-gray-700 aspect-[16/9] flex items-center justify-center">
                   <div className="text-center">
@@ -238,7 +238,7 @@ export default async function Home() {
                       <circle cx="8.5" cy="8.5" r="1.5" />
                       <polyline points="21 15 16 10 5 21" />
                     </svg>
-                    <p className="text-gray-500 text-xs">Reading View Screenshot</p>
+                    <p className="text-gray-500 text-xs">読書ビューのスクリーンショット</p>
                   </div>
                 </div>
               </div>
@@ -250,7 +250,7 @@ export default async function Home() {
       {/* Benefits */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-12">Simple. Fast. Free.</h2>
+          <h2 className="text-3xl font-bold mb-12">シンプル。高速。無料。</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div>
               <div className="text-green-400 mb-4">
@@ -258,8 +258,8 @@ export default async function Home() {
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               </div>
-              <h3 className="font-semibold mb-2">Clean Interface</h3>
-              <p className="text-gray-400">No clutter. Just your feeds.</p>
+              <h3 className="font-semibold mb-2">クリーンなインターフェース</h3>
+              <p className="text-gray-400">余計なものはありません。フィードだけ。</p>
             </div>
             <div>
               <div className="text-green-400 mb-4">
@@ -267,8 +267,8 @@ export default async function Home() {
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               </div>
-              <h3 className="font-semibold mb-2">Lightning Fast</h3>
-              <p className="text-gray-400">Updates in real-time.</p>
+              <h3 className="font-semibold mb-2">超高速</h3>
+              <p className="text-gray-400">リアルタイムで更新されます。</p>
             </div>
             <div>
               <div className="text-green-400 mb-4">
@@ -276,13 +276,13 @@ export default async function Home() {
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               </div>
-              <h3 className="font-semibold mb-2">Free Forever</h3>
-              <p className="text-gray-400">No hidden fees.</p>
+              <h3 className="font-semibold mb-2">永久無料</h3>
+              <p className="text-gray-400">隠れた料金はありません。</p>
             </div>
           </div>
           <div className="mt-12">
             <Link href="/auth/signup" className="bg-purple-600 hover:bg-purple-700 px-8 py-4 rounded-lg text-lg font-medium transition-all transform hover:scale-105 inline-block">
-              Get Started Now
+              今すぐ始める
             </Link>
           </div>
         </div>
@@ -299,31 +299,31 @@ export default async function Home() {
                 </svg>
                 <span className="font-bold">Feed Space</span>
               </div>
-              <p className="text-gray-400 text-sm">All your feeds in one place.</p>
+              <p className="text-gray-400 text-sm">すべてのフィードを一箇所に。</p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Product</h4>
+              <h4 className="font-semibold mb-4">プロダクト</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/auth/signup" className="hover:text-white transition-colors">Get Started</Link></li>
-                <li><Link href="/auth/login" className="hover:text-white transition-colors">Log in</Link></li>
+                <li><Link href="/auth/signup" className="hover:text-white transition-colors">はじめる</Link></li>
+                <li><Link href="/auth/login" className="hover:text-white transition-colors">ログイン</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Legal</h4>
+              <h4 className="font-semibold mb-4">法的事項</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
-                <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="hover:text-white transition-colors">利用規約</Link></li>
+                <li><Link href="/privacy" className="hover:text-white transition-colors">プライバシーポリシー</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Connect</h4>
+              <h4 className="font-semibold mb-4">コンタクト</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
                   <a href="https://x.com/raihara3" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center space-x-2">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                     </svg>
-                    <span>Contact on X</span>
+                    <span>Xでお問い合わせ</span>
                   </a>
                 </li>
               </ul>

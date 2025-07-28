@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { formatDistanceToNow } from 'date-fns'
+import { ja } from 'date-fns/locale'
 import { ExternalLink, Clock, Image as ImageIcon, Menu } from 'lucide-react'
 import ArticleThumbnail from './ArticleThumbnail'
 
@@ -94,11 +95,11 @@ export default function ItemList({ selectedFeedId, selectedKeyword, onOpenMobile
   })
 
   const formatDate = (dateString: string | null) => {
-    if (!dateString) return 'Unknown'
+    if (!dateString) return '不明'
     try {
-      return formatDistanceToNow(new Date(dateString), { addSuffix: true })
+      return formatDistanceToNow(new Date(dateString), { addSuffix: true, locale: ja })
     } catch {
-      return 'Unknown'
+      return '不明'
     }
   }
 
@@ -158,17 +159,17 @@ export default function ItemList({ selectedFeedId, selectedKeyword, onOpenMobile
                 ? selectedFeed.title 
                 : selectedKeyword
                 ? `#${selectedKeyword}`
-                : 'Latest Articles'}
+                : '最新記事'}
             </h2>
             <p className="text-gray-400 text-sm mt-1">
-              {filteredItems.length} articles
+              {filteredItems.length}件の記事
               {selectedFeed && selectedKeyword 
-                ? ` from ${selectedFeed.title} with #${selectedKeyword}`
+                ? ` - ${selectedFeed.title}の#${selectedKeyword}を含む記事`
                 : selectedFeed 
-                ? ` from ${selectedFeed.title}`
+                ? ` - ${selectedFeed.title}`
                 : selectedKeyword
-                ? ` with #${selectedKeyword}`
-                : ' available'}
+                ? ` - #${selectedKeyword}を含む記事`
+                : ''}
             </p>
           </div>
         </div>
@@ -183,10 +184,10 @@ export default function ItemList({ selectedFeedId, selectedKeyword, onOpenMobile
                 <ImageIcon className="w-8 h-8 text-gray-500" />
               </div>
               <p className="text-gray-400 text-lg mb-2">
-                {selectedFeed ? 'No articles from this feed' : 'No articles yet'}
+                {selectedFeed ? 'このフィードに記事がありません' : 'まだ記事がありません'}
               </p>
               <p className="text-gray-500 text-sm">
-                {selectedFeed ? 'This feed might not have recent articles.' : 'Add some feeds to get started!'}
+                {selectedFeed ? 'このフィードには最近の記事がない可能性があります。' : 'フィードを追加して始めましょう！'}
               </p>
             </div>
           </div>

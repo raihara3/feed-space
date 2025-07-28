@@ -126,7 +126,7 @@ export default function KeywordsModal({ isOpen, onClose, onKeywordUpdated }: Key
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <Tag className="w-5 h-5 text-orange-400" />
-            <h3 className="text-lg font-bold text-white">Manage Keywords</h3>
+            <h3 className="text-lg font-bold text-white">キーワード管理</h3>
           </div>
           <button
             onClick={onClose}
@@ -146,7 +146,7 @@ export default function KeywordsModal({ isOpen, onClose, onKeywordUpdated }: Key
                 setNewKeyword(e.target.value)
                 if (error) setError('')
               }}
-              placeholder="Enter keyword..."
+              placeholder="キーワードを入力..."
               maxLength={20}
               className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
             />
@@ -163,8 +163,8 @@ export default function KeywordsModal({ isOpen, onClose, onKeywordUpdated }: Key
             </button>
           </div>
           <div className="flex justify-between text-xs text-gray-400 mt-1">
-            <span>{newKeyword.length}/20 characters</span>
-            <span>{keywords.length}/10 keywords</span>
+            <span>{newKeyword.length}/20文字</span>
+            <span>{keywords.length}/10キーワード</span>
           </div>
         </form>
 
@@ -184,8 +184,8 @@ export default function KeywordsModal({ isOpen, onClose, onKeywordUpdated }: Key
           ) : keywords.length === 0 ? (
             <div className="text-center py-8">
               <Tag className="w-12 h-12 text-gray-500 mx-auto mb-3" />
-              <p className="text-gray-400">No keywords added yet</p>
-              <p className="text-gray-500 text-sm mt-1">Add keywords to highlight matching articles</p>
+              <p className="text-gray-400">まだキーワードが追加されていません</p>
+              <p className="text-gray-500 text-sm mt-1">キーワードを追加して記事をハイライトしましょう</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -205,7 +205,7 @@ export default function KeywordsModal({ isOpen, onClose, onKeywordUpdated }: Key
                   <button
                     onClick={() => handleDeleteKeyword(keyword.id)}
                     className="p-1 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
-                    title="Delete keyword"
+                    title="キーワードを削除"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -218,8 +218,8 @@ export default function KeywordsModal({ isOpen, onClose, onKeywordUpdated }: Key
         {/* Footer */}
         <div className="mt-6 pt-4 border-t border-gray-700">
           <div className="text-xs text-gray-400">
-            <p>• Keywords are case-insensitive and match article titles and descriptions</p>
-            <p>• Matching articles will show keyword labels next to the feed name</p>
+            <p>• キーワードは大文字小文字を区別せず、記事のタイトルと説明でマッチします</p>
+            <p>• マッチした記事にはフィード名の横にキーワードラベルが表示されます</p>
           </div>
         </div>
       </div>

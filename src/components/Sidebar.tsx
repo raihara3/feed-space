@@ -268,7 +268,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
             className="w-full flex items-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition font-medium"
           >
             <Plus className="w-4 h-4" />
-            Add New Feed
+フィードを追加
           </button>
         ) : (
           <form onSubmit={handleAddFeed} className="space-y-3">
@@ -276,7 +276,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
               type="url"
               value={newFeedUrl}
               onChange={(e) => setNewFeedUrl(e.target.value)}
-              placeholder="Enter RSS feed URL..."
+              placeholder="RSSフィードのURLを入力..."
               required
               className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
@@ -286,7 +286,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
                 disabled={loading}
                 className="flex-1 py-2 px-3 bg-green-600 hover:bg-green-700 text-white text-sm rounded-md transition disabled:opacity-50"
               >
-                {loading ? 'Adding...' : 'Add'}
+                {loading ? '追加中...' : '追加'}
               </button>
               <button
                 type="button"
@@ -296,7 +296,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
                 }}
                 className="px-3 py-2 text-gray-400 hover:text-white text-sm transition"
               >
-                Cancel
+                キャンセル
               </button>
             </div>
           </form>
@@ -310,21 +310,21 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
           className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg transition mb-3"
         >
           <Tag className="w-4 h-4" />
-          Manage Keywords
+キーワード管理
         </button>
         
         {keywords.length > 0 && (
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
-                Keywords
+                キーワード
               </h4>
               {selectedKeyword && (
                 <button
                   onClick={() => onKeywordSelect(null)}
                   className="text-xs text-blue-400 hover:text-blue-300 transition"
                 >
-                  Show All
+                  すべて表示
                 </button>
               )}
             </div>
@@ -354,20 +354,20 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
       <div className="flex-1 overflow-y-auto p-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide">
-            Your Feeds ({feeds.length}/10)
+登録フィード ({feeds.length}/10)
           </h3>
           {selectedFeedId && (
             <button
               onClick={() => onFeedSelect(null)}
               className="text-xs text-blue-400 hover:text-blue-300 transition"
             >
-              Show All
+              すべて表示
             </button>
           )}
         </div>
         
         {feeds.length === 0 ? (
-          <p className="text-gray-500 text-sm">No feeds added yet</p>
+          <p className="text-gray-500 text-sm">まだフィードが追加されていません</p>
         ) : (
           <div className="space-y-2">
             {feeds.map((feed) => (
@@ -414,7 +414,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
           className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs text-gray-500 hover:text-red-400 hover:bg-gray-800 rounded-md transition"
         >
           <UserX className="w-3 h-3" />
-          Delete Account
+アカウント削除
         </button>
       </div>
 
@@ -424,29 +424,29 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
           <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4">
             {deleteStep === 1 && (
               <>
-                <h3 className="text-lg font-bold text-white mb-4">Delete Account</h3>
+                <h3 className="text-lg font-bold text-white mb-4">アカウント削除</h3>
                 <div className="text-sm text-gray-300 mb-6 space-y-2">
-                  <p>⚠️ <strong>Warning: This action cannot be undone.</strong></p>
-                  <p>By deleting your account, you will permanently lose:</p>
+                  <p>⚠️ <strong>警告: この操作は元に戻せません。</strong></p>
+                  <p>アカウントを削除すると、以下のデータが永久に失われます:</p>
                   <ul className="list-disc list-inside ml-4 space-y-1 text-gray-400">
-                    <li>All your RSS feeds</li>
-                    <li>All saved articles</li>
-                    <li>Your account data</li>
+                    <li>すべてのRSSフィード</li>
+                    <li>保存されたすべての記事</li>
+                    <li>アカウント情報</li>
                   </ul>
-                  <p>Are you sure you want to proceed?</p>
+                  <p>本当に続行しますか？</p>
                 </div>
                 <div className="flex gap-3">
                   <button
                     onClick={resetDeleteModal}
                     className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition"
                   >
-                    Cancel
+                    キャンセル
                   </button>
                   <button
                     onClick={handleDeleteAccount}
                     className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition"
                   >
-                    Continue
+続行
                   </button>
                 </div>
               </>
@@ -454,15 +454,15 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
 
             {deleteStep === 2 && (
               <>
-                <h3 className="text-lg font-bold text-white mb-4">Confirm Password</h3>
+                <h3 className="text-lg font-bold text-white mb-4">パスワードの確認</h3>
                 <p className="text-sm text-gray-300 mb-4">
-                  Please enter your password to confirm account deletion:
+                  アカウント削除を確定するため、パスワードを入力してください:
                 </p>
                 <input
                   type="password"
                   value={deletePassword}
                   onChange={(e) => setDeletePassword(e.target.value)}
-                  placeholder="Enter your password"
+                  placeholder="パスワードを入力"
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent mb-6"
                   autoFocus
                 />
@@ -471,13 +471,13 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
                     onClick={() => setDeleteStep(1)}
                     className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition"
                   >
-                    Back
+                    戻る
                   </button>
                   <button
                     onClick={handleDeleteAccount}
                     className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition"
                   >
-                    Verify Password
+パスワードを確認
                   </button>
                 </div>
               </>
@@ -485,15 +485,15 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
 
             {deleteStep === 3 && (
               <>
-                <h3 className="text-lg font-bold text-red-400 mb-4">Final Confirmation</h3>
+                <h3 className="text-lg font-bold text-red-400 mb-4">最終確認</h3>
                 <div className="text-sm text-gray-300 mb-6">
-                  <p className="font-semibold text-red-400 mb-2">This is your last chance!</p>
+                  <p className="font-semibold text-red-400 mb-2">これが最後のチャンスです！</p>
                   <p>
-                    Your account and all associated data will be permanently deleted.
-                    This action cannot be undone.
+                    アカウントと関連するすべてのデータが永久に削除されます。
+                    この操作は元に戻せません。
                   </p>
                   <p className="mt-2 font-semibold">
-                    Are you absolutely sure you want to delete your account?
+                    本当にアカウントを削除しますか？
                   </p>
                 </div>
                 <div className="flex gap-3">
@@ -502,14 +502,14 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
                     disabled={deleting}
                     className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition disabled:opacity-50"
                   >
-                    Back
+                    戻る
                   </button>
                   <button
                     onClick={handleDeleteAccount}
                     disabled={deleting}
                     className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition disabled:opacity-50"
                   >
-                    {deleting ? 'Deleting...' : 'Delete Account'}
+                    {deleting ? '削除中...' : 'アカウントを削除'}
                   </button>
                 </div>
               </>
