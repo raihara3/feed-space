@@ -17,16 +17,16 @@ interface Feed {
 interface SidebarProps {
   username: string
   selectedFeedId: string | null
-  selectedKeyword: string | null
+  selectedKeywords: string[]
   onFeedSelect: (feedId: string | null) => void
-  onKeywordSelect: (keyword: string | null) => void
+  onKeywordSelect: (keywords: string[]) => void
   onFeedDeleted?: () => void
   onKeywordUpdated?: () => void
   isMobile?: boolean
   onCloseMobile?: () => void
 }
 
-export default function Sidebar({ username, selectedFeedId, selectedKeyword, onFeedSelect, onKeywordSelect, onFeedDeleted, onKeywordUpdated, isMobile, onCloseMobile }: SidebarProps) {
+export default function Sidebar({ username, selectedFeedId, selectedKeywords, onFeedSelect, onKeywordSelect, onFeedDeleted, onKeywordUpdated, isMobile, onCloseMobile }: SidebarProps) {
   const [feeds, setFeeds] = useState<Feed[]>([])
   const [isAddingFeed, setIsAddingFeed] = useState(false)
   const [newFeedUrl, setNewFeedUrl] = useState('')
@@ -344,12 +344,23 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
               <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
                 キーワード
               </h4>
-              {selectedKeyword && (
+              {selectedKeywords.length > 0 ? (
                 <button
-                  onClick={() => onKeywordSelect(null)}
+                  onClick={() => onKeywordSelect([])}
                   className="text-xs text-purple-400 hover:text-purple-300 transition"
                 >
-                  すべて表示
+                  フィルタリングを外す
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    if (keywords.length > 0) {
+                      onKeywordSelect(keywords.map(k => k.keyword))
+                    }
+                  }}
+                  className="text-xs text-purple-400 hover:text-purple-300 transition"
+                >
+                  全て選択
                 </button>
               )}
             </div>
@@ -357,14 +368,21 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
               {keywords.map((keyword) => (
                 <button
                   key={keyword.id}
-                  onClick={() => onKeywordSelect(selectedKeyword === keyword.keyword ? null : keyword.keyword)}
+                  onClick={() => {
+                    const isSelected = selectedKeywords.includes(keyword.keyword)
+                    if (isSelected) {
+                      onKeywordSelect(selectedKeywords.filter(k => k !== keyword.keyword))
+                    } else {
+                      onKeywordSelect([...selectedKeywords, keyword.keyword])
+                    }
+                  }}
                   className={`px-2 py-1 rounded-full text-xs font-medium transition ${
-                    selectedKeyword === keyword.keyword
+                    selectedKeywords.includes(keyword.keyword)
                       ? 'text-black'
                       : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                   }`}
                   style={{
-                    backgroundColor: selectedKeyword === keyword.keyword ? '#f66f3b' : undefined
+                    backgroundColor: selectedKeywords.includes(keyword.keyword) ? '#f66f3b' : undefined
                   }}
                 >
                   #{keyword.keyword}
@@ -386,7 +404,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeyword, onF
               onClick={() => onFeedSelect(null)}
               className="text-xs text-purple-400 hover:text-purple-300 transition"
             >
-              すべて表示
+              フィルタリングを外す
             </button>
           )}
         </div>
