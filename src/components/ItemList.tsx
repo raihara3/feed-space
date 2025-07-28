@@ -76,6 +76,9 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
   }
 
   const addToReadLater = async (itemId: string) => {
+    // 楽観的UI更新 - 即座にボタンを非表示
+    setReadLaterItems(prev => [...prev, itemId])
+    
     try {
       const response = await fetch('/api/read-later', {
         method: 'POST',
@@ -85,14 +88,18 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
       
       const data = await response.json()
       
-      if (response.ok) {
-        setReadLaterItems(prev => [...prev, itemId])
-        if (onReadLaterUpdated) onReadLaterUpdated()
-      } else {
+      if (!response.ok) {
+        // エラー時はロールバック
+        setReadLaterItems(prev => prev.filter(id => id !== itemId))
         alert(data.error)
+      } else {
+        // 成功時のみサイドバーを更新
+        if (onReadLaterUpdated) onReadLaterUpdated()
       }
     } catch (error) {
       console.error('Error adding to read later:', error)
+      // エラー時はロールバック
+      setReadLaterItems(prev => prev.filter(id => id !== itemId))
       alert('あとで読むに追加できませんでした')
     }
   }

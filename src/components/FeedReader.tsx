@@ -123,7 +123,7 @@ export default function FeedReader({ username }: FeedReaderProps) {
       {/* Main Content */}
       <div className="flex-1 h-full overflow-hidden">
         <ItemList 
-          key={`${refreshKey}-${readLaterRefresh}`} 
+          key={refreshKey} 
           selectedFeedId={selectedFeedId} 
           selectedKeywords={selectedKeywords}
           onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
