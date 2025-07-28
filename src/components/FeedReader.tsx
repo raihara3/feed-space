@@ -10,6 +10,7 @@ interface FeedReaderProps {
 
 export default function FeedReader({ username }: FeedReaderProps) {
   const [selectedFeedId, setSelectedFeedId] = useState<string | null>(null)
+  const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
 
   const handleFeedDeleted = () => {
@@ -27,7 +28,9 @@ export default function FeedReader({ username }: FeedReaderProps) {
         <Sidebar 
           username={username} 
           selectedFeedId={selectedFeedId}
+          selectedKeyword={selectedKeyword}
           onFeedSelect={setSelectedFeedId}
+          onKeywordSelect={setSelectedKeyword}
           onFeedDeleted={handleFeedDeleted}
           onKeywordUpdated={handleKeywordUpdated}
         />
@@ -40,7 +43,7 @@ export default function FeedReader({ username }: FeedReaderProps) {
       
       {/* Main Content */}
       <div className="flex-1 h-full overflow-hidden">
-        <ItemList key={refreshKey} selectedFeedId={selectedFeedId} />
+        <ItemList key={refreshKey} selectedFeedId={selectedFeedId} selectedKeyword={selectedKeyword} />
       </div>
     </div>
   )

@@ -17,12 +17,14 @@ interface Feed {
 interface SidebarProps {
   username: string
   selectedFeedId: string | null
+  selectedKeyword: string | null
   onFeedSelect: (feedId: string | null) => void
+  onKeywordSelect: (keyword: string | null) => void
   onFeedDeleted?: () => void
   onKeywordUpdated?: () => void
 }
 
-export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeedDeleted, onKeywordUpdated }: SidebarProps) {
+export default function Sidebar({ username, selectedFeedId, selectedKeyword, onFeedSelect, onKeywordSelect, onFeedDeleted, onKeywordUpdated }: SidebarProps) {
   const [feeds, setFeeds] = useState<Feed[]>([])
   const [isAddingFeed, setIsAddingFeed] = useState(false)
   const [newFeedUrl, setNewFeedUrl] = useState('')
@@ -33,6 +35,7 @@ export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeed
   const [deleteStep, setDeleteStep] = useState(1) // 1: warning, 2: password, 3: final confirmation
   const [deleting, setDeleting] = useState(false)
   const [showKeywordsModal, setShowKeywordsModal] = useState(false)
+  const [keywords, setKeywords] = useState<{id: string, keyword: string}[]>([])
   const router = useRouter()
   const supabase = createClient()
 
@@ -50,7 +53,20 @@ export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeed
 
   useEffect(() => {
     fetchFeeds()
+    fetchKeywords()
   }, [fetchFeeds])
+
+  const fetchKeywords = async () => {
+    try {
+      const response = await fetch('/api/keywords')
+      const data = await response.json()
+      if (data.keywords) {
+        setKeywords(data.keywords)
+      }
+    } catch (error) {
+      console.error('Error fetching keywords:', error)
+    }
+  }
 
   const handleAddFeed = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -276,15 +292,51 @@ export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeed
         )}
       </div>
 
-      {/* Keywords Button */}
+      {/* Keywords Section */}
       <div className="p-4 border-b border-gray-700">
         <button
           onClick={() => setShowKeywordsModal(true)}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg transition"
+          className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg transition mb-3"
         >
           <Tag className="w-4 h-4" />
           Manage Keywords
         </button>
+        
+        {keywords.length > 0 && (
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
+                Keywords
+              </h4>
+              {selectedKeyword && (
+                <button
+                  onClick={() => onKeywordSelect(null)}
+                  className="text-xs text-blue-400 hover:text-blue-300 transition"
+                >
+                  Show All
+                </button>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {keywords.map((keyword) => (
+                <button
+                  key={keyword.id}
+                  onClick={() => onKeywordSelect(selectedKeyword === keyword.keyword ? null : keyword.keyword)}
+                  className={`px-2 py-1 rounded-full text-xs font-medium transition ${
+                    selectedKeyword === keyword.keyword
+                      ? 'text-black'
+                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  }`}
+                  style={{
+                    backgroundColor: selectedKeyword === keyword.keyword ? '#f66f3b' : undefined
+                  }}
+                >
+                  #{keyword.keyword}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Feeds List */}
@@ -459,7 +511,12 @@ export default function Sidebar({ username, selectedFeedId, onFeedSelect, onFeed
       <KeywordsModal 
         isOpen={showKeywordsModal}
         onClose={() => setShowKeywordsModal(false)}
-        onKeywordUpdated={onKeywordUpdated}
+        onKeywordUpdated={() => {
+          fetchKeywords()
+          if (onKeywordUpdated) {
+            onKeywordUpdated()
+          }
+        }}
       />
     </div>
   )

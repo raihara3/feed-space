@@ -23,9 +23,10 @@ interface FeedItem {
 
 interface ItemListProps {
   selectedFeedId: string | null
+  selectedKeyword: string | null
 }
 
-export default function ItemList({ selectedFeedId }: ItemListProps) {
+export default function ItemList({ selectedFeedId, selectedKeyword }: ItemListProps) {
   const [allItems, setAllItems] = useState<FeedItem[]>([])
   const [loading, setLoading] = useState(true)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -76,10 +77,20 @@ export default function ItemList({ selectedFeedId }: ItemListProps) {
     }
   }
 
-  // Filter items based on selected feed
-  const filteredItems = selectedFeedId 
-    ? allItems.filter(item => item.feeds.id === selectedFeedId)
-    : allItems
+  // Filter items based on selected feed and keyword
+  const filteredItems = allItems.filter(item => {
+    // Filter by feed if selected
+    if (selectedFeedId && item.feeds.id !== selectedFeedId) {
+      return false
+    }
+    
+    // Filter by keyword if selected
+    if (selectedKeyword && !item.matched_keywords.includes(selectedKeyword)) {
+      return false
+    }
+    
+    return true
+  })
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return 'Unknown'
@@ -129,10 +140,23 @@ export default function ItemList({ selectedFeedId }: ItemListProps) {
       {/* Header */}
       <div className="p-6 border-b border-gray-700">
         <h2 className="text-2xl font-bold text-white">
-          {selectedFeed ? selectedFeed.title : 'Latest Articles'}
+          {selectedFeed && selectedKeyword 
+            ? `${selectedFeed.title} • #${selectedKeyword}`
+            : selectedFeed 
+            ? selectedFeed.title 
+            : selectedKeyword
+            ? `#${selectedKeyword}`
+            : 'Latest Articles'}
         </h2>
         <p className="text-gray-400 text-sm mt-1">
-          {filteredItems.length} articles {selectedFeed ? `from ${selectedFeed.title}` : 'available'}
+          {filteredItems.length} articles
+          {selectedFeed && selectedKeyword 
+            ? ` from ${selectedFeed.title} with #${selectedKeyword}`
+            : selectedFeed 
+            ? ` from ${selectedFeed.title}`
+            : selectedKeyword
+            ? ` with #${selectedKeyword}`
+            : ' available'}
         </p>
       </div>
       
