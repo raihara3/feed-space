@@ -108,7 +108,7 @@ export default function ConfirmEmail() {
               <p className="text-gray-300 text-center mb-6">{error}</p>
               <Link 
                 href="/auth/login"
-                className="block w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition duration-200 text-center"
+                className="block w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md transition duration-200 text-center"
               >
                 Back to Login
               </Link>
@@ -121,7 +121,7 @@ export default function ConfirmEmail() {
               </p>
               <Link 
                 href="/auth/login"
-                className="block w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition duration-200 text-center"
+                className="block w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md transition duration-200 text-center"
               >
                 Sign In
               </Link>
