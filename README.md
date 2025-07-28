@@ -1,42 +1,109 @@
-# FEED SPACE
+# Feed Space
 
-A modern RSS feed reader built with Next.js, Supabase, and Tailwind CSS.
+シンプルで高機能なRSSフィードリーダー。効率的な情報収集とキーワードフィルタリングで、必要な情報だけを素早くキャッチアップできます。
 
-## Setup Instructions
+## 🚀 主な機能
 
-### Prerequisites
-- Node.js 18+ installed
-- Supabase account
-- Vercel account (for deployment)
+### 📰 RSSフィード管理
+- **フィード追加**: 最大5つのRSSフィードを登録可能
+- **自動更新**: 30分間隔でフィードを自動取得
+- **記事の自動削除**: 24時間経過した記事は自動的に削除
 
-### 1. Environment Variables
-Create a `.env.local` file and add your Supabase credentials:
-```
+### 🏷️ キーワードフィルタリング
+- **複数キーワード選択**: 複数のキーワードを同時に選択してフィルタリング
+- **OR条件検索**: 選択したキーワードのいずれかに一致する記事を表示
+- **全選択機能**: ワンクリックで全キーワードを選択
+- **部分一致検索**: 記事タイトルと内容での部分一致検索
+
+### 💾 状態の永続化
+- **フィルタリング状態保存**: ページリロード後もフィード・キーワード選択状態を維持
+- **ローカルストレージ**: ブラウザのローカルストレージで設定を自動保存
+
+### 📱 レスポンシブデザイン
+- **モバイルフレンドリー**: スマートフォン・タブレット・PCで最適な表示
+- **タッチ操作対応**: モバイル端末でのタップ操作に最適化
+- **ダークモード**: 目に優しいダークテーマ
+
+### 👤 ユーザー管理
+- **メール認証**: Supabase認証によるセキュアなアカウント管理
+- **アカウント削除**: 完全なデータ削除機能
+- **プロフィール管理**: ユーザー名設定
+
+## 🛠️ 技術スタック
+
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Styling**: Tailwind CSS
+- **Backend**: Supabase (Database, Authentication)
+- **Deployment**: Vercel
+- **Icons**: Lucide React
+
+## 📦 セットアップ
+
+### 前提条件
+- Node.js 18+
+- Supabaseアカウント
+- Vercelアカウント（デプロイ用）
+
+### 1. 環境変数の設定
+`.env.local`ファイルを作成し、Supabaseの認証情報を追加：
+
+```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ```
 
-### 2. Supabase Setup
-1. Create a new Supabase project
-2. Run the SQL from `supabase/schema.sql` in the SQL Editor
-3. Enable Email Auth in Authentication settings
+### 2. Supabaseの設定
+1. 新しいSupabaseプロジェクトを作成
+2. `supabase/schema.sql`のSQLをSQL Editorで実行
+3. 認証設定でEmail認証を有効化
 
-### 3. Local Development
+### 3. ローカル開発環境
 ```bash
 npm install
 npm run dev
 ```
 
-### 4. Deployment to Vercel
-1. Push to GitHub
-2. Import project in Vercel
-3. Add environment variables
-4. Deploy
+### 4. Vercelへのデプロイ
+1. GitHubにプッシュ
+2. Vercelでプロジェクトをインポート
+3. 環境変数を設定
+4. デプロイ
 
-## Features
-- User authentication
-- Add up to 10 RSS feeds per user
-- Auto-refresh feeds every 30 minutes
-- Articles expire after 24 hours
-- Dark mode UI
-- Responsive design
+## 🎯 使用方法
+
+### 基本的な流れ
+1. **アカウント作成**: メールアドレスでサインアップ
+2. **フィード追加**: RSSフィードのURLを追加
+3. **キーワード設定**: 関心のあるキーワードを登録
+4. **フィルタリング**: キーワードやフィードで記事を絞り込み
+5. **記事閲覧**: 気になる記事をクリックして外部サイトへ
+
+### キーワードフィルタリング
+- **全選択**: すべてのキーワードに一致する記事を表示
+- **個別選択**: 特定のキーワードを選択・解除
+- **フィルタ解除**: すべてのフィルタを解除して全記事を表示
+
+### フィード管理
+- **フィード選択**: 特定のフィードの記事のみを表示
+- **フィード削除**: 不要なフィードを削除
+- **自動更新**: バックグラウンドで定期的に新着記事を取得
+
+## 🎨 UI/UX特徴
+
+- **直感的なインターフェース**: シンプルで分かりやすい操作
+- **高速レスポンス**: 効率的なデータ取得と表示
+- **アクセシビリティ**: キーボード操作とスクリーンリーダー対応
+- **モバイル最適化**: タッチ操作とレスポンシブレイアウト
+
+## 📄 ライセンス
+
+このプロジェクトはMITライセンスの下で公開されています。
+
+## 🤝 貢献
+
+バグ報告、機能要望、プルリクエストを歓迎します。
+
+---
+
+**Feed Space** - シンプルで効率的な情報収集を実現するRSSリーダー
