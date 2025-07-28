@@ -12,6 +12,8 @@ interface FeedItem {
   description: string | null
   published_at: string | null
   created_at: string
+  is_read: boolean
+  read_at: string | null
   feeds: {
     id: string
     title: string
@@ -51,6 +53,26 @@ export default function ItemList({ selectedFeedId }: ItemListProps) {
       setAllItems(data.items)
     }
     setLoading(false)
+  }
+
+
+  const markAsRead = async (itemId: string) => {
+    try {
+      await fetch('/api/read-status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ itemId, isRead: true })
+      })
+      
+      // Update local state to reflect read status immediately
+      setAllItems(prev => prev.map(item => 
+        item.id === itemId 
+          ? { ...item, is_read: true, read_at: new Date().toISOString() }
+          : item
+      ))
+    } catch (error) {
+      console.error('Error marking as read:', error)
+    }
   }
 
   // Filter items based on selected feed
@@ -133,12 +155,16 @@ export default function ItemList({ selectedFeedId }: ItemListProps) {
           <div className="divide-y divide-gray-800">
             {filteredItems.map((item) => {
               const cleanDescription = item.description ? stripHtml(item.description) : null
+              const isRead = item.is_read
               
               return (
                 <article
                   key={item.id}
                   className="p-6 hover:bg-gray-800 transition-colors group cursor-pointer"
-                  onClick={() => window.open(item.link, '_blank')}
+                  onClick={() => {
+                    markAsRead(item.id)
+                    window.open(item.link, '_blank')
+                  }}
                 >
                   <div className="flex gap-4">
                     {/* Thumbnail */}
@@ -146,12 +172,18 @@ export default function ItemList({ selectedFeedId }: ItemListProps) {
                     
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-white font-semibold mb-2 line-clamp-2 group-hover:text-blue-400 transition-colors">
+                      <h3 className={`mb-2 line-clamp-2 transition-colors ${
+                        isRead 
+                          ? 'text-[#b0b0b0] font-normal' 
+                          : 'text-white font-semibold group-hover:text-blue-400'
+                      }`}>
                         {item.title}
                       </h3>
                       
                       {cleanDescription && (
-                        <p className="text-gray-400 text-sm line-clamp-2 mb-3">
+                        <p className={`text-sm line-clamp-2 mb-3 ${
+                          isRead ? 'text-gray-600' : 'text-gray-400'
+                        }`}>
                           {cleanDescription}
                         </p>
                       )}
