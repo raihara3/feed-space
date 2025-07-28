@@ -463,9 +463,9 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
                     e.stopPropagation()
                     handleDeleteFeed(feed.id)
                   }}
-                  className="p-0.5 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                  className="p-0.5 text-gray-500 hover:text-red-400 transition"
                 >
-                  <Trash2 className="w-3 h-3" />
+                  <X className="w-3 h-3" />
                 </button>
               </div>
             ))}
@@ -489,7 +489,7 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
             {readLaterItems.map((item) => (
               <div
                 key={item.id}
-                className="group flex items-start gap-1 p-1 bg-gray-700 hover:bg-gray-600 rounded transition"
+                className="group flex items-center gap-1 p-1 bg-gray-700 hover:bg-gray-600 rounded transition"
               >
                 <div className="flex-1 min-w-0">
                   <button
@@ -509,9 +509,9 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
                 </div>
                 <button
                   onClick={() => removeFromReadLater(item.id)}
-                  className="p-0.5 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                  className="p-0.5 text-gray-500 hover:text-red-400 transition"
                 >
-                  <Trash2 className="w-3 h-3" />
+                  <X className="w-3 h-3" />
                 </button>
               </div>
             ))}
