@@ -13,20 +13,7 @@ export async function GET() {
 
     const { data: readLaterItems, error } = await supabase
       .from('read_later')
-      .select(`
-        id,
-        created_at,
-        feed_items (
-          id,
-          title,
-          link,
-          description,
-          published_at,
-          feeds (
-            title
-          )
-        )
-      `)
+      .select('*')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
 
@@ -70,12 +57,33 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Check if already exists
+    // Get feed item details
+    const { data: feedItem, error: fetchError } = await supabase
+      .from('feed_items')
+      .select(`
+        id,
+        title,
+        link,
+        description,
+        published_at,
+        feeds (
+          id,
+          title
+        )
+      `)
+      .eq('id', feedItemId)
+      .single()
+
+    if (fetchError || !feedItem) {
+      return NextResponse.json({ error: 'Feed item not found' }, { status: 404 })
+    }
+
+    // Check if already exists by link
     const { data: existing } = await supabase
       .from('read_later')
       .select('id')
       .eq('user_id', user.id)
-      .eq('feed_item_id', feedItemId)
+      .eq('link', feedItem.link)
       .single()
 
     if (existing) {
@@ -86,7 +94,13 @@ export async function POST(request: NextRequest) {
       .from('read_later')
       .insert({
         user_id: user.id,
-        feed_item_id: feedItemId
+        feed_item_id: feedItemId,
+        title: feedItem.title,
+        link: feedItem.link,
+        description: feedItem.description,
+        published_at: feedItem.published_at,
+        feed_title: feedItem.feeds.title,
+        feed_id: feedItem.feeds.id
       })
       .select()
 

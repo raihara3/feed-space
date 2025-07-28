@@ -68,7 +68,7 @@ export default function ItemList({ selectedFeedId, selectedKeywords, onOpenMobil
       const response = await fetch('/api/read-later')
       const data = await response.json()
       if (data.readLaterItems) {
-        setReadLaterItems(data.readLaterItems.map((item: any) => item.feed_items.id))
+        setReadLaterItems(data.readLaterItems.map((item: any) => item.feed_item_id).filter(Boolean))
       }
     } catch (error) {
       console.error('Error fetching read later items:', error)

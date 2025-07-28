@@ -511,16 +511,16 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
                 <div className="flex-1 min-w-0">
                   <button
                     onClick={() => {
-                      window.open(item.feed_items.link, '_blank')
+                      window.open(item.link, '_blank')
                       if (onCloseMobile) onCloseMobile()
                     }}
                     className="text-left w-full"
                   >
                     <h5 className="text-xs font-medium text-white line-clamp-2 hover:text-purple-400 transition">
-                      {item.feed_items.title}
+                      {item.title}
                     </h5>
                     <p className="text-xs text-gray-400 mt-1">
-                      {item.feed_items.feeds.title}
+                      {item.feed_title}
                     </p>
                   </button>
                 </div>
