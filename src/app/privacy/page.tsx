@@ -30,107 +30,107 @@ export default function PrivacyPolicy() {
       {/* Content */}
       <div className="pt-24 pb-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8">Privacy Policy</h1>
-          <p className="text-gray-400 mb-8">Last updated: January 2024</p>
+          <h1 className="text-4xl font-bold mb-8">プライバシーポリシー</h1>
+          <p className="text-gray-400 mb-8">最終更新日: 2025年7月</p>
 
           <div className="space-y-8 text-gray-300">
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">1. Information We Collect</h2>
-              <p>Feed Space is a personal project by raihara3. We collect minimal information necessary to provide the service, such as when you create an account or add RSS feeds.</p>
-              <h3 className="text-xl font-medium mt-4 mb-2 text-white">Account Information</h3>
+              <h2 className="text-2xl font-semibold mb-4 text-white">1. 収集する情報</h2>
+              <p>Feed Spaceはraihara3による個人プロジェクトです。アカウント作成やRSSフィード追加時など、サービス提供に必要な最小限の情報のみを収集します。</p>
+              <h3 className="text-xl font-medium mt-4 mb-2 text-white">アカウント情報</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Email address</li>
-                <li>Username (optional)</li>
-                <li>Password (encrypted)</li>
+                <li>メールアドレス</li>
+                <li>ユーザー名（任意）</li>
+                <li>パスワード（暗号化）</li>
               </ul>
-              <h3 className="text-xl font-medium mt-4 mb-2 text-white">Usage Information</h3>
+              <h3 className="text-xl font-medium mt-4 mb-2 text-white">使用状況情報</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>RSS feeds you add</li>
-                <li>Reading preferences</li>
-                <li>Service usage patterns</li>
+                <li>追加したRSSフィード</li>
+                <li>閲覧設定</li>
+                <li>サービス使用パターン</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">2. How We Use Your Information</h2>
-              <p>We use the information we collect to:</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">2. 情報の使用方法</h2>
+              <p>収集した情報は以下の目的で使用します：</p>
               <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-                <li>Provide, maintain, and improve our services</li>
-                <li>Create and manage your account</li>
-                <li>Save and sync your RSS feeds across devices</li>
-                <li>Send you technical notices and support messages</li>
-                <li>Respond to your comments, questions, and requests</li>
+                <li>サービスの提供、維持、改善</li>
+                <li>アカウントの作成と管理</li>
+                <li>RSSフィードのデバイス間での保存と同期</li>
+                <li>技術的な通知とサポートメッセージの送信</li>
+                <li>コメント、質問、リクエストへの対応</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">3. Information Sharing</h2>
-              <p>As an individual developer, I do not and will not sell, trade, or rent your personal information. Your data may only be shared:</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">3. 情報の共有</h2>
+              <p>個人開発者として、個人情報の販売、取引、貸与は行いません。データは以下の場合のみ共有される可能性があります：</p>
               <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-                <li>With your explicit consent</li>
-                <li>If required by law</li>
-                <li>With Supabase (our authentication and database provider)</li>
+                <li>明示的な同意がある場合</li>
+                <li>法律で要求される場合</li>
+                <li>Supabase（認証およびデータベースプロバイダー）との間で</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">4. Data Security</h2>
-              <p>As a personal project, I implement reasonable security measures to protect your information. Your data is stored securely using Supabase's infrastructure. However, please understand that no method of transmission over the Internet is 100% secure, and as an individual developer, I cannot guarantee absolute security.</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">4. データセキュリティ</h2>
+              <p>個人プロジェクトとして、情報を保護するための合理的なセキュリティ対策を実装しています。データはSupabaseのインフラストラクチャを使用して安全に保存されます。ただし、インターネット上の伝送方法は100%安全ではなく、個人開発者として絶対的なセキュリティを保証することはできないことをご理解ください。</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">5. Data Retention</h2>
-              <p>Your data is retained as long as you use the service. You can delete your account at any time, which will remove your personal information. As this is a personal project, I may need to shut down the service with reasonable notice.</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">5. データ保持</h2>
+              <p>データはサービスをご利用いただいている間保持されます。いつでもアカウントを削除でき、その際に個人情報が削除されます。これは個人プロジェクトであるため、合理的な通知とともにサービスを停止する必要がある場合があります。</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">6. Your Rights</h2>
-              <p>You have the right to:</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">6. あなたの権利</h2>
+              <p>以下の権利があります：</p>
               <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-                <li>Access your personal information</li>
-                <li>Update or correct your information</li>
-                <li>Delete your account and associated data</li>
-                <li>Export your RSS feed list</li>
-                <li>Opt-out of non-essential communications</li>
+                <li>個人情報へのアクセス</li>
+                <li>情報の更新または修正</li>
+                <li>アカウントと関連データの削除</li>
+                <li>RSSフィードリストのエクスポート</li>
+                <li>必須でない通信のオプトアウト</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">7. Cookies</h2>
-              <p>We use essential cookies to:</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">7. Cookie</h2>
+              <p>以下の目的で必須のCookieを使用します：</p>
               <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-                <li>Keep you signed in</li>
-                <li>Remember your preferences</li>
-                <li>Ensure security</li>
+                <li>ログイン状態の維持</li>
+                <li>設定の記憶</li>
+                <li>セキュリティの確保</li>
               </ul>
-              <p className="mt-2">We do not use tracking or advertising cookies.</p>
+              <p className="mt-2">トラッキングや広告用のCookieは使用しません。</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">8. Third-Party Services</h2>
-              <p>Feed Space integrates with Supabase for authentication and data storage. Supabase is a trusted service provider, and we recommend reviewing their privacy policy for information about how they handle data.</p>
-              <p className="mt-2">RSS feeds you add may contain tracking pixels or other technologies controlled by the feed publishers. We have no control over these third-party technologies.</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">8. 第三者サービス</h2>
+              <p>Feed Spaceは認証とデータ保存にSupabaseと統合しています。Supabaseは信頼できるサービスプロバイダーであり、データの取り扱いについてはSupabaseのプライバシーポリシーの確認をお勧めします。</p>
+              <p className="mt-2">追加するRSSフィードには、フィード発行者が管理するトラッキングピクセルやその他の技術が含まれる場合があります。これらの第三者技術については制御できません。</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">9. Children's Privacy</h2>
-              <p>Feed Space is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13.</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">9. 子どものプライバシー</h2>
+              <p>Feed Spaceは13歳未満の子どもを対象としていません。13歳未満の子どもから個人情報を故意に収集することはありません。</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">10. Changes to This Policy</h2>
-              <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">10. ポリシーの変更</h2>
+              <p>プライバシーポリシーは随時更新される場合があります。変更がある場合は、このページに新しいプライバシーポリシーを掲載し、「最終更新日」を更新することで通知します。</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">11. Contact Us</h2>
-              <p>If you have any questions about this Privacy Policy, please contact us on <a href="https://x.com/raihara3" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300">X (Twitter)</a>.</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">11. お問い合わせ</h2>
+              <p>このプライバシーポリシーについてご質問がある場合は、<a href="https://x.com/raihara3" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300">X (Twitter)</a>でお問い合わせください。</p>
             </section>
           </div>
 
           <div className="mt-12 pt-8 border-t border-gray-700">
             <Link href="/" className="text-purple-400 hover:text-purple-300 transition-colors">
-              ← Back to Home
+              ← ホームに戻る
             </Link>
           </div>
         </div>

@@ -30,97 +30,97 @@ export default function TermsOfService() {
       {/* Content */}
       <div className="pt-24 pb-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8">Terms of Service</h1>
-          <p className="text-gray-400 mb-8">Last updated: January 2024</p>
+          <h1 className="text-4xl font-bold mb-8">利用規約</h1>
+          <p className="text-gray-400 mb-8">最終更新日: 2025年7月</p>
 
           <div className="space-y-8 text-gray-300">
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">1. Acceptance of Terms</h2>
-              <p>By accessing and using Feed Space ("the Service"), a personal project by raihara3, you accept and agree to be bound by the terms and provision of this agreement. This is a free service provided by an individual developer.</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">1. 規約の同意</h2>
+              <p>raihara3による個人プロジェクトであるFeed Space（「本サービス」）にアクセスし、これを使用することで、本規約の条項に同意したものとみなされます。これは個人開発者によって提供される無料サービスです。</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">2. Use License</h2>
-              <p>raihara3 grants you a personal, non-transferable, non-exclusive license to use Feed Space. You may:</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">2. 使用許諾</h2>
+              <p>raihara3は、あなたにFeed Spaceの個人的、譲渡不可、非独占的なライセンスを付与します。以下の利用が可能です：</p>
               <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-                <li>Access and use the service for your personal needs</li>
-                <li>Add and manage RSS feeds from public sources</li>
-                <li>Read and organize your feed content</li>
+                <li>個人的な用途でのサービスへのアクセスと使用</li>
+                <li>公開ソースからのRSSフィードの追加と管理</li>
+                <li>フィードコンテンツの閲覧と整理</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">3. User Accounts</h2>
-              <p>When you create an account with us, you must provide information that is accurate and complete. You are responsible for:</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">3. ユーザーアカウント</h2>
+              <p>アカウントを作成する際は、正確で完全な情報を提供する必要があります。以下の責任があります：</p>
               <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-                <li>Maintaining the security of your account</li>
-                <li>All activities that occur under your account</li>
-                <li>Notifying us of any unauthorized use</li>
+                <li>アカウントのセキュリティの維持</li>
+                <li>アカウントで発生するすべての活動</li>
+                <li>不正使用の通知</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">4. Prohibited Uses</h2>
-              <p>You may not use Feed Space:</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">4. 禁止事項</h2>
+              <p>Feed Spaceを以下の目的で使用することはできません：</p>
               <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-                <li>For any illegal purpose or to solicit others to perform illegal acts</li>
-                <li>To violate any international, federal, provincial, or state regulations, rules, laws, or local ordinances</li>
-                <li>To infringe upon or violate our intellectual property rights or the intellectual property rights of others</li>
-                <li>To submit false or misleading information</li>
-                <li>To upload or transmit viruses or any other type of malicious code</li>
+                <li>違法な目的、または他者に違法行為を促すこと</li>
+                <li>国際、連邦、州、地方の規制、規則、法律、条例の違反</li>
+                <li>当方または他者の知的財産権の侵害</li>
+                <li>虚偽または誤解を招く情報の送信</li>
+                <li>ウイルスやその他の悪意のあるコードのアップロードや送信</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">5. Content</h2>
-              <p>Our service allows you to add RSS feeds and view content from third-party sources. We are not responsible for:</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">5. コンテンツ</h2>
+              <p>本サービスではRSSフィードを追加し、第三者ソースからのコンテンツを表示できます。以下について責任を負いません：</p>
               <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-                <li>The accuracy, copyright compliance, legality, or decency of content from RSS feeds</li>
-                <li>Any loss or damage resulting from your use of third-party content</li>
-                <li>The availability or reliability of external RSS feeds</li>
+                <li>RSSフィードのコンテンツの正確性、著作権遵守、合法性、品位</li>
+                <li>第三者コンテンツの使用による損失や損害</li>
+                <li>外部RSSフィードの可用性や信頼性</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">6. Privacy</h2>
-              <p>Your use of Feed Space is also governed by our Privacy Policy. Please review our Privacy Policy, which also governs the Service and informs users of our data collection practices.</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">6. プライバシー</h2>
+              <p>Feed Spaceの使用は、プライバシーポリシーにも規定されています。サービスを規定し、データ収集の慣行をユーザーに通知するプライバシーポリシーをご確認ください。</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">7. Termination</h2>
-              <p>We may terminate or suspend your account and bar access to the service immediately, without prior notice or liability, under our sole discretion, for any reason whatsoever and without limitation, including but not limited to a breach of the Terms.</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">7. サービス終了</h2>
+              <p>当方の単独の裁量により、規約違反を含むがこれに限定されない理由で、事前通知や責任を負うことなく、即座にアカウントを終了またはサービスへのアクセスを停止する場合があります。</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">8. Disclaimer</h2>
-              <p>Feed Space is a personal project provided on an "as is" basis without any warranties. As an individual developer, raihara3:</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">8. 免責事項</h2>
+              <p>Feed Spaceは個人プロジェクトとして「現状のまま」で提供され、いかなる保証もありません。個人開発者として、raihara3は：</p>
               <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-                <li>Cannot guarantee continuous service availability</li>
-                <li>Cannot guarantee the service will meet all your requirements</li>
-                <li>Excludes all representations and warranties relating to this service</li>
-                <li>Excludes all liability for damages arising from your use of this service</li>
+                <li>継続的なサービスの可用性を保証できません</li>
+                <li>サービスがすべてのご要望を満たすことを保証できません</li>
+                <li>本サービスに関するすべての表明と保証を除外します</li>
+                <li>本サービスの使用に起因する損害のすべての責任を除外します</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">9. Limitation of Liability</h2>
-              <p>This is a free service provided by an individual. In no event shall raihara3 be liable to you for anything arising out of or in any way connected with your use of Feed Space, whether such liability is under contract, tort, or otherwise. The service is provided without any warranties or guarantees.</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">9. 責任の制限</h2>
+              <p>これは個人によって提供される無料サービスです。いかなる場合も、raihara3はFeed Spaceの使用に起因または関連して生じるいかなる損害についても、契約、不法行為、その他の理由を問わず、責任を負いません。本サービスは保証や保証なしで提供されます。</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">10. Changes to Terms</h2>
-              <p>raihara3 reserves the right to revise these terms at any time. By using Feed Space, you are expected to review these Terms on a regular basis to ensure you understand all terms and conditions governing use of this service.</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">10. 規約の変更</h2>
+              <p>raihara3はいつでも本規約を改訂する権利を留保します。Feed Spaceを使用することで、本サービスの使用を規定するすべての条項を理解するため、定期的に本規約を確認することが期待されます。</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">11. Contact Information</h2>
-              <p>If you have any questions about these Terms, please contact us on <a href="https://x.com/raihara3" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300">X (Twitter)</a>.</p>
+              <h2 className="text-2xl font-semibold mb-4 text-white">11. お問い合わせ</h2>
+              <p>本規約についてご質問がある場合は、<a href="https://x.com/raihara3" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300">X (Twitter)</a>でお問い合わせください。</p>
             </section>
           </div>
 
           <div className="mt-12 pt-8 border-t border-gray-700">
             <Link href="/" className="text-purple-400 hover:text-purple-300 transition-colors">
-              ← Back to Home
+              ← ホームに戻る
             </Link>
           </div>
         </div>
