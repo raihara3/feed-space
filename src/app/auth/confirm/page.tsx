@@ -100,7 +100,7 @@ export default function ConfirmEmail() {
     <div className="min-h-screen flex items-center justify-center bg-black">
       <div className="w-full max-w-md">
         <div className="bg-gray-900 rounded-lg shadow-xl p-8">
-          <h1 className="text-3xl font-bold text-center mb-8 text-white">FEED SPACE</h1>
+          <h1 className="text-3xl font-bold text-center mb-8 text-white">Feed Space</h1>
           
           {error ? (
             <>

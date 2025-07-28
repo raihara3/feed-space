@@ -69,7 +69,7 @@ export default function SignUp() {
     <div className="min-h-screen flex items-center justify-center bg-black">
       <div className="w-full max-w-md">
         <div className="bg-gray-900 rounded-lg shadow-xl p-8">
-          <h1 className="text-3xl font-bold text-center mb-8 text-white">FEED SPACE</h1>
+          <h1 className="text-3xl font-bold text-center mb-8 text-white">Feed Space</h1>
           <h2 className="text-xl text-center mb-6 text-gray-300">アカウントを作成</h2>
           
           <form onSubmit={handleSignUp} className="space-y-4">
