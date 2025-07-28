@@ -113,7 +113,10 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
   }
 
   const removeFromReadLater = async (readLaterId: string) => {
-    if (!confirm('あとで読むから削除しますか？')) return
+    const itemToDelete = readLaterItems.find(item => item.id === readLaterId)
+    const itemTitle = itemToDelete ? itemToDelete.title : 'この記事'
+    
+    if (!confirm(`「${itemTitle}」を削除しますか？`)) return
     
     try {
       const response = await fetch(`/api/read-later/${readLaterId}`, {
@@ -166,7 +169,10 @@ export default function Sidebar({ username, selectedFeedId, selectedKeywords, on
   }
 
   const handleDeleteFeed = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this feed?')) return
+    const feedToDelete = feeds.find(feed => feed.id === id)
+    const feedTitle = feedToDelete ? feedToDelete.title : 'このフィード'
+    
+    if (!confirm(`「${feedTitle}」を削除しますか？`)) return
 
     try {
       const response = await fetch(`/api/feeds/${id}`, {
