@@ -78,8 +78,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Feed item not found' }, { status: 404 })
     }
 
-    // Type assertion for feeds relationship
-    const feedData = feedItem.feeds as { id: string; title: string }
+    // Extract feed data (feeds might be an array or object)
+    const feedsData = Array.isArray(feedItem.feeds) ? feedItem.feeds[0] : feedItem.feeds
+    const feedData = feedsData as { id: string; title: string }
 
     // Check if already exists by link
     const { data: existing } = await supabase
