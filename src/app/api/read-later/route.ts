@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
         link,
         description,
         published_at,
-        feeds (
+        feeds!inner (
           id,
           title
         )
@@ -77,6 +77,10 @@ export async function POST(request: NextRequest) {
     if (fetchError || !feedItem) {
       return NextResponse.json({ error: 'Feed item not found' }, { status: 404 })
     }
+
+    // Extract feed data (feeds might be an array or object)
+    const feedsData = Array.isArray(feedItem.feeds) ? feedItem.feeds[0] : feedItem.feeds
+    const feedData = feedsData as { id: string; title: string }
 
     // Check if already exists by link
     const { data: existing } = await supabase
@@ -99,8 +103,8 @@ export async function POST(request: NextRequest) {
         link: feedItem.link,
         description: feedItem.description,
         published_at: feedItem.published_at,
-        feed_title: feedItem.feeds.title,
-        feed_id: feedItem.feeds.id
+        feed_title: feedData.title,
+        feed_id: feedData.id
       })
       .select()
 
